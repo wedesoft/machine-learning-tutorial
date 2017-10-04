@@ -98,15 +98,14 @@ if __name__ == '__main__':
     print(len(validation[1]), 'validation samples')
     print(len(testing[1]), 'testing samples')
     n = 0
-    ok = 0
+    error = 0
     for test, label in zip(testing[0], testing[1]):
         result = training[1][np.argmax(correlation_coefficient(training[0], test))]
         print("%d (%d)" % (result, label))
         if result != label:
             cv2.imwrite('%03d_%d.png' % (n, result), test)
-        else:
-            ok += 1
+            error += 1
         n += 1
-        print('error rate %5.3f' % (ok / n))
+        print('error rate %5.2f%%' % (100 * error / n))
         if not show(test, False):
             break
