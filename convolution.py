@@ -41,18 +41,24 @@ class Convolution:
     def __init__(self, image_size, kernel_size):
         x = T.tensor4()
         y = T.tensor4()
-        self.image_shape = (1, 1, image_size, 1)
-        self.filter_shape = (1, 1, kernel_size, 1)
-        self.start = kernel_size // 2
-        self.end = image_size + kernel_size // 2
+        if isinstance(image_size, int):
+            self.image_shape = (1, 1, image_size, 1)
+            self.filter_shape = (1, 1, kernel_size, 1)
+            self.adapter = lambda result: result[0, 0, kernel_size // 2:image_size + kernel_size // 2, 0]
+        else:
+            self.image_shape = (1, 1) + image_size
+            self.filter_shape = (1, 1) + kernel_size
+            self.adapter = lambda result: result[0, 0, kernel_size[0] // 2:image_size[0] + kernel_size[0] // 2, kernel_size[1] // 2:image_size[1] + kernel_size[1] // 2]
         expression = T.nnet.conv.conv2d(x, y, image_shape=self.image_shape, filter_shape=self.filter_shape, border_mode='full')
         self.fun = theano.function((x, y), outputs=expression)
 
     def __call__(self, image, kernel):
         image = np.array(image)
         kernel = np.array(kernel)
+        print(image.shape, self.image_shape)
+        print(kernel.shape, self.filter_shape)
         result = self.fun(image.reshape(self.image_shape), kernel.reshape(self.filter_shape))
-        return result[0, 0, self.start:self.end, 0]
+        return self.adapter(result)
 
 
 class TestConvolution:
@@ -62,12 +68,23 @@ class TestConvolution:
     def test_box_1d(self):
         assert_array_equal(Convolution(5, 3)([0, 0, 1, 0, 0], [1, 1, 1]), [0, 1, 1, 1, 0])
 
+    def test_trivial_2d(self):
+        assert_array_equal(Convolution((1, 5), (1, 1))([[2, 3, 5, 7, 11]], [[1]]), [[2, 3, 5, 7, 11]])
+
+    def test_box_2d(self):
+        assert_array_equal(Convolution((3, 3), (3, 1))([[0, 0, 0], [0, 1, 0], [0, 0, 0]], [[1], [2], [3]]),
+                           [[0, 1, 0], [0, 2, 0], [0, 3, 0]])
+
+
 
 if __name__ == '__main__':
     camera = cv2.VideoCapture(0)
+    convolution = None
     while True:
         _, frame = camera.read()
         grey = to_grey(frame)
-        cv2.imshow('convolution', grey)
+        if convolution is None:
+            convolution = Convolution(grey.shape, (7, 7))
+        cv2.imshow('convolution', convolution(grey, np.full((7, 7), 1/49)).astype(np.uint8))
         if cv2.waitKey(1) == 27:
             break
