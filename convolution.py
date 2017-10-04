@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from numpy.testing import assert_array_equal
+import theano
+import theano.tensor as T
 import numpy as np
 import cv2
 
@@ -32,7 +34,25 @@ class TestToGrey:
         assert_array_equal(to_grey([[[100, 0, 0]]]), [[11]])
 
     def test_grey_input(self):
-        assert to_grey(np.zeros((320,240))).shape == (320, 240)
+        assert to_grey(np. zeros((320,240))).shape == (320, 240)
+
+
+class Convolution:
+    def __init__(self, image_shape, kernel_shape):
+        x = T.dmatrix()
+        y = T.dmatrix()
+        expression = T.nnet.conv.conv2d(x, y, (1, image_shape), (1, kernel_shape))
+
+    def __call__(self, image, kernel):
+        return image
+
+
+class TestConvolution:
+    def test_trivial_1d(self):
+        assert_array_equal(Convolution(5, 1)([2, 3, 5, 7, 11], [1]), [2, 3, 5, 7, 11])
+
+    def test_box_1d(self):
+        assert_array_equal(Convolution(5, 1)([0, 0, 1, 0, 0], [1, 1, 1]), [0, 1, 3, 1, 0])
 
 
 if __name__ == '__main__':

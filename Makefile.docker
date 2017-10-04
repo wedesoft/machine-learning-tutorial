@@ -9,7 +9,7 @@ all: check
 check: container
 	docker run $(IMAGE) make check
 
-container: docker/Dockerfile docker/machine-learning-tutorial.tar
+container: docker/Dockerfile docker/machine-learning-tutorial.tar docker/requirements.txt
 	cd docker && docker build $(OPTS) -t $(IMAGE) . && cd ..
 
 docker:
@@ -20,3 +20,6 @@ docker/Dockerfile: Dockerfile docker
 
 docker/machine-learning-tutorial.tar: docker
 	tar cf $@ $(shell git ls-files)
+
+docker/requirements.txt: requirements.txt docker
+	cp $< $@

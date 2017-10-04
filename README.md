@@ -2,6 +2,8 @@
 
 [![build status](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/badges/master/build.svg)](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/pipelines)
 
+See `Dockerfile` for installation instructions.
+
 ## External Links
 
 * [MNIST challenge](http://yann.lecun.com/exdb/mnist/)
