@@ -23,6 +23,24 @@ class TestAverage:
         assert_array_equal(average([[5], [7]]), [5, 7])
 
 
+def distance(a, b):
+    return average(np.absolute(np.subtract(b, a)))
+
+
+class TestDistance:
+    def test_single_element(self):
+        assert distance([2], [5]) == 3
+
+    def test_two_elements(self):
+        assert distance([0, 2], [2, 8]) == 4
+
+    def test_absolute_difference(self):
+        assert distance([2, 0], [0, 2]) == 2
+
+    def test_batch(self):
+        assert_array_equal(distance([[2], [3]], [[5], [7]]), [3, 4])
+
+
 def deviation(data):
     return np.transpose(np.transpose(data) - average(data))
 
@@ -144,7 +162,7 @@ def index(data, value):
 
 
 def make_classifier(images, labels):
-    return lambda test: labels[np.argmax(correlation_coefficient(images, test))]
+    return lambda test: labels[np.argmin(distance(images, test))]
 
 
 # camera -> connected components -> label
