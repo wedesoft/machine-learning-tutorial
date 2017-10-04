@@ -103,7 +103,7 @@ if __name__ == '__main__':
         result = training[1][np.argmax(correlation_coefficient(training[0], test))]
         print("%d (%d)" % (result, label))
         if result != label:
-            cv2.imwrite('%03d_%d.png' % (n, result), test)
+            cv2.imwrite('%03d_%d.png' % (n, result), test.reshape(28, 28))
             error += 1
         n += 1
         print('error rate %5.2f%%' % (100 * error / n))
