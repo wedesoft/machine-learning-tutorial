@@ -85,6 +85,10 @@ def show(img, wait=True):
     return cv2.waitKey(-1 if wait else 1) != 27
 
 
+def save(file_name, img):
+    cv2.imwrite(file_name, img.reshape(28, 28))
+
+
 def index(data, value):
     return np.where(data == value)[0][0]
 
@@ -103,7 +107,7 @@ if __name__ == '__main__':
         result = training[1][np.argmax(correlation_coefficient(training[0], test))]
         print("%d (%d)" % (result, label))
         if result != label:
-            cv2.imwrite('%03d_%d.png' % (n, result), test.reshape(28, 28))
+            save('%03d_%d.png' % (n, result), test)
             error += 1
         n += 1
         print('error rate %5.2f%%' % (100 * error / n))
