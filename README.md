@@ -1,4 +1,6 @@
-# External Links
+# README
+
+## External Links
 
 * [MNIST challenge](http://yann.lecun.com/exdb/mnist/)
 * [Theano](http://deeplearning.net/software/theano/)
