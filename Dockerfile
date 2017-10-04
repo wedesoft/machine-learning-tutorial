@@ -8,6 +8,7 @@ RUN apt-get install -q -y python
 RUN apt-get install -q -y python-pytest
 RUN apt-get install -q -y python-numpy
 RUN apt-get install -q -y python-opencv
+RUN apt-get install -q -y make
 
 RUN mkdir -p /usr/src/machine-learning-tutorial
 WORKDIR /usr/src/machine-learning-tutorial

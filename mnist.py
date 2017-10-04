@@ -149,7 +149,7 @@ class TestRandomSelection:
 
 
 def show(img, wait=True):
-    cv2.imshow('show', cv2.resize(img.reshape(28, 28), (280, 280)))
+    cv2.imshow('mnist', cv2.resize(img.reshape(28, 28), (280, 280)))
     return cv2.waitKey(-1 if wait else 1) != 27
 
 

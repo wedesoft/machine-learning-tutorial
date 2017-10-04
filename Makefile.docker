@@ -7,7 +7,7 @@ IMAGE = roke/machine-learning-tutorial-ubuntu:xenial
 all: check
 
 check: container
-	docker run $(IMAGE) py.test
+	docker run $(IMAGE) make check
 
 container: docker/Dockerfile docker/machine-learning-tutorial.tar
 	cd docker && docker build $(OPTS) -t $(IMAGE) . && cd ..
