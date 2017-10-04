@@ -1,0 +1,9 @@
+test:linux:
+  tags:
+    - linux
+  stage: test
+  script:
+    - make -f Makefile.docker
+  cache:
+    paths:
+      - docker/
