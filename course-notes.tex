@@ -97,7 +97,7 @@ The aim is to minimize the $h_\theta(x)-y$.
 \subsection{Cost Function Intuition}
 With the simplified hypothesis $h_\theta(x)=\theta_1\,x$ we get
 \begin{equation*}
-  \widehat{\theta_1}=\mathop{argmin}_{\theta_1}J(\theta_1)=\mathop{argmin}_{\theta_1}\frac{1}{2\,m}\,\sumi\big(\theta_1\,\sxi-\syi\big)^2
+  \theta_1=\mathop{argmin}_{\theta_1}J(\theta_1)=\mathop{argmin}_{\theta_1}\frac{1}{2\,m}\,\sumi\big(\theta_1\,\sxi-\syi\big)^2
 \end{equation*}
 
 The minimum can be obtained by solving for where the derivative is zero
@@ -109,7 +109,23 @@ The minimum can be obtained by solving for where the derivative is zero
 Using a contour plot one can visualise the two-dimensional version of $J(\theta_0,\theta_1)$ when using the full model.
 
 \subsection{Gradient Descent}
-$\ldots$
+Starting from an initial solution $\theta_j$ with $j\in\{0,1\}$, the solution is updated iteratively using
+\begin{equation*}
+  \theta_j\coloneqq\theta_j-\alpha\,\frac{\delta}{\delta\theta_j}J(\theta_0,\theta_1)
+\end{equation*}
+where $\alpha$ is the learning rate.
+Note that the parameters are updated ``simultaneously'' using the gradient vector $\delta J/\delta\theta$
+\begin{equation*}
+  \theta\coloneqq\theta-\alpha\,\frac{\delta}{\delta\theta}J(\theta)
+\end{equation*}
+
+\subsection{Gradient Descent Intuition}
+\begin{itemize}
+  \item If $\alpha$ is too small, the algorithm will converge slowly.
+  \item If $\alpha$ is too large, the algorithm will not converge on the local minimum.
+\end{itemize}
+
+\subsection{Gradient Descent for Linear Regression}
 
 \appendix
 \section{Appendix}
