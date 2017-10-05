@@ -18,7 +18,7 @@ mnist.pkl.gz:
 .svg.pdf:
 	inkscape $< -A $@
 
-course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib
+course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib convolution.py
 
 clean:
 	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg

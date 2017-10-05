@@ -50,9 +50,11 @@ class Convolution:
         else:
             self.image_shape = (1, 1) + image_size
             self.filter_shape = (1, 1) + kernel_size
-            self.adapter = lambda result: result[0, 0, start(kernel_size[0]):finish(image_size[0], kernel_size[0]),
-                                                       start(kernel_size[1]):finish(image_size[1], kernel_size[1])]
-        expression = T.nnet.conv.conv2d(x, y, image_shape=self.image_shape, filter_shape=self.filter_shape, border_mode='full')
+            self.adapter = lambda result: result[0,
+                                                 0,
+                                                 start(kernel_size[0]):finish(image_size[0], kernel_size[0]),
+                                                 start(kernel_size[1]):finish(image_size[1], kernel_size[1])]
+        expression = T.nnet.conv.conv2d(x, y, self.image_shape, self.filter_shape, border_mode='full')
         self.fun = theano.function((x, y), outputs=expression)
 
     def __call__(self, image, kernel):
