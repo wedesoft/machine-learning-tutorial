@@ -10,10 +10,13 @@ RUN apt-get install -q -y python-dev
 RUN apt-get install -q -y python-pip
 RUN apt-get install -q -y python-pytest
 RUN apt-get install -q -y python-opencv
+RUN apt-get install -q -y texlive-xetex
+RUN apt-get install -q -y inkscape
+RUN apt-get install -q -y texlive-bibtex-extra
+RUN apt-get install -q -y biber
 
-RUN mkdir -p /usr/src/machine-learning-tutorial
-WORKDIR /usr/src/machine-learning-tutorial
+RUN mkdir -p /usr/local/src/machine-learning-tutorial
+WORKDIR /usr/local/src/machine-learning-tutorial
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 ADD machine-learning-tutorial.tar .
-RUN pip freeze

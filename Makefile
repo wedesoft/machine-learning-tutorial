@@ -1,6 +1,8 @@
 .SUFFIXES: .tex .svg .pdf
 
-all: course-notes.pdf
+all: notes
+
+notes: course-notes.pdf
 
 check:
 	py.test-3 || py.test
@@ -19,4 +21,4 @@ mnist.pkl.gz:
 course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib
 
 clean:
-	rm -Rf __pycache__ *.png *.pdf
+	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out

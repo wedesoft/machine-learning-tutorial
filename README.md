@@ -14,3 +14,4 @@ See `Dockerfile` for installation instructions.
 * [Brandon Rohrer - How Deep Neural Networks Work](https://www.youtube.com/watch?v=ILsA4nyG7I0)
 * [Nando de Freitas videos](https://www.youtube.com/user/ProfNandoDF/videos)
 * [Pearson correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
+* [Adit Deshpande - A Beginner's Guide To Understanding Convolutional Neural Networks](https://adeshpande3.github.io/adeshpande3.github.io/A-Beginner%27s-Guide-To-Understanding-Convolutional-Neural-Networks/)

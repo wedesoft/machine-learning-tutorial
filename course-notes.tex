@@ -10,6 +10,11 @@
 
 \usepackage{graphicx}
 
+\usepackage{booktabs}
+
+\usepackage{amsmath}
+\usepackage{txfonts}
+
 \usepackage[backend=biber,style=alphabetic,natbib=true]{biblatex}
 \addbibresource{bibliography.bib}
 
@@ -31,27 +36,73 @@ These are course notes to Andrew Ng's video lecture\citep{andrewng}. A well-pose
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.4\textwidth]{supervised}
+    \caption{Labelled data for supervised learning\label{fig:supervised}}
   \end{center}
-  \caption{Labelled data for supervised learning\label{fig:supervised}}
 \end{figure}
-Two examples for problems of different learning problems (given labelled data as shown in Figure \ref{fig:supervised}) are given
+Here are two examples for problems of different learning problems (given \emph{labelled} data as shown in Figure \ref{fig:supervised}):
 \begin{itemize}
-  \item Regression problem (continuous value): estimating house price given size in square feet
-  \item Classification problem (discrete values): determine whether a tumor is malignant or benign given size of tumor and age of person
+  \item Regression problem (\emph{continuous} value): estimating house price given size in square feet
+  \item Classification problem (\emph{discrete} values): determine whether a tumor is malignant or benign given size of tumor and age of person
 \end{itemize}
 
 \subsection{Unsupervised Learning}
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.4\textwidth]{unsupervised}
+    \caption{Data without labels\label{fig:unsupervised}}
   \end{center}
-  \caption{Data without labels\label{fig:unsupervised}}
 \end{figure}
-When the data is not labelled (see Figure \ref{fig:unsupervised}), one can still apply clustering algorithms to it.
+When the data is not labelled (see \emph{unlabelled} data in Figure \ref{fig:unsupervised}), one can still apply clustering algorithms to it.
 For example Google News clusters groups related news articles into stories.
 Another basic but impressive example is separating two audio sources (speaker and a radio) using data from two microphones.
 
 For development Andrew Ng recommends GNU Octave\citep{octave}.
+
+\section{Linear Regression with One Variable}
+\subsection{Model Representation}
+\begin{table}[htbp]
+  \begin{center}
+    \begin{tabular}{r|r}\toprule
+      \multicolumn{1}{c|}{\textbf{Size in feet$^2$ $(x)$}} &
+      \multicolumn{1}{c}{\textbf{Price (\$) in 1000's $(y)$}}\\\midrule
+      2104 & 460\\
+      1416 & 232\\
+      1534 & 315\\
+       852 & 178\\
+      $\vdots$ & $\vdots$\\\bottomrule
+    \end{tabular}
+    \caption{Table of house size and price\label{tbl:houses}}
+  \end{center}
+\end{table}
+\newcommand{\sxi}{\ensuremath{x^{(i)}}}
+\newcommand{\syi}{\ensuremath{y^{(i)}}}
+\newcommand{\sumi}{\ensuremath{\displaystyle\sum_{i=1}^m}}
+House price depending on house size example (see Table \ref{tbl:houses}): supervised regression problem.
+The training set is denoted $(x,y)$ and the $i$th sample is $(\sxi,\syi)$ with $i\in\{1,2,\ldots,m\}$ where $m$ is the number of training samples.
+
+The result of the learning algorithm is a \emph{hypothesis} $h$ which maps $x^\prime$ to an estimated value $y^\prime$.
+\emph{E.g.} here the hypothesis is the linear function $h_\theta(x)=\theta_0+\theta_1\,x$.
+
+Linear regression with one variable (the variable here is $x$) can also be called \emph{univariate} linear regression.
+
+\subsection{Cost Function}
+The aim is to minimize the $h_\theta(x)-y$.
+\emph{I.e.} minimizing the cost function (or square error function) $J(\theta_0,\theta_1)$ in the following equation
+\begin{equation*}
+  \displaystyle\mathop{argmin}_{\theta_0,\theta_1}\underbrace{\frac{1}{2\,m}\,\sumi\big(h_\theta(\sxi)-\syi\big)^2}_{\eqqcolon J(\theta_0,\theta_1)}
+\end{equation*}
+
+\subsection{Cost Function Intuition I}
+With the simplified hypothesis $h_\theta(x)=\theta_1\,x$ we get
+\begin{equation*}
+  \widehat{\theta_1}=\mathop{argmin}_{\theta_1}J(\theta_1)=\mathop{argmin}_{\theta_1}\frac{1}{2\,m}\,\sumi\big(\theta_1\,\sxi-\syi\big)^2
+\end{equation*}
+
+The minimum can be obtained by solving for where the derivative is zero
+\begin{equation*}
+  \frac{\delta}{\delta\theta_1}J(\theta_1)=\frac{1}{m}\sumi\big(\theta_1\,\sxi-\syi\big)\,\sxi\overset{!}{=}0\Leftrightarrow
+  \theta_1=\sumi\,\sxi\,\syi\bigg/\sumi\,\sxi\,\sxi
+\end{equation*}
 
 \printbibliography
 

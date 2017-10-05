@@ -1,3 +1,4 @@
+.cache
 .docker
 __pycache__
 *.gz

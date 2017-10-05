@@ -1,0 +1,34 @@
+.SUFFIXES: .tex .pdf
+.PHONY: .docker/machine-learning-tutorial.tar
+
+OPTS ?=
+# make -f Makefile.docker OPTS=--no-cache
+IMAGE = roke/machine-learning-tutorial-ubuntu:xenial
+
+all: check notes
+
+check: container
+	docker run $(IMAGE) make check
+
+notes: course-notes.pdf
+
+course-notes.pdf: container
+	docker run $(IMAGE) bash -c "make $@; cat $@" > $@
+
+container: .docker/Dockerfile .docker/requirements.txt .docker/machine-learning-tutorial.tar
+	cd .docker && docker build $(OPTS) -t $(IMAGE) . && cd ..
+
+.docker:
+	mkdir -p $@
+
+.docker/Dockerfile: Dockerfile .docker
+	cp $< $@
+
+.docker/requirements.txt: requirements.txt .docker
+	cp $< $@
+
+.docker/machine-learning-tutorial.tar: .docker
+	tar cf $@ $(shell git ls-files)
+
+clean:
+	rm -Rf .docker

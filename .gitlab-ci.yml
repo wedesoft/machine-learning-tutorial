@@ -1,4 +1,9 @@
 test:
   stage: test
   script:
-    - make -f .Makefile.docker
+    - make -f Makefile.docker
+  artifacts:
+    expire_in: 30 days
+    when: always
+    paths:
+      - course-notes.pdf
