@@ -1,5 +1,6 @@
 numpy==1.11.0
 py==1.4.31
+Pygments=1.6
 pytest==2.8.7
 scipy==0.19.1
 six==1.11.0
