@@ -55,8 +55,6 @@ class Convolution:
     def __call__(self, image, kernel):
         image = np.array(image)
         kernel = np.array(kernel)
-        print(image.shape, self.image_shape)
-        print(kernel.shape, self.filter_shape)
         result = self.fun(image.reshape(self.image_shape), kernel.reshape(self.filter_shape))
         return self.adapter(result)
 
