@@ -4,6 +4,10 @@
 
 See `Dockerfile` for installation instructions.
 
+## See also
+
+* [course-notes.pdf](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/builds/artifacts/master/raw/course-notes.pdf?job=test)
+
 ## External Links
 
 * [MNIST challenge](http://yann.lecun.com/exdb/mnist/)

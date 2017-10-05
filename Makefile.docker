@@ -13,7 +13,8 @@ check: container
 notes: course-notes.pdf
 
 course-notes.pdf: container
-	docker run $(IMAGE) bash -c "make $@; cat $@" > $@
+	docker run -v /tmp:/mnt $(IMAGE) bash -c "make $@; cp $@ /mnt"
+	cp /tmp/$@ .
 
 container: .docker/Dockerfile .docker/requirements.txt .docker/machine-learning-tutorial.tar
 	cd .docker && docker build $(OPTS) -t $(IMAGE) . && cd ..
