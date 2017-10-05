@@ -14,6 +14,7 @@ RUN apt-get install -q -y texlive-xetex
 RUN apt-get install -q -y inkscape
 RUN apt-get install -q -y texlive-bibtex-extra
 RUN apt-get install -q -y biber
+RUN apt-get install -q -y python-matplotlib
 
 RUN mkdir -p /usr/local/src/machine-learning-tutorial
 WORKDIR /usr/local/src/machine-learning-tutorial
