@@ -41,14 +41,17 @@ class Convolution:
     def __init__(self, image_size, kernel_size):
         x = T.tensor4()
         y = T.tensor4()
+        start = lambda kernel_size: kernel_size // 2
+        finish = lambda image_size, kernel_size: image_size + start(kernel_size)
         if isinstance(image_size, int):
             self.image_shape = (1, 1, image_size, 1)
             self.filter_shape = (1, 1, kernel_size, 1)
-            self.adapter = lambda result: result[0, 0, kernel_size // 2:image_size + kernel_size // 2, 0]
+            self.adapter = lambda result: result[0, 0, start(kernel_size):finish(image_size, kernel_size), 0]
         else:
             self.image_shape = (1, 1) + image_size
             self.filter_shape = (1, 1) + kernel_size
-            self.adapter = lambda result: result[0, 0, kernel_size[0] // 2:image_size[0] + kernel_size[0] // 2, kernel_size[1] // 2:image_size[1] + kernel_size[1] // 2]
+            self.adapter = lambda result: result[0, 0, start(kernel_size[0]):finish(image_size[0], kernel_size[0]),
+                                                       start(kernel_size[1]):finish(image_size[1], kernel_size[1])]
         expression = T.nnet.conv.conv2d(x, y, image_shape=self.image_shape, filter_shape=self.filter_shape, border_mode='full')
         self.fun = theano.function((x, y), outputs=expression)
 

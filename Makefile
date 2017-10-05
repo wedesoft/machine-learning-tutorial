@@ -11,9 +11,9 @@ mnist.pkl.gz:
 	curl -o $@ http://deeplearning.net/data/mnist/mnist.pkl.gz
 
 .tex.pdf:
-	xelatex $<
+	xelatex -shell-escape $<
 	biber $(basename $@)
-	xelatex $<
+	xelatex -shell-escape $<
 
 .svg.pdf:
 	inkscape $< -A $@
@@ -21,4 +21,4 @@ mnist.pkl.gz:
 course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib
 
 clean:
-	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out
+	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg

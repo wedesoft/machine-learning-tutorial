@@ -10,3 +10,4 @@ __pycache__
 *.blg
 *.run.xml
 *.out
+*.pyg
