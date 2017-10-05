@@ -4,4 +4,4 @@ test:
     - make -f .Makefile.docker
   cache:
     paths:
-      - docker/
+      - .docker/
