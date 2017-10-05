@@ -92,7 +92,7 @@ The aim is to minimize the $h_\theta(x)-y$.
   \displaystyle\mathop{argmin}_{\theta_0,\theta_1}\underbrace{\frac{1}{2\,m}\,\sumi\big(h_\theta(\sxi)-\syi\big)^2}_{\eqqcolon J(\theta_0,\theta_1)}
 \end{equation*}
 
-\subsection{Cost Function Intuition I}
+\subsection{Cost Function Intuition}
 With the simplified hypothesis $h_\theta(x)=\theta_1\,x$ we get
 \begin{equation*}
   \widehat{\theta_1}=\mathop{argmin}_{\theta_1}J(\theta_1)=\mathop{argmin}_{\theta_1}\frac{1}{2\,m}\,\sumi\big(\theta_1\,\sxi-\syi\big)^2
@@ -103,6 +103,11 @@ The minimum can be obtained by solving for where the derivative is zero
   \frac{\delta}{\delta\theta_1}J(\theta_1)=\frac{1}{m}\sumi\big(\theta_1\,\sxi-\syi\big)\,\sxi\overset{!}{=}0\Leftrightarrow
   \theta_1=\sumi\,\sxi\,\syi\bigg/\sumi\,\sxi\,\sxi
 \end{equation*}
+
+Using a contour plot one can visualise the two-dimensional version of $J(\theta_0,\theta_1)$ when using the full model.
+
+\subsection{Gradient Descent}
+$\ldots$
 
 \printbibliography
 
