@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
 import matplotlib
-matplotlib.use('QT4Agg')
+matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
 
 

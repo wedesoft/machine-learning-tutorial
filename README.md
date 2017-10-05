@@ -19,3 +19,4 @@ See `Dockerfile` for installation instructions.
 * [Nando de Freitas videos](https://www.youtube.com/user/ProfNandoDF/videos)
 * [Pearson correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
 * [Adit Deshpande - A Beginner's Guide To Understanding Convolutional Neural Networks](https://adeshpande3.github.io/adeshpande3.github.io/A-Beginner%27s-Guide-To-Understanding-Convolutional-Neural-Networks/)
+* [Delete Matplotlib font cache](https://askubuntu.com/questions/578129/plotting-with-matplotlib-in-python-3-pylab-tkinter-and-qt-fontmanager-errors)
