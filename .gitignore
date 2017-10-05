@@ -1,3 +1,11 @@
 .docker
 __pycache__
 *.gz
+*.pdf
+*.log
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.out
