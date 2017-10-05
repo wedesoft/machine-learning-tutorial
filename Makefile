@@ -1,4 +1,4 @@
-.SUFFIXES: .tex .pdf
+.SUFFIXES: .tex .svg .pdf
 
 all: course-notes.pdf
 
@@ -12,6 +12,11 @@ mnist.pkl.gz:
 	xelatex $<
 	biber $(basename $@)
 	xelatex $<
+
+.svg.pdf:
+	inkscape $< -A $@
+
+course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib
 
 clean:
 	rm -Rf __pycache__ *.png *.pdf
