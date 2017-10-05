@@ -46,7 +46,10 @@ class Convolution:
         if isinstance(image_size, int):
             self.image_shape = (1, 1, image_size, 1)
             self.filter_shape = (1, 1, kernel_size, 1)
-            self.adapter = lambda result: result[0, 0, start(kernel_size):finish(image_size, kernel_size), 0]
+            self.adapter = lambda result: result[0,
+                                                 0,
+                                                 start(kernel_size):finish(image_size, kernel_size),
+                                                 0]
         else:
             self.image_shape = (1, 1) + image_size
             self.filter_shape = (1, 1) + kernel_size
