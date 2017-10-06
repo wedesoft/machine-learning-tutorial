@@ -25,14 +25,16 @@ if __name__ == '__main__':
     gradient = gradient_function()
     t = [0, 0]
 
-    for i in range(1, 11):
+    n = 100
+    for i in range(1, n + 1):
         dt = gradient(x, y, t)
         t -= alpha * dt
-        plt.plot(np.arange(2), t[0] + np.arange(2) * t[1], color=(0, 0.5, 0, i * 0.1), label="iteration %d" % i)
+        if i % 10 == 0:
+            plt.plot(np.arange(2), t[0] + np.arange(2) * t[1], color=(0, 0.5, 0, float(i) / n), label="iteration %3d" % i)
 
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.title('Gradient Descent')
+    plt.title('Gradient Descent (alpha=%4.2f)' % alpha)
     plt.legend()
     plt.axis([0, 1, 0, 1])
     plt.savefig('gradient_descent.pdf')
