@@ -1,12 +1,8 @@
-# README
+# [Machine Learning Tutorial](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/builds/artifacts/master/raw/course-notes.pdf?job=test)
 
 [![build status](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/badges/master/build.svg)](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/pipelines)
 
 See `Dockerfile` for installation instructions.
-
-## See also
-
-* [course-notes.pdf](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/builds/artifacts/master/raw/course-notes.pdf?job=test)
 
 ## External Links
 
