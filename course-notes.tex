@@ -206,6 +206,21 @@ If $J(\theta)$ is increasing, $\alpha$ might be too large.
   \end{center}
 \end{figure}
 
+\subsection{Features and Polynomial Regression}
+Similar as in support vector machines one can perform linear regression on non-linear functions of features.
+\emph{I.e.} given a feature $x$, one can generate additional features $x^2$, $\sqrt x$, $\ldots$.
+
+\subsection{Normal Equation Non Invertibility}
+There are two cases where the least square solution $\theta=(X^\top X)^{-1}X^\top y$ is not invertible
+\begin{itemize}
+  \item redundant (linear dependent) features
+  \item too many features (\emph{e.g.} more features than data, $m\le n$)
+    \begin{itemize}
+      \item delete some features or
+      \item use regularisation
+    \end{itemize}
+\end{itemize}
+
 \appendix
 \section{Appendix}
 \subsection{Least Squares Estimator}\label{app:lse}
