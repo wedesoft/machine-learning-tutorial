@@ -210,17 +210,6 @@ If $J(\theta)$ is increasing, $\alpha$ might be too large.
 Similar as in support vector machines one can perform linear regression on non-linear functions of features.
 \emph{I.e.} given a feature $x$, one can generate additional features $x^2$, $\sqrt x$, $\ldots$.
 
-\subsection{Normal Equation Non Invertibility}
-There are two cases where the least square solution $\theta=(X^\top X)^{-1}X^\top y$ is not invertible
-\begin{itemize}
-  \item redundant (linear dependent) features
-  \item too many features (\emph{e.g.} more features than data, $m\le n$)
-    \begin{itemize}
-      \item delete some features or
-      \item use regularisation
-    \end{itemize}
-\end{itemize}
-
 \subsection{Normal Equation}
 An analytical solution for the linear regression problem exists since the cost function is a quadratic function and
 can be written as follows
@@ -242,6 +231,25 @@ The least squares problem is written in the following form.
 \underbrace{\begin{pmatrix}y^{(1)}\\\vdots\\y^{(m)}\end{pmatrix}}_{y}+\epsilon
 \end{equation*}
 The solution is $\theta=(X^\top X)^{-1}X^\top y$.
+
+\subsection{Normal Equation Non Invertibility}
+There are two cases where the least square solution $\theta=(X^\top X)^{-1}X^\top y$ is not invertible
+\begin{itemize}
+  \item redundant (linear dependent) features
+  \item too many features (\emph{e.g.} more features than data, $m\le n$)
+    \begin{itemize}
+      \item delete some features or
+      \item use regularisation
+    \end{itemize}
+\end{itemize}
+The closed solution is preferable if the number of features $n$ is small (see Figure \ref{fig:gcp}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{gradientproscons}
+    \caption{Pros and cons for using gradient descent instead of the normal equation\citep{andrewng}\label{fig:gcp}}
+  \end{center}
+\end{figure}
+
 
 \appendix
 \section{Appendix}
