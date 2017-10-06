@@ -184,6 +184,16 @@ As in Section \ref{cha:gradientdescent}, gradient descent is performed using the
   \theta_j\coloneqq\theta_j-\alpha\,\frac{\delta}{\delta\theta_j}J(\theta)\mathrm{\ for\ }j\in\{0,\ldots,n\}
 \end{equation*}
 
+\subsection{Feature Scaling}
+Feature scaling is about scaling $x_1,x_2,\ldots$ so that the variation of the values is similar.
+Gradient descent then will converge more quickly (see Figure \ref{fig:scaling}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{scaling}
+    \caption{Feature scaling improves the performance of gradient descent\citep{andrewng}\label{fig:scaling}}
+  \end{center}
+\end{figure}
+
 \appendix
 \section{Appendix}
 \subsection{Least Squares Estimator}\label{app:lse}
