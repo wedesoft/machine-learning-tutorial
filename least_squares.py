@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import numpy as np
 import matplotlib
-matplotlib.use('TKAgg')
+# https://stackoverflow.com/questions/2801882/generating-a-png-with-matplotlib-when-display-is-undefined
+matplotlib.use('Agg') # use TKAgg for X.Org output
 import matplotlib.pyplot as plt
 
 
