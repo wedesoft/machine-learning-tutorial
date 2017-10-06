@@ -157,6 +157,23 @@ A result of the iterative algorithm is shown in Figure \ref{fig:gradient_descent
   \end{center}
 \end{figure}
 
+\section{Linear Regression with Multiple Variables}
+\subsection{Multiple Features}
+In the case of $n$ features, each feature $x^{(i)}$ is a $n+1$ dimensional feature vector with $x_0$ set to $1$ for convenience:
+\begin{equation*}
+  x^{(i)}=\begin{pmatrix}x^{(i)}_0\\x^{(i)}_1\\\vdots\\x^{(i)}_n\end{pmatrix}\in\mathbb{R}^{n+1}
+  \mathrm{\ where\ }x^{(i)}_0\coloneqq 1
+\end{equation*}
+The hypothesis $h$ is
+\begin{equation*}
+  h_\theta(x)=\theta_0+\theta_1\,x_1+\theta_2\,x_2+\ldots+\theta_n\,x_n
+\end{equation*}
+Using $x_0=1$ the hypothesis can be written more compactly using the vector inner product:
+\begin{equation*}
+  h_\theta(x)=\theta^\top x
+\end{equation*}
+Regression using multiple variables is called \emph{multivariate regression}.
+
 \appendix
 \section{Appendix}
 \subsection{Least Squares Estimator}\label{app:lse}
