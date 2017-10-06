@@ -221,6 +221,28 @@ There are two cases where the least square solution $\theta=(X^\top X)^{-1}X^\to
     \end{itemize}
 \end{itemize}
 
+\subsection{Normal Equation}
+An analytical solution for the linear regression problem exists since the cost function is a quadratic function and
+can be written as follows
+\begin{equation*}
+  J(\theta)=a\,\theta^2+b\,\theta+c
+\end{equation*}
+An analytical solution for minimizing $J$ can be found by solving the following equation system
+\begin{equation*}
+  \frac{\delta}{\delta\theta_j}J(\theta)=0
+\end{equation*}
+The least squares problem is written in the following form.
+\begin{equation*}
+  \underbrace{\begin{pmatrix}
+1&x^{(1)}_1&x^{(1)}_2&\hdots&x^{(1)}_n\\
+1&x^{(2)}_1&x^{(2)}_2&\hdots&x^{(2)}_n\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+1&x^{(m)}_1&x^{(m)}_2&\hdots&x^{(m)}_n
+  \end{pmatrix}}_{\coloneqq X}\,\theta=
+\underbrace{\begin{pmatrix}y^{(1)}\\\vdots\\y^{(m)}\end{pmatrix}}_{y}+\epsilon
+\end{equation*}
+The solution is $\theta=(X^\top X)^{-1}X^\top y$.
+
 \appendix
 \section{Appendix}
 \subsection{Least Squares Estimator}\label{app:lse}
