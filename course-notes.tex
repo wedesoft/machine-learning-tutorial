@@ -193,6 +193,18 @@ Gradient descent then will converge more quickly (see Figure \ref{fig:scaling}).
     \caption{Feature scaling improves the performance of gradient descent\citep{andrewng}\label{fig:scaling}}
   \end{center}
 \end{figure}
+A common approach is to normalise the features to zero mean ($\mu=0$) and a standard deviation of one ($\sigma=1$).
+
+\subsection{Learning Rate}
+When performing gradient descent, $J(\theta)$ should decrease after each iteration.
+Plotting $J(\theta)$ over each iteration can help to tell whether gradient descent has converged (see Figure \ref{fig:alphas}).
+If $J(\theta)$ is increasing, $\alpha$ might be too large.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{learning_rate}
+  \caption{Plotting the cost function over the iterations can help choosing an appropriate value for the learning rate $\alpha$\label{fig:alphas}}
+  \end{center}
+\end{figure}
 
 \appendix
 \section{Appendix}
@@ -201,6 +213,9 @@ Gradient descent then will converge more quickly (see Figure \ref{fig:scaling}).
 
 \subsection{Gradient Descent}\label{app:gradientdescent}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{gradient_descent.py}
+
+\subsection{Learning Rate}\label{app:alphas}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{learning_rate.py}
 
 \subsection{Convolution using Theano}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}

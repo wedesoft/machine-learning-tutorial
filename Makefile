@@ -21,8 +21,9 @@ mnist.pkl.gz:
 .py.pdf:
 	python $<
 
-course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib least_squares.pdf gradient_descent.pdf \
-	convolution.py least_squares.py gradient_descent.py
+course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib \
+	least_squares.pdf gradient_descent.pdf learning_rate.pdf \
+	convolution.py least_squares.py gradient_descent.py learning_rate.py
 
 clean:
 	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg
