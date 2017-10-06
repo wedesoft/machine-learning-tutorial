@@ -102,14 +102,14 @@ With the simplified hypothesis $h_\theta(x)=\theta_1\,x$ we get
 \end{equation*}
 The minimum can be obtained by solving for where the derivative is zero
 \begin{equation*}
-  \frac{\delta}{\delta\theta_1}J(\theta_1)=\frac{1}{m}\sumi\big(\theta_1\,\sxi-\syi\big)\,\sxi\overset{!}{=}0\Leftrightarrow
+  \frac{\delta}{\delta\theta_1}J(\theta_1)=\frac{1}{m}\,\sumi\big(\theta_1\,\sxi-\syi\big)\,\sxi\overset{!}{=}0\Leftrightarrow
   \theta_1=\sumi\sxi\,\syi\bigg/\sumi\sxi\,\sxi
 \end{equation*}
 Using a contour plot one can visualise the two-dimensional version of $J(\theta_0,\theta_1)$ when using the full model.
 
 Least-square estimation for $h_\theta(x)=\theta_0+\theta_1\,x$ yields
 \begin{equation*}
-\sumi\big(\theta_0+\theta_1\,\sxi-\syi\big)\,\begin{pmatrix}1\\\sxi\end{pmatrix}\overset{!}{=}\vec{0}\Leftrightarrow
+\frac{1}{m}\,\sumi\big(\theta_0+\theta_1\,\sxi-\syi\big)\,\begin{pmatrix}1\\\sxi\end{pmatrix}\overset{!}{=}\vec{0}\Leftrightarrow
 \begin{pmatrix}\theta_0\\\theta_1\end{pmatrix}=
 \begin{pmatrix}m&\sum\sxi\\\sum\sxi&\sum\sxi\,\sxi\end{pmatrix}^{-1}\,
 \begin{pmatrix}\sum\syi\\\sum\sxi\,\syi\end{pmatrix}
@@ -129,12 +129,9 @@ Starting from an initial solution $\theta_j$ with $j\in\{0,1\}$, the solution is
 \end{equation*}
 where $\alpha$ is the learning rate.
 Note that the parameters are updated ``simultaneously'' using the gradient vector $\delta J/\delta\theta$
-\begin{equation*}
+\begin{equation}\label{equ:gradientdescent}
   \theta\coloneqq\theta-\alpha\,\frac{\delta}{\delta\theta}J(\theta)
-\end{equation*}
-
-
-
+\end{equation}
 
 \subsection{Gradient Descent Intuition}
 \begin{itemize}
@@ -143,6 +140,16 @@ Note that the parameters are updated ``simultaneously'' using the gradient vecto
 \end{itemize}
 
 \subsection{Gradient Descent for Linear Regression}
+Gradient descent is performed using Equation (\ref{equ:gradientdescent}). Here the gradient is
+\begin{equation*}
+  \frac{\delta}{\delta\theta}J(\theta)=
+  \frac{1}{m}\,\sumi\big(\theta_0+\theta_1\,\sxi-\syi\big)\,\begin{pmatrix}1\\\sxi\end{pmatrix}=
+  \frac{1}{m}\,\begin{pmatrix}m&\sum\sxi\\\sum\sxi&\sum\sxi\,\sxi\end{pmatrix}\,
+  \begin{pmatrix}\theta_0\\\theta_1\end{pmatrix}
+\end{equation*}
+
+See Appendix \ref{app:gradientdescent} for an implementation.
+Symbolic differentiation of the cost function $J$ can be performed using the Theano library.
 
 \appendix
 \section{Appendix}
@@ -151,6 +158,9 @@ Note that the parameters are updated ``simultaneously'' using the gradient vecto
 
 \subsection{Least Squares Estimator}\label{app:lse}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{least_squares.py}
+
+\subsection{Gradient Descent}\label{app:gradientdescent}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{gradient_descent.py}
 
 \section{References}
 \printbibliography[heading=none]
