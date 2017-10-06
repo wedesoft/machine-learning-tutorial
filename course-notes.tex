@@ -148,8 +148,14 @@ Gradient descent is performed using Equation (\ref{equ:gradientdescent}). Here t
   \begin{pmatrix}\theta_0\\\theta_1\end{pmatrix}
 \end{equation*}
 
-See Appendix \ref{app:gradientdescent} for an implementation.
-Symbolic differentiation of the cost function $J$ can be performed using the Theano library.
+See Appendix \ref{app:gradientdescent} for an implementation using symbolic differentiation of the cost function $J$.
+A result of the iterative algorithm is shown in Figure \ref{fig:gradient_descent}.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{gradient_descent}
+    \caption{Example data and corresponding least square fit of a linear function\label{fig:gradient_descent}}
+  \end{center}
+\end{figure}
 
 \appendix
 \section{Appendix}
