@@ -1,4 +1,4 @@
-.SUFFIXES: .tex .svg .pdf
+.SUFFIXES: .tex .svg .pdf .py
 
 all: notes
 
@@ -18,7 +18,11 @@ mnist.pkl.gz:
 .svg.pdf:
 	inkscape $< -A $@
 
-course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib convolution.py
+.py.pdf:
+	python $<
+
+course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib least_squares.pdf \
+	convolution.py least_squares.py
 
 clean:
 	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg

@@ -99,14 +99,27 @@ With the simplified hypothesis $h_\theta(x)=\theta_1\,x$ we get
 \begin{equation*}
   \theta_1=\mathop{argmin}_{\theta_1}J(\theta_1)=\mathop{argmin}_{\theta_1}\frac{1}{2\,m}\,\sumi\big(\theta_1\,\sxi-\syi\big)^2
 \end{equation*}
-
 The minimum can be obtained by solving for where the derivative is zero
 \begin{equation*}
   \frac{\delta}{\delta\theta_1}J(\theta_1)=\frac{1}{m}\sumi\big(\theta_1\,\sxi-\syi\big)\,\sxi\overset{!}{=}0\Leftrightarrow
-  \theta_1=\sumi\,\sxi\,\syi\bigg/\sumi\,\sxi\,\sxi
+  \theta_1=\sumi\sxi\,\syi\bigg/\sumi\sxi\,\sxi
 \end{equation*}
-
 Using a contour plot one can visualise the two-dimensional version of $J(\theta_0,\theta_1)$ when using the full model.
+
+Least-square estimation for $h_\theta(x)=\theta_0+\theta_1\,x$ yields
+\begin{equation*}
+\sumi\big(\theta_0+\theta_1\,\sxi-\syi\big)\,\begin{pmatrix}1\\\sxi\end{pmatrix}\overset{!}{=}\vec{0}\Leftrightarrow
+\begin{pmatrix}\theta_0\\\theta_1\end{pmatrix}=
+\begin{pmatrix}m&\sum\sxi\\\sum\sxi&\sum\sxi\,\sxi\end{pmatrix}^{-1}\,
+\begin{pmatrix}\sum\syi\\\sum\sxi\,\syi\end{pmatrix}
+\end{equation*}
+See Appendix \ref{app:lse} for the implementation. Figure \ref{fig:lse} shows sample data with a least square fit.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{least_squares}
+    \caption{Example data and corresponding least square fit of a linear function\label{fig:lse}}
+  \end{center}
+\end{figure}
 
 \subsection{Gradient Descent}
 Starting from an initial solution $\theta_j$ with $j\in\{0,1\}$, the solution is updated iteratively using
@@ -118,6 +131,9 @@ Note that the parameters are updated ``simultaneously'' using the gradient vecto
 \begin{equation*}
   \theta\coloneqq\theta-\alpha\,\frac{\delta}{\delta\theta}J(\theta)
 \end{equation*}
+
+
+
 
 \subsection{Gradient Descent Intuition}
 \begin{itemize}
@@ -131,6 +147,9 @@ Note that the parameters are updated ``simultaneously'' using the gradient vecto
 \section{Appendix}
 \subsection{Convolution using Theano}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}
+
+\subsection{Least Squares Estimator}\label{app:lse}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{least_squares.py}
 
 \section{References}
 \printbibliography[heading=none]
