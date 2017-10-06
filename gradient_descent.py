@@ -16,10 +16,12 @@ def gradient_function():
 
 
 if __name__ == '__main__':
+    t = [0.2, 0.5]
     x = np.random.rand(100)
     error = np.random.rand(100) * 0.2 - 0.1
-    y = 0.2 + 0.5 * x + error
-    plt.plot(x, y, 'o', label='data')
+    y = t[0] + t[1] * x + error
+    plt.plot(x, y, 'bo', label='data')
+    plt.plot(np.arange(2), t[0] + np.arange(2) * t[1], 'r', label='ground truth')
 
     alpha = 0.5
     gradient = gradient_function()
