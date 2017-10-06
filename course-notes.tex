@@ -122,7 +122,7 @@ See Appendix \ref{app:lse} for the implementation. Figure \ref{fig:lse} shows sa
   \end{center}
 \end{figure}
 
-\subsection{Gradient Descent}
+\subsection{Gradient Descent}\label{cha:gradientdescent}
 Starting from an initial solution $\theta_j$ with $j\in\{0,1\}$, the solution is updated iteratively using
 \begin{equation*}
   \theta_j\coloneqq\theta_j-\alpha\,\frac{\delta}{\delta\theta_j}J(\theta_0,\theta_1)
@@ -159,10 +159,10 @@ A result of the iterative algorithm is shown in Figure \ref{fig:gradient_descent
 
 \section{Linear Regression with Multiple Variables}
 \subsection{Multiple Features}
-In the case of $n$ features, each feature $x^{(i)}$ is a $n+1$ dimensional feature vector with $x_0$ set to $1$ for convenience:
+In the case of $n$ features, each feature $\sxi$ is a $n+1$ dimensional feature vector with $x_0$ set to $1$ for convenience:
 \begin{equation*}
-  x^{(i)}=\begin{pmatrix}x^{(i)}_0\\x^{(i)}_1\\\vdots\\x^{(i)}_n\end{pmatrix}\in\mathbb{R}^{n+1}
-  \mathrm{\ where\ }x^{(i)}_0\coloneqq 1
+  \sxi=\begin{pmatrix}\sxi_0\\\sxi_1\\\vdots\\\sxi_n\end{pmatrix}\in\mathbb{R}^{n+1}
+  \mathrm{\ where\ }\sxi_0\coloneqq 1
 \end{equation*}
 The hypothesis $h$ is
 \begin{equation*}
@@ -173,6 +173,16 @@ Using $x_0=1$ the hypothesis can be written more compactly using the vector inne
   h_\theta(x)=\theta^\top x
 \end{equation*}
 Regression using multiple variables is called \emph{multivariate regression}.
+
+\subsection{Gradient Descent for Multiple Variables}
+The cost function $J$ can be written using vector notation
+\begin{equation*}
+  J(\theta)=\frac{1}{2\,m}\sumi\big(h_\theta(\sxi)-\syi\big)^2
+\end{equation*}
+As in Section \ref{cha:gradientdescent}, gradient descent is performed using the parameter $\alpha$:
+\begin{equation*}
+  \theta_j\coloneqq\theta_j-\alpha\,\frac{\delta}{\delta\theta_j}J(\theta)\mathrm{\ for\ }j\in\{0,\ldots,n\}
+\end{equation*}
 
 \appendix
 \section{Appendix}
