@@ -9,14 +9,10 @@ import matplotlib.pyplot as plt
 
 
 def gradient_function():
-    x = T.vector('x')
-    y = T.vector('y')
-    t0 = T.scalar('t0')
-    t1 = T.scalar('t1')
-    cost = T.sqr((t0 + t1 * x - y)).sum() / (2 * x.size)
-    dt0 = T.grad(cost, t0)
-    dt1 = T.grad(cost, t1)
-    return theano.function([x, y, t0, t1], outputs=(dt0, dt1))
+    x, y, t = T.vectors('x', 'y', 't')
+    cost = T.sqr((t[0] + t[1] * x - y)).sum() / (2 * x.size)
+    dt = T.grad(cost, t)
+    return theano.function([x, y, t], outputs=dt)
 
 
 if __name__ == '__main__':
@@ -27,13 +23,12 @@ if __name__ == '__main__':
 
     alpha = 0.5
     gradient = gradient_function()
-    t0, t1 = 0.0, 0.0
+    t = [0, 0]
 
-    for i in range(10):
-        dt0, dt1 = gradient(x, y, t0, t1)
-        t0 -= alpha * dt0
-        t1 -= alpha * dt1
-        plt.plot(np.arange(2), t0 + np.arange(2) * t1, color=(0, 0.5, 0, i * 0.1 + 0.1), label="iteration %d" % i)
+    for i in range(1, 11):
+        dt = gradient(x, y, t)
+        t -= alpha * dt
+        plt.plot(np.arange(2), t[0] + np.arange(2) * t[1], color=(0, 0.5, 0, i * 0.1), label="iteration %d" % i)
 
     plt.xlabel('x')
     plt.ylabel('y')
