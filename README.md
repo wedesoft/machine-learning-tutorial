@@ -2,7 +2,7 @@
 
 [![build status](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/badges/master/build.svg)](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/pipelines)
 
-These are notes to [Andrew Ng's - Machine Learning](https://www.youtube.com/playlist?list=PLLssT5z_DsK-h9vYZkQkYNWcItqhlRJLN) online videos.
+These are notes to one of [Andrew Ng's machine learning video lectures](https://www.youtube.com/playlist?list=PLLssT5z_DsK-h9vYZkQkYNWcItqhlRJLN).
 
 See `Dockerfile` for installation instructions.
 
