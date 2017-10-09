@@ -400,7 +400,20 @@ More advanced algorithms have the following advantages
 However the algorithms are more complex. It is not recommended to implement this algorithms yourself.
 
 \subsection{MultiClass Classification: One-vs-all}
-$\ldots$
+The binary classifier can be generalised to multiclass problems using multiple one-vs-all classifiers.
+\emph{E.g.} for $y\in\{1,2,3\}$ three classifiers $h_\theta^{(i)}(x)=P(y=i\|\,x;\theta)$ for $i\in\{1,2,3\}$ are trained.
+To make a prediction, the classifier outputting the highest probability is selected (see Figure \ref{fig:onevsall}):
+\begin{equation*}
+  \mathop{\operatorname{max}}_ih_\theta^{(i)}(x)
+\end{equation*}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{onevsall}
+    \caption{Multiclass classification using one-vs-all classifiers\label{fig:onevsall}}
+  \end{center}
+\end{figure}
+
+\clearpage
 
 \appendix
 \section{Appendix}
