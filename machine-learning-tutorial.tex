@@ -463,7 +463,7 @@ One can address overfitting by
 The cost function can be modified to penalize large values for parameters.
 The cost function is modified as follows
 \begin{equation*}
-  J(\theta)=\frac{1}{2\,m}\sumi\big(h_\theta(\sxi)-\syi\big)^2+\underbrace{\lambda\,\sum_{i=1}^n\theta_j^2}_{\mathrm{regularization\ term}}
+  J(\theta)=\frac{1}{2\,m}\,\bigg[\sumi\big(h_\theta(\sxi)-\syi\big)^2+\underbrace{\lambda\,\sum_{i=1}^n\theta_j^2\bigg]}_{\mathrm{regularization\ term}}
 \end{equation*}
 where $\lambda$ is the \emph{regularization parameter}.
 Note that by convention $\theta_0$ (constant component of the model) is not regularized.
@@ -472,7 +472,16 @@ The regularization parameters controls the trade-off between a good model fit an
 For $\lambda=0$ the cost function is the same as before which is prone to overfitting. For $\lambda\rightarrow\infty$ the resulting hypothesis converges to the constant model $h_\theta(x)=\theta_0$ and underfitting occurs.
 
 \subsection{Regularized Linear Regression}
-$\ldots$
+Applying the gradient descent algorithm to the regularized cost function results in the following update rule
+\begin{align*}
+  \begin{split}
+    \theta_0\coloneqq&\theta_0-\alpha\,\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\,\sxi_0\\
+    \theta_j\coloneqq&\theta_j-\alpha\,\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\,\sxi_j-\alpha\,\frac{\lambda}{m}\theta_j=\\
+    &\theta_j\,(1-\alpha\,\frac{\lambda}{m})-\alpha\,\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\,\sxi_j
+    \mathrm{\ for\ }j\in\{1,2,3,\ldots,n\}
+  \end{split}
+\end{align*}
+The term $(1-\alpha\frac{\lambda}{m})$ equals $1-\epsilon$ with $\epsilon>0$ being a small value which shrinks each parameter towards zero at each step.
 
 \clearpage
 
