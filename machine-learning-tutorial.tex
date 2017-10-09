@@ -495,6 +495,23 @@ The normal equation introduced in Section \ref{cha:normal} becomes
 \end{equation*}
 In the case of $m\le n$ (fewer examples than features), $\mathcal{X}^\top\mathcal{X}$ is still invertible.
 
+\subsection{Regularized Logistic Regression}
+In the case of logistic regression the cost function is modified to
+\begin{equation*}
+  J(\theta)=-\frac{1}{m}\big[\sumi\syi\operatorname{log}h_\theta(\sxi)+(1-\syi)\operatorname{log}(1-h_\theta(\sxi))\big]+
+  \frac{\lambda}{2\,m}\sum_{j=1}^n\theta_j^2
+\end{equation*}
+
+The gradient descent algorithm becomes
+\begin{align*}
+  \begin{split}
+    \theta_0\coloneqq&\theta_0-\alpha\,\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\,\sxi_0\\
+    \theta_j\coloneqq&\theta_j-\alpha\,\underbrace{\bigg[\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\,\sxi_j+\frac{\lambda}{m}\theta_j\bigg]}_{=\frac{\delta}{\delta\theta_j}J(\theta)}
+    \mathrm{\ for\ }j\in\{1,2,3,\ldots,n\}
+  \end{split}
+\end{align*}
+Note that the hypothesis here is $h_\theta(x)=\frac{1}{1+\operatorname{e}^{-\theta^\top x}}$.
+
 \clearpage
 
 \appendix
