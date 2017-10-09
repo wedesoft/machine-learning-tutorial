@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.title('Gradient Descent (alpha=%4.2f)' % alpha)
+    plt.title('Gradient Descent (alpha=%4.2f, n=%d)' % (alpha, n))
     plt.legend()
     plt.axis([0, 1, 0, 1])
     plt.savefig('gradient_descent.pdf')
