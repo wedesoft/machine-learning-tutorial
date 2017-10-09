@@ -32,7 +32,9 @@ if __name__ == '__main__':
         dt = gradient([x0, x1, x2], y, t)
         t -= alpha * dt
         if i % 10 == 0:
-            plt.plot(np.arange(2), -(t[0] + np.arange(2) * t[1]) / t[2], color=(0, 0.5, 0, float(i) / n), label="iteration %3d" % i)
+            C = np.arange(0, 1, 0.01)
+            X1, X2 = np.meshgrid(C, C)
+            plt.contour(X1, X2, t[0] + X1 * t[1] + X2 * t[2], levels = [0], colors=((0, 0.5, 0, float(i) / n),), label="iteration %3d" % i)
 
     plt.xlabel('x1')
     plt.ylabel('x2')
