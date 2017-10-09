@@ -250,6 +250,59 @@ The closed solution is preferable if the number of features $n$ is small (see Fi
   \end{center}
 \end{figure}
 
+\section{Logistic Regression}
+\subsection{Classification}
+The basic case is the binary classification problem $y\in\{0,1\}$.
+Applying linear regression and thresholding the result (\emph{e.g.} $h_\theta(x)\ge 0.5$ generally does not perform well.
+$0\le h_\theta(x)\le 1$ is not fullfilled for most linear models.
+
+\subsection{Hypothesis Representation}
+The logistic regression model uses the \emph{sigmoid} function (or \emph{logistic} function).
+\begin{equation*}
+  h_\theta(x)=g(\theta^\top x)\mathrm{\ where\ }g(z)=\frac{1}{1+\operatorname{e}^{-z}}
+\end{equation*}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.4\textwidth]{sigmoid}
+    \caption{Sigmoid function\label{fig:sigmoid}}
+  \end{center}
+\end{figure}
+Figure \ref{fig:sigmoid} shows the characteristic ``S''-shaped curve of the sigmoid function\footnote{\url{https://en.wikipedia.org/wiki/Sigmoid_function}}.
+The model based on the sigmoid function is
+\begin{equation*}
+  h_\theta(x)=\frac{1}{1+\operatorname{e}^{-\theta^\top x}}
+\end{equation*}
+The output of $h_\theta(x)$ is interpreted as the estimated probability that $y=1$ on input $x$.
+\begin{equation*}
+  h_\theta(x)=P(y=1|\,x;\theta)
+\end{equation*}
+
+\subsection{Decision Boundary}
+The prediction is
+\begin{itemize}
+  \item ``$y=1$'' if $h_\theta(x)\ge 0.5$
+  \item ``$y=0$'' if $h_\theta(x)<0.5$
+\end{itemize}
+With $h_\theta(x)=g(\theta^\top x)$ and $g$ being monotonous, this is equivalent to
+\begin{itemize}
+  \item ``$y=1$'' if $\theta^\top x\ge 0$
+  \item ``$y=0$'' if $\theta^\top x< 0$
+\end{itemize}
+The decision boundary in this case is a hyperplane in the feature space. \emph{E.g.} given two features
+\begin{equation*}
+  h_\theta(x)=g(\theta_0+\theta_1\,x_1+\theta_2\,x_2)
+\end{equation*}
+the decision boundary is
+\begin{equation*}
+  \theta_0+\theta_1\,x_1+\theta_2\,x_2=0
+\end{equation*}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{decisionboundary}
+    \caption[Linear decision boundary]{Linear decision boundary. ``x'' denotes a positive sample (y=1) and ''o'' a negative sample (y=1)\label{fig:decisionboundary}}
+  \end{center}
+\end{figure}
+It separates the ``y=1'' region and the ``y=0'' region (also see Figure \ref{fig:decisionboundary}).
 
 \appendix
 \section{Appendix}
