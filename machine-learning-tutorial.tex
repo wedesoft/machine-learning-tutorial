@@ -379,6 +379,14 @@ The minimization problem $\mathop{\operatorname{argmin}}_\theta J(\theta)$ can b
 \end{equation*}
 Note that the choice of $h_\theta(x)=\frac{1}{1+\operatorname{e}^{-\theta^\top x}}$ for logistic regression has led to the \emph{same} gradient descent rule as used for linear regression (with $h_\theta(x)=\theta^\top x$ as shown in Section \ref{cha:linearregression}).
 
+See Figure \ref{fig:classifier} for an example of classifying binary data with two features.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{classifier}
+    \caption{Classifying binary data with two features\label{fig:classifier}}
+  \end{center}
+\end{figure}
+
 \subsection{Advanced Optimization}
 There are other algorithms for optimizing the cost functions given
 \begin{itemize}

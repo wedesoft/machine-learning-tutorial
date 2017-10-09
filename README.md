@@ -2,6 +2,8 @@
 
 [![build status](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/badges/master/build.svg)](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/pipelines)
 
+These are notes to [Andrew Ng's - Machine Learning](https://www.youtube.com/playlist?list=PLLssT5z_DsK-h9vYZkQkYNWcItqhlRJLN) online videos.
+
 See `Dockerfile` for installation instructions.
 
 ## External Links
@@ -17,3 +19,4 @@ See `Dockerfile` for installation instructions.
 * [Pearson correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
 * [Adit Deshpande - A Beginner's Guide To Understanding Convolutional Neural Networks](https://adeshpande3.github.io/adeshpande3.github.io/A-Beginner%27s-Guide-To-Understanding-Convolutional-Neural-Networks/)
 * [Delete Matplotlib font cache](https://askubuntu.com/questions/578129/plotting-with-matplotlib-in-python-3-pylab-tkinter-and-qt-fontmanager-errors)
+* [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
