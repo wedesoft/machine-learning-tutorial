@@ -8,6 +8,8 @@
 
 \usepackage{csquotes}
 
+\usepackage[printonlyused]{acronym}
+
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -94,13 +96,13 @@ Linear regression with one variable (the variable here is $x$) can also be calle
 The aim is to minimize the $h_\theta(x)-y$.
 \emph{I.e.} minimizing the cost function (or square error function) $J(\theta_0,\theta_1)$ in the following equation
 \begin{equation*}
-  \displaystyle\mathop{argmin}_{\theta_0,\theta_1}\underbrace{\frac{1}{2\,m}\,\sumi\big(h_\theta(\sxi)-\syi\big)^2}_{\eqqcolon J(\theta_0,\theta_1)}
+  \displaystyle\mathop{\operatorname{argmin}}_{\theta_0,\theta_1}\underbrace{\frac{1}{2\,m}\,\sumi\big(h_\theta(\sxi)-\syi\big)^2}_{\eqqcolon J(\theta_0,\theta_1)}
 \end{equation*}
 
 \subsection{Cost Function Intuition}
 With the simplified hypothesis $h_\theta(x)=\theta_1\,x$ we get
 \begin{equation*}
-  \theta_1=\mathop{argmin}_{\theta_1}J(\theta_1)=\mathop{argmin}_{\theta_1}\frac{1}{2\,m}\,\sumi\big(\theta_1\,\sxi-\syi\big)^2
+  \theta_1=\mathop{\operatorname{argmin}}_{\theta_1}J(\theta_1)=\mathop{\operatorname{argmin}}_{\theta_1}\frac{1}{2\,m}\,\sumi\big(\theta_1\,\sxi-\syi\big)^2
 \end{equation*}
 The minimum can be obtained by solving for where the derivative is zero
 \begin{equation*}
@@ -176,14 +178,15 @@ Using $x_0=1$ the hypothesis can be written more compactly using the vector inne
 \end{equation*}
 Regression using multiple variables is called \emph{multivariate regression}.
 
-\subsection{Gradient Descent for Multiple Variables}
+\subsection{Gradient Descent for Multiple Variables}\label{cha:linearregression}
 The cost function $J$ can be written using vector notation
 \begin{equation*}
   J(\theta)=\frac{1}{2\,m}\sumi\big(h_\theta(\sxi)-\syi\big)^2
 \end{equation*}
 As in Section \ref{cha:gradientdescent}, gradient descent is performed using the parameter $\alpha$:
 \begin{equation*}
-  \theta_j\coloneqq\theta_j-\alpha\,\frac{\delta}{\delta\theta_j}J(\theta)\mathrm{\ for\ }j\in\{0,\ldots,n\}
+  \theta_j\coloneqq\theta_j-\alpha\cdot\underbrace{\frac{\delta}{\delta\theta_j}J(\theta)}_
+  {\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\,\sxi}\mathrm{\ for\ }j\in\{0,\ldots,n\}
 \end{equation*}
 
 \subsection{Feature Scaling}
@@ -352,6 +355,50 @@ Cost(h_\theta(x),y)=
 \end{figure}
 See Figure \ref{fig:costlog} for a visualisation.
 
+\subsection{Simplified Cost Function and Gradient Descent}
+The cost function
+\begin{equation*}
+Cost\big(h_\theta(x),y\big)=
+\left\{\begin{array}{rl}-\operatorname{log}\big(h_\theta(x)\big)&\mathrm{if\ }y=1\\
+-\operatorname{log}\big(1-h_\theta(x)\big)&\mathrm{if\ }y=0\end{array}\right.
+\end{equation*}
+can be rewritten as follows
+\begin{equation*}
+Cost\big(h_\theta(x),y\big)=
+-y\,\operatorname{log}\big(h_\theta(x)\big)-(1-y)\,\operatorname{log}\big(1-h_\theta(x)\big)
+\end{equation*}
+The overall cost function $J(\theta)$ is\footnote{similar as in maximum likelihood estimation}
+\begin{equation*}
+  J(\theta)=-\frac{1}{m}\big[\sumi\syi\operatorname{log}h_\theta(\sxi)+(1-\syi)\operatorname{log}(1-h_\theta(\sxi))\big]
+\end{equation*}
+
+The minimization problem $\mathop{\operatorname{argmin}}_\theta J(\theta)$ can be solved using gradient descent
+\begin{equation*}
+  \theta_j\coloneqq\theta_j-\alpha\cdot\underbrace{\frac{\delta}{\delta\theta_j}J(\theta)}_
+  {=\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\,\sxi}
+\end{equation*}
+Note that the choice of $h_\theta(x)=\frac{1}{1+\operatorname{e}^{-\theta^\top x}}$ for logistic regression has led to the \emph{same} gradient descent rule as used for linear regression (with $h_\theta(x)=\theta^\top x$ as shown in Section \ref{cha:linearregression}).
+
+\subsection{Advanced Optimization}
+There are other algorithms for optimizing the cost functions given
+\begin{itemize}
+  \item the cost function $J(\theta)$
+  \item the derivative $\frac{\delta}{\delta\theta_j}J(\theta)$
+\end{itemize}
+Some optimization algorithms are
+\begin{itemize}
+  \item Gradient descent
+  \item Conjugate gradient
+  \item \acs{BFGS}\footnote{\url{https://en.wikipedia.org/wiki/Broyden\%E2\%80\%93Fletcher\%E2\%80\%93Goldfarb\%E2\%80\%93Shanno_algorithm}}
+  \item \acs{L-BFGS}\footnote{\url{https://en.wikipedia.org/wiki/Limited-memory_BFGS}}
+\end{itemize}
+More advanced algorithms have the following advantages
+\begin{itemize}
+  \item no need to manually pick $\alpha$
+  \item often converge faster than gradient descent
+\end{itemize}
+However the algorithms are more complex. It is not recommended to implement this algorithms yourself.
+
 \appendix
 \section{Appendix}
 \subsection{Least Squares Estimator}\label{app:lse}
@@ -366,7 +413,14 @@ See Figure \ref{fig:costlog} for a visualisation.
 \subsection{Convolution using Theano}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}
 
-\section{References}
+\section{References and Glossary}
+\subsection{References}
 \printbibliography[heading=none]
+
+\subsection{Glossary}
+\begin{acronym}[L-BFGS]
+  \acro{BFGS}{Broyden-Fletcher-Goldfarb-Shanno algorithm}
+  \acro{L-BFGS}{Limited-memory BFGS}
+\end{acronym}
 
 \end{document}
