@@ -19,7 +19,7 @@ def gradient_function():
 if __name__ == '__main__':
     x1 = np.random.rand(250)
     x2 = np.random.rand(250)
-    error = 0 # np.random.rand(100) * 0.2 - 0.1
+    error = np.random.rand(250) * 0.2 - 0.1
     y = (x1 - 0.5) ** 2 + (x2 - 0.6) ** 2 - 0.1 >= error
 
     x0 = np.full(x1.shape, 1)
