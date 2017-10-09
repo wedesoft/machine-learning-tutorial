@@ -485,14 +485,15 @@ The term $(1-\alpha\frac{\lambda}{m})$ equals $1-\epsilon$ with $\epsilon>0$ bei
 
 The normal equation introduced in Section \ref{cha:normal} becomes
 \begin{equation*}
-  \theta=(\mathcal{X}^\top\mathcal{X}+\lambda\,
+  \theta=\Bigg(\mathcal{X}^\top\mathcal{X}+\lambda\,
 \begin{pmatrix}
   0&0&\hdots&0\\
   0&1&\ddots&\vdots\\
   \vdots&\ddots&\ddots&0\\
   0&\hdots&0&1
-\end{pmatrix})^{-1}\mathcal{X}^\top y
+\end{pmatrix}\Bigg)^{-1}\mathcal{X}^\top y
 \end{equation*}
+In the case of $m\le n$ (fewer examples than features), $\mathcal{X}^\top\mathcal{X}$ is still invertible.
 
 \clearpage
 
