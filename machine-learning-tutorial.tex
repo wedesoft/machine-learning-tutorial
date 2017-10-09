@@ -460,7 +460,11 @@ One can address overfitting by
 \end{enumerate}
 
 \subsection{Cost Function}
-
+The cost function can be modified to penalize large values for parameters.
+The cost function is modified as follows
+\begin{equation*}
+  J(\theta)=\frac{1}{2\,m}\sumi\big(h_\theta(\sxi)-\syi\big)^2+\underbrace{\lambda\,\sum_{i-1}^n\theta_j^2}_{\mathrm{regularization term}}
+\end{equation*}
 
 \clearpage
 
