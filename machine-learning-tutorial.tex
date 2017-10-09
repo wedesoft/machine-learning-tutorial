@@ -380,6 +380,7 @@ The minimization problem $\mathop{\operatorname{argmin}}_\theta J(\theta)$ can b
 Note that the choice of $h_\theta(x)=\frac{1}{1+\operatorname{e}^{-\theta^\top x}}$ for logistic regression has led to the \emph{same} gradient descent rule as used for linear regression (with $h_\theta(x)=\theta^\top x$ as shown in Section \ref{cha:linearregression}).
 
 See Figure \ref{fig:classifier} for an example of classifying binary data with two features.
+The corresponding implementation is shown in Appendix \ref{app:classifier}.
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.6\textwidth]{classifier}
@@ -428,11 +429,14 @@ To make a prediction, the classifier outputting the highest probability is selec
 \subsection{Least Squares Estimator}\label{app:lse}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{least_squares.py}
 
-\subsection{Gradient Descent}\label{app:gradientdescent}
+\subsection{Linear Regression}\label{app:gradientdescent}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{gradient_descent.py}
 
 \subsection{Learning Rate}\label{app:alphas}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{learning_rate.py}
+
+\subsection{Logistic Regression}\label{app:classifier}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{classifier.py}
 
 \subsection{Convolution using Theano}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}

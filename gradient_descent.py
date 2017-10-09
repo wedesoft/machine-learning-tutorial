@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 
 def gradient_function():
     x, y, t = T.vectors('x', 'y', 't')
-    cost = T.sqr((t[0] + t[1] * x - y)).sum() / (2 * x.size)
+    h = t[0] + t[1] * x
+    cost = T.sqr((h - y)).sum() / (2 * x.size)
     dt = T.grad(cost, t)
     return theano.function([x, y, t], outputs=dt)
 

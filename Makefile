@@ -24,7 +24,7 @@ mnist.pkl.gz:
 machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsupervised.pdf bibliography.bib \
 	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf classifier.pdf \
 	scaling.jpg gradientproscons.jpg decisionboundary.jpg circularboundary.jpg costy1.jpg costy0.jpg onevsall.jpg \
-	convolution.py least_squares.py gradient_descent.py learning_rate.py
+	convolution.py least_squares.py gradient_descent.py learning_rate.py classifier.py
 
 clean:
 	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg
