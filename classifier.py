@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 def gradient_function():
     x = T.matrix('x')
     y, t = T.vectors('y', 't')
-    h = 1 / (1 + T.exp(-t[0] - theano.dot(t[1:], x)))
-    cost = -(y * T.log(h) + (1 - y) * T.log(1 - h)).sum() / x[0].size
+    h = 1 / (1 + T.exp(-theano.dot(t, x)))
+    cost = -(y * T.log(h) + (1 - y) * T.log(1 - h)).sum() / y.size
     dt = T.grad(cost, t)
     return theano.function([x, y, t], outputs=dt)
 
@@ -23,12 +23,13 @@ if __name__ == '__main__':
     error = np.random.rand(100) * 0.2 - 0.1
     y = t[0] + x1 * t[1] + x2 *t[2] >= error
 
+    x0 = np.full(x1.shape, 1)
     alpha = 4.0
     gradient = gradient_function()
     t = [0, 0, 0]
     n = 100
     for i in range(1, n + 1):
-        dt = gradient([x1, x2], y, t)
+        dt = gradient([x0, x1, x2], y, t)
         t -= alpha * dt
         if i % 10 == 0:
             plt.plot(np.arange(2), -(t[0] + np.arange(2) * t[1]) / t[2], color=(0, 0.5, 0, float(i) / n), label="iteration %3d" % i)
