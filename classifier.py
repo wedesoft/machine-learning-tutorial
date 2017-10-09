@@ -22,7 +22,7 @@ if __name__ == '__main__':
     error = np.random.rand(100) * 0.2 - 0.1
     y = t[0] + x1 * t[1] + x2 *t[2] >= error
 
-    alpha = 5.0
+    alpha = 4.0
     gradient = gradient_function()
     t = [0, 0, 0]
     n = 100
@@ -34,6 +34,7 @@ if __name__ == '__main__':
 
     plt.xlabel('x1')
     plt.ylabel('x2')
+    plt.title('Gradient Descent (alpha=%4.2f)' % alpha)
     plt.scatter(np.compress(y, x1), np.compress(y, x2), color='r', marker='x', label='y=1')
     plt.scatter(np.compress(np.logical_not(y), x1), np.compress(np.logical_not(y), x2), color='b', marker='o', label='y=0')
     plt.legend()
