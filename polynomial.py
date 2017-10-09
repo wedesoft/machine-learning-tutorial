@@ -23,18 +23,18 @@ if __name__ == '__main__':
     y = (x1 - 0.5) ** 2 + 1.6 * (x2 - 0.6) ** 2 - 0.1 >= error
 
     x0 = np.full(x1.shape, 1)
-    x3, x4 = x1 ** 2, x2 ** 2
+    x3, x4, x5 = x1 ** 2, x2 ** 2, x1 * x2
     alpha = 6.0
     gradient = gradient_function()
-    t = [0, 0, 0, 0, 0]
-    n = 2000
+    t = [0, 0, 0, 0, 0, 0]
+    n = 4000
     for i in range(1, n + 1):
-        dt = gradient([x0, x1, x2, x3, x4], y, t)
+        dt = gradient([x0, x1, x2, x3, x4, x5], y, t)
         t -= alpha * dt
         if i % 100 == 0:
             C = np.arange(0, 1, 0.01)
             X1, X2 = np.meshgrid(C, C)
-            plt.contour(X1, X2, t[0] + X1 * t[1] + X2 * t[2] + X1 ** 2 * t[3] + X2 ** 2 * t[4], levels = [0], colors=((0, 0.5, 0, float(i) / n),))
+            plt.contour(X1, X2, t[0] + X1 * t[1] + X2 * t[2] + X1 ** 2 * t[3] + X2 ** 2 * t[4] + X1 * X2 * t[5], levels = [0], colors=((0, 0.5, 0, float(i) / n),))
 
     plt.xlabel('x1')
     plt.ylabel('x2')
