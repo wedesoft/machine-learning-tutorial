@@ -23,7 +23,7 @@ mnist.pkl.gz:
 
 course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib \
 	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf \
-	scaling.jpg gradientproscons.jpg \
+	scaling.jpg gradientproscons.jpg decisionboundary.jpg circularboundary.jpg costy1.jpg costy0.jpg \
 	convolution.py least_squares.py gradient_descent.py learning_rate.py
 
 clean:

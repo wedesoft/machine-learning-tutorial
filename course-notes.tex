@@ -9,6 +9,8 @@
 \usepackage{csquotes}
 
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \usepackage{booktabs}
 
@@ -88,7 +90,7 @@ The result of the learning algorithm is a \emph{hypothesis} $h$ which maps $x^\p
 
 Linear regression with one variable (the variable here is $x$) can also be called \emph{univariate} linear regression.
 
-\subsection{Cost Function}
+\subsection{Cost Function}\label{cha:costfunction}
 The aim is to minimize the $h_\theta(x)-y$.
 \emph{I.e.} minimizing the cost function (or square error function) $J(\theta_0,\theta_1)$ in the following equation
 \begin{equation*}
@@ -314,6 +316,41 @@ Similar as in Section \ref{cha:polyregression} one can use polynomial terms to i
 \begin{equation*}
   h_\theta(x)=g(\underbrace{\theta_0}_{=-1}+\underbrace{\theta_1}_{=0}\,x_1+\underbrace{\theta_2}_{=0}\,x_2+\underbrace{\theta_3}_{=1}\,x_1^2+\underbrace{\theta_4}_{=1}\,x_2^2)
 \end{equation*}
+
+\subsection{Cost Function}
+Given
+\begin{itemize}
+\item a training set of $m$ training examples $\{(x^{(1)},y^{(1)},x^{(2)},y^{(2)},\ldots,x^{(m)},y^{(m)}\}$ with
+$x\in\begin{pmatrix}x_0\\x_1\\\vdots\\x_n\end{pmatrix}$, $x_0=1$, $y\in\{0,1\}$
+\item a hypothesis $h_\theta(x)=\displaystyle\frac{1}{1+\operatorname{e}^{-\theta^\top x}}$
+\end{itemize}
+Desired is a parameter vector $\theta$ so that $h_\theta(x)$ produces good predictions.
+
+The cost function introduced in Section \ref{cha:costfunction} is generalised as follows
+\begin{equation*}
+  J(\theta)=\frac{1}{m}\sumi Cost(h_\theta(\sxi),\syi)
+\end{equation*}
+In the case of linear regression the cost function is $cost(h_\theta(x),y)=\frac{1}{2}(h_\theta(x)-y)^2$.
+In the case of logistic regression this function would be ``non-convex''. Instead the following cost function is used
+\begin{equation*}
+Cost(h_\theta(x),y)=
+\left\{\begin{array}{rl}-\operatorname{log}(h_\theta(x))&\mathrm{if\ }y=1\\
+-\operatorname{log}(1-h_\theta(x))&\mathrm{if\ }y=0\end{array}\right.
+\end{equation*}
+\begin{figure}[htbp]
+  \begin{center}
+    \begin{subfigure}[b]{.47\textwidth}
+      \includegraphics[width=\linewidth]{costy1}
+      \caption{Cost function for ``y=1''}
+    \end{subfigure}
+    \begin{subfigure}[b]{.47\textwidth}
+      \includegraphics[width=\linewidth]{costy0}
+      \caption{Cost function for ``y=0''}
+    \end{subfigure}
+    \caption{Cost function for logistic regression\label{fig:costlog}}
+  \end{center}
+\end{figure}
+See Figure \ref{fig:costlog} for a visualisation.
 
 \appendix
 \section{Appendix}
