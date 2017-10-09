@@ -2,7 +2,7 @@
 
 all: notes
 
-notes: course-notes.pdf
+notes: machine-learning-tutorial.pdf
 
 check:
 	py.test-3 || py.test
@@ -21,7 +21,7 @@ mnist.pkl.gz:
 .py.pdf:
 	python $<
 
-course-notes.pdf: course-notes.tex supervised.pdf unsupervised.pdf bibliography.bib \
+machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsupervised.pdf bibliography.bib \
 	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf \
 	scaling.jpg gradientproscons.jpg decisionboundary.jpg circularboundary.jpg costy1.jpg costy0.jpg \
 	convolution.py least_squares.py gradient_descent.py learning_rate.py

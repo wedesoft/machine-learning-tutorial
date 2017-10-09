@@ -10,9 +10,9 @@ all: check notes
 check: container
 	docker run $(IMAGE) make check
 
-notes: course-notes.pdf
+notes: machine-learning-tutorial.pdf
 
-course-notes.pdf: container
+machine-learning-tutorial.pdf: container
 	docker run -v /tmp:/mnt $(IMAGE) bash -c "make $@; cp $@ /mnt"
 	cp /tmp/$@ .
 

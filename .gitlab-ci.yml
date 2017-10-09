@@ -6,4 +6,4 @@ test:
     expire_in: 30 days
     when: always
     paths:
-      - course-notes.pdf
+      - machine-learning-tutorial.pdf

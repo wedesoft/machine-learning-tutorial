@@ -1,4 +1,4 @@
-# [Machine Learning Tutorial](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/builds/artifacts/master/raw/course-notes.pdf?job=test)
+# [Machine Learning Tutorial](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/builds/artifacts/master/raw/machine-learning-tutorial.pdf?job=test)
 
 [![build status](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/badges/master/build.svg)](https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial/pipelines)
 
