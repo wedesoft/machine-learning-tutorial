@@ -465,7 +465,9 @@ The cost function is modified as follows
 \begin{equation*}
   J(\theta)=\frac{1}{2\,m}\sumi\big(h_\theta(\sxi)-\syi\big)^2+\underbrace{\lambda\,\sum_{i=1}^n\theta_j^2}_{\mathrm{regularization\ term}}
 \end{equation*}
+where $\lambda$ is the \emph{regularization parameter}.
 Note that by convention $\theta_0$ (constant component of the model) is not regularized.
+The regularization parameters controls the trade-off between a good model fit and a regular model.
 
 \clearpage
 
