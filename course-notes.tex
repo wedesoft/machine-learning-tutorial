@@ -206,7 +206,7 @@ If $J(\theta)$ is increasing, $\alpha$ might be too large.
   \end{center}
 \end{figure}
 
-\subsection{Features and Polynomial Regression}
+\subsection{Features and Polynomial Regression}\label{cha:polyregression}
 Similar as in support vector machines one can perform linear regression on non-linear functions of features.
 \emph{I.e.} given a feature $x$, one can generate additional features $x^2$, $\sqrt x$, $\ldots$.
 
@@ -303,6 +303,19 @@ the decision boundary is
   \end{center}
 \end{figure}
 It separates the ``y=1'' region and the ``y=0'' region (also see Figure \ref{fig:decisionboundary}).
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{circularboundary}
+    \caption{Circular decision boundary\label{fig:circularboundary}}
+  \end{center}
+\end{figure}
+Similar as in Section \ref{cha:polyregression} one can use polynomial terms to introduce additional features in order to achieve a non-linear decision boundary (see Figure \ref{fig:circularboundary}). \emph{E.g.} one can use a circular decision boundary in the hypothesis
+\begin{equation*}
+  h_\theta(x)=g(\underbrace{\theta_0}{=-1}+\underbrace{\theta_1}_{=0}\,x_1+\underbrace{\theta_2}{=0}\,x_2+\underbrace{\theta_3}{=1}\,x_1^2+\underbrace{\theta_4}{=1}\,x_2^2)
+\end{equation*}
+
+
 
 \appendix
 \section{Appendix}
