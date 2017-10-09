@@ -437,6 +437,13 @@ To make a prediction, the classifier outputting the highest probability is selec
   \item The other extreme is an \textbf{overfit} model with too many parameters causing high \emph{high variance}.
 \end{itemize}
 If the data is overfit, the fit is very well (low value for $J(\theta)$) but it fails to generalize to new examples.
+See Figure \ref{fig:overfitting} for an eample of overfitting (implementation in Appendix \ref{app:overfitting}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{overfitting}
+    \caption{Example of overfitting\label{fig:overfitting}}
+  \end{center}
+\end{figure}
 
 One can address overfitting by
 \begin{enumerate}
@@ -473,6 +480,9 @@ One can address overfitting by
 
 \subsection{Polynomial Features}\label{app:polynomial}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{polynomial.py}
+
+\subsection{Overfitting Example}\label{app:overfitting}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{overfitting.py}
 
 \subsection{Convolution using Theano}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}
