@@ -423,12 +423,26 @@ To make a prediction, the classifier outputting the highest probability is selec
 \end{figure}
 
 \section{Regularization}
-\subsection{The Problem of Overfitting}a
+\subsection{The Problem of Overfitting}
 \begin{itemize}
   \item If the model is \textbf{underfit}, there is a poor fit to the data causing a \emph{high bias}.
   \item The other extreme is an \textbf{overfit} model with too many parameters causing high \emph{high variance}.
 \end{itemize}
 If the data is overfit, the fit is very well (low value for $J(\theta)$) but it fails to generalize to new examples.
+
+One can address overfitting by
+\begin{enumerate}
+  \item reduce number of features
+    \begin{itemize}
+      \item manually select features to keep
+      \item model selection algorithm
+    \end{itemize}
+  \item regularization
+    \begin{itemize}
+      \item keep all the features, but reduce magnitude/values of parameters $\theta_j$
+      \item works well when we have a lot of features, each of which contributes a bit to predicting $y$
+    \end{itemize}
+\end{enumerate}
 \clearpage
 
 \appendix

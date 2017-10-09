@@ -21,7 +21,7 @@ if __name__ == '__main__':
     x1 = np.random.rand(100)
     x2 = np.random.rand(100)
     error = np.random.rand(100) * 0.2 - 0.1
-    y = t[0] + x1 * t[1] + x2 *t[2] >= error
+    y = t[0] + x1 * t[1] + x2 * t[2] >= error
 
     x0 = np.full(x1.shape, 1)
     alpha = 4.0
