@@ -18,10 +18,12 @@ def gradient_function():
 
 if __name__ == '__main__':
     t = [-0.3, 0.2, 0.5]
-    x1 = np.random.rand(30)
-    x2 = np.random.rand(30)
-    error = np.random.rand(30) * 0.2 - 0.1
+    x1 = np.random.rand(50)
+    x2 = np.random.rand(50)
+    error = np.random.rand(50) * 0.1 - 0.05
     y = t[0] + x1 * t[1] + x2 * t[2] >= error
+    x1[0], x2[0], y[0] = 0.1, 0.1, True # add outlier
+    x1[1], x2[1], y[1] = 0.1, 0.2, True # add outlier
 
     features = lambda x1, x2: (np.full(x1.shape, 1), x1, x2, x1 ** 2, x2 ** 2, x1 * x2, x1 ** 2 * x2, x1 * x2 ** 2)
     x0 = np.full(x1.shape, 1)
