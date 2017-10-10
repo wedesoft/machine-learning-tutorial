@@ -67,13 +67,18 @@ class MLP:
 
 
 class TestMLP:
-    def test_single_layer(self):
-        layer = Layer([[2, 3, 5]], [5])
-        assert_array_equal(MLP([[[2, 3, 5]]], [[5]])([1, 2, -3]), layer([1, 2, -3]))
+    @pytest.fixture
+    def layer1(self):
+        return Layer([[2, 3, 5]], [5])
 
-    def test_two_layers(self):
-        layer1 = Layer([[2, 3, 5]], [5])
-        layer2 = Layer([[2]], [1])
+    @pytest.fixture
+    def layer2(self):
+        return Layer([[2]], [1])
+
+    def test_single_layer(self, layer1):
+        assert_array_equal(MLP([[[2, 3, 5]]], [[5]])([1, 2, -3]), layer1([1, 2, -3]))
+
+    def test_two_layers(self, layer1, layer2):
         assert_array_equal(MLP([[[2, 3, 5]], [[2]]], [[5], [1]])([1, 2, -3]), layer2(layer1([1, 2, -3])))
 
 
