@@ -535,6 +535,20 @@ $h_\theta(x)$ is the ``output''.
 The sigmoid function $g(z)=\frac{1}{1+\operatorname{e}^{-z}}$ is named ``activation function''.
 The components of the parameter vector $\theta$ can be called ``weights''.
 
+A \emph{neural network} computes the output from a hidden layer instead (see Figure \ref{fig:hidden}) and can learn its own features.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{hidden}
+    \caption{Neural network with a hidden layer\citep{andrewng}\label{fig:hidden}}
+  \end{center}
+\end{figure}
+Additional definitions are introduced
+\begin{itemize}
+  \item $a^{(j)}_i\in[0,1]$ ``activation'' of unit $i$ in layer $j$ (with bias unit $a^{(j)}_0=1$)
+  \item $\theta^{(j)}\in\mathbb{R}^{s_{j+1}\times(s_j+1)}$ matrix of weights controlling function mapping from layer $j$ to layer $j+1$
+  \item $s_j$ is the number of units in layer $j$
+\end{itemize}
+
 \clearpage
 
 \appendix
