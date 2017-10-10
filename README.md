@@ -20,3 +20,4 @@ See `Dockerfile` for installation instructions.
 * [Adit Deshpande - A Beginner's Guide To Understanding Convolutional Neural Networks](https://adeshpande3.github.io/adeshpande3.github.io/A-Beginner%27s-Guide-To-Understanding-Convolutional-Neural-Networks/)
 * [Delete Matplotlib font cache](https://askubuntu.com/questions/578129/plotting-with-matplotlib-in-python-3-pylab-tkinter-and-qt-fontmanager-errors)
 * [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
+* [Theano-tutorial: Backpropagation](https://github.com/craffel/theano-tutorial/blob/master/Backpropagation.ipynb)

@@ -5,7 +5,7 @@ all: notes
 notes: machine-learning-tutorial.pdf
 
 check:
-	py.test-3 || py.test
+	py.test
 
 mnist.pkl.gz:
 	curl -o $@ http://deeplearning.net/data/mnist/mnist.pkl.gz

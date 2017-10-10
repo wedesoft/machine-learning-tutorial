@@ -16,6 +16,7 @@ def gradient_function():
     dt = T.grad(cost, t)
     return theano.function([x, y, t], outputs=dt)
 
+
 if __name__ == '__main__':
     t = [-0.3, 0.2, 0.5]
     x1 = np.random.rand(100)
