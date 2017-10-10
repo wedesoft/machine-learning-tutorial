@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # https://github.com/craffel/theano-tutorial/blob/master/Backpropagation.ipynb
 import pytest
+import math
 from numpy.testing import assert_array_equal
 import numpy as np
 import theano
@@ -59,6 +60,10 @@ class MLP:
     def __init__(self, weights, biases):
         self.layers = [Layer(weight, bias) for weight, bias in zip(weights, biases)]
 
+    @staticmethod
+    def logistic_cost(h, y):
+        return -(math.log(h) * y + (1 - y) * math.log(1 - h))
+
     def __call__(self, x):
         retval = x
         for layer in self.layers:
@@ -80,6 +85,12 @@ class TestMLP:
 
     def test_two_layers(self, layer1, layer2):
         assert_array_equal(MLP([[[2, 3, 5]], [[2]]], [[5], [1]])([1, 2, -3]), layer2(layer1([1, 2, -3])))
+
+    def test_logistic_cost(self):
+        assert MLP.logistic_cost(0.1, 0) > 0
+        assert MLP.logistic_cost(0.1, 0) < 0.2
+        assert MLP.logistic_cost(0.9, 1) == MLP.logistic_cost(0.1, 0)
+        assert MLP.logistic_cost(0.9, 0) > 2
 
 
 if __name__ == '__main__':
