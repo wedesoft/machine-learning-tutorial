@@ -495,12 +495,13 @@ The normal equation introduced in Section \ref{cha:normal} becomes
 \end{equation*}
 In the case of $m\le n$ (fewer examples than features), $\mathcal{X}^\top\mathcal{X}$ is still invertible.
 
-\subsection{Regularized Logistic Regression}
+\subsection{Regularized Logistic Regression}\label{cha:regreg}
 In the case of logistic regression the cost function is modified to
 \begin{equation*}
-  J(\theta)=-\frac{1}{m}\big[\sumi\syi\operatorname{log}h_\theta(\sxi)+(1-\syi)\operatorname{log}(1-h_\theta(\sxi))\big]+
+  J(\theta)=-\frac{1}{m}\bigg[\sumi\syi\operatorname{log}h_\theta(\sxi)+(1-\syi)\operatorname{log}\big(1-h_\theta(\sxi)\big)\bigg]+
   \frac{\lambda}{2\,m}\sum_{j=1}^n\theta_j^2
 \end{equation*}
+Note that the bias unit $\theta_0$ is not regularized.
 
 The gradient descent algorithm becomes
 \begin{align*}
@@ -658,14 +659,36 @@ Neural networks can be used for complex tasks such as handwritten digit classifi
 \subsection{Multi-Class Classification}
 Multi-class classification with neural networks is an extension of the one-vs-all method (see Section \ref{cha:onevsall}).
 Basically the desired output is specified to be a unit vector.
-\emph{E.g.} the desired outputs (and training labels $\syi$) are
+\emph{E.g.} the desired outputs (and training labels $\syi$) for four classes ($K=4$) are
 \begin{itemize}
   \item $h_\theta(x)\approx\begin{pmatrix}1\\0\\0\\0\end{pmatrix}$ for class one
   \item $h_\theta(x)\approx\begin{pmatrix}0\\1\\0\\0\end{pmatrix}$ for class two
   \item $h_\theta(x)\approx\begin{pmatrix}0\\0\\1\\0\end{pmatrix}$ for class three
   \item $\ldots$
 \end{itemize}
-The desired training result is $h_\theta(\sxi)\approx\syi$ with $\syi\in\mathbb{R}^4$.
+The desired training result is $h_\theta(\sxi)\approx\syi$ with $\syi\in\mathbb{R}^K$ and $K=4$.
+
+\subsection{Cost Function}
+\begin{itemize}
+  \item $L$ is the total number of layers of the network
+  \item $s_l$ is the number of units in layer $l\in\{1,2,\ldots,L\}$
+  \item $K=s_L$ is the number of output units
+  \item $\big(h_\theta(x)\big)_i$ is the $i$th component of the vector $h_theta(x)$
+\end{itemize}
+
+In Section \ref{cha:regreg} the cost function was
+\begin{equation*}
+  J(\theta)=-\frac{1}{m}\bigg[\sumi\syi\operatorname{log}h_\theta(\sxi)+(1-\syi)\operatorname{log}(1-h_\theta(\sxi))\bigg]+
+  \frac{\lambda}{2\,m}\sum_{j=1}^n\theta_j^2
+\end{equation*}
+with the bias unit $\theta_0$ not being regularized. The cost function is generalised for neural networks as follows
+\newcommand{\sumk}{\ensuremath{\displaystyle\sum_{k=1}^K}}
+\newcommand{\suml}{\ensuremath{\displaystyle\sum_{l=1}^{L-1}}}
+\begin{equation*}
+  J(\theta)=-\frac{1}{m}\bigg[\sumi\sumk\syi\operatorname{log}(h_\theta(\sxi))_k+(1-\syi)\operatorname{log}\big(1-(h_\theta(\sxi))_k\big)\bigg]+
+  \frac{\lambda}{2\,m}\suml\sum_{i=1}^{s_l}\sum_{j=1}^{s_{l+1}}\big(\theta^{(l)}_{ji}\big)^2
+\end{equation*}
+Note that the bias units $\theta_{j0}$ are not regularized.
 
 \clearpage
 
