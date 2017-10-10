@@ -659,7 +659,14 @@ The neural network is visualised in Figure \ref{fig:xnor}.
   \end{center}
 \end{figure}
 
-Neural networks can be used for complex tasks such as handwritten digit classification\footnote{see \url{https://www.youtube.com/watch?v=yxuRnBEczUU}}.
+Neural networks can be used for complex tasks such as handwritten digit classification\citep{lecun} (see Figure \ref{fig:lecun}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{lecun}
+    \caption{Handwritten character recognition using neural network\citep{lecun}\label{fig:lecun}}
+  \end{center}
+\end{figure}
+
 
 \subsection{Multi-Class Classification}\label{cha:multiclassif}
 Multi-class classification with neural networks is an extension of the one-vs-all method (see Section \ref{cha:onevsall}).
@@ -803,6 +810,16 @@ The next step is to \textbf{train the neural network}
 
 Since $J(\theta)$ is non-convex for neural networks, \emph{i.e.} gradient descent can get stuck in a local optimum.
 However in practise this is usually not a problem (even if the global optimum is not found).
+
+\subsection{Autonmous Driving Example}
+The autonomous driving example shows a simple neural network trained using $30\times 30$ gray level images as input and
+steering direction as output (see Figure \ref{fig:alvinn}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{alvinn}
+    \caption{Autonomous driving using a neural network\citep{alvinn}\label{fig:alvinn}}
+  \end{center}
+\end{figure}
 
 \clearpage
 
