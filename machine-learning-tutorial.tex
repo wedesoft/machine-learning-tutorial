@@ -721,6 +721,7 @@ Note that $g(z^{(l)})=a^{(l)}$. \emph{I.e.}
   g^\prime(z^{(l)})=a^{(l)}\,(1-a^{(l)})
 \end{equation*}
 There is no error associated with the input values. \emph{I.e.} $\delta^{(l)}$ is only defined for $l\in\{2,3,\ldots,L\}$.
+Also the errors $\delta^{(l)}_0$ are discarded since the bias units need to be fixed to $1$.
 
 It can be shown that the derivative of the cost function for $\lambda=0$ (no regularization) is
 \begin{equation*}
