@@ -544,10 +544,23 @@ A \emph{neural network} computes the output from a hidden layer instead (see Fig
 \end{figure}
 Additional definitions are introduced
 \begin{itemize}
-  \item $a^{(j)}_i\in[0,1]$ ``activation'' of unit $i$ in layer $j$ (with bias unit $a^{(j)}_0=1$)
+  \item $a^{(j)}_i\in[0,1]$ ``activation'' of unit $i$ in layer $j\ge 2$ (with bias unit $a^{(j)}_0=1$)
   \item $\theta^{(j)}\in\mathbb{R}^{s_{j+1}\times(s_j+1)}$ matrix of weights controlling function mapping from layer $j$ to layer $j+1$
   \item $s_j$ is the number of units in layer $j$
 \end{itemize}
+When there is one hidden layer, \emph{forward propagation} is performed as follows.
+The activations of units in layer $j+1$ are determined using matrix multiplication with $\theta^{(j)}$
+\begin{align*}
+  \begin{split}
+    a^{(2)}_1&=g(\underbrace{\theta^{(1)}_{10}\,x_1+\theta^{(1)}_{11}\,x_1+\ldots}_{=z^{(2)}_1})\\
+    a^{(2)}_2&=g(\underbrace{\theta^{(1)}_{20}\,x_1+\theta^{(1)}_{21}\,x_1+\ldots}_{=z^{(2)}_2})\\
+    \vdots&\hphantom{=}\vdots
+  \end{split}
+\end{align*}
+The output is determined from the last hidden layer
+\begin{equation*}
+  h_\theta(x)=g(\theta^{(2)}_{10}\,a^{(2)}_0+\theta^{(2)}_{11}\,a^{(2)}_1+\ldots)
+\end{equation*}
 
 \clearpage
 
