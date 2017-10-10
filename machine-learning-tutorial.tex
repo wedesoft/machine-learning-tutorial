@@ -556,7 +556,7 @@ The activations of units in layer $j+1$ are determined using matrix multiplicati
     a^{(2)}_0&=1\\
     a^{(2)}_1&=g(\underbrace{\theta^{(1)}_{10}\,x_1+\theta^{(1)}_{11}\,x_1+\ldots}_{=z^{(2)}_1})\\
     a^{(2)}_2&=g(\underbrace{\theta^{(1)}_{20}\,x_1+\theta^{(1)}_{21}\,x_1+\ldots}_{=z^{(2)}_2})\\
-    \vdots&\hphantom{=}\vdots
+    &\vdots
   \end{split}
 \end{align*}
 The output is determined from the last hidden layer
@@ -743,6 +743,23 @@ The gradient of the cost function then is
     \begin{array}{ll}\lambda\theta^{(l)}_{ij}&\mathrm{if\ }j\neq 0\\
   0&\mathrm{if\ }j=0\end{array}\right.
 \end{equation*}
+
+\subsection{Gradient Checking}
+To test correctness of an implementation of a backpropagation algorithm one can use numerical gradient checking.
+Basically the gradient is numerically approximated using an infitesimal value $\epsilon$.
+The symbolically derived gradient value must be close to the approximation as shown in the following equation
+\begin{equation*}
+\frac{\delta}{\delta\theta}J(\theta)\overset{!}{\approx}\frac{J(\theta+\epsilon)-J(\theta-\epsilon)}{2\,\epsilon}
+\end{equation*}
+Concretely an ``unrolled'' version of $\theta=(\theta_1,\theta_2,\ldots,\theta_n)$ is used to check each partial derivative.
+\begin{align*}
+  \begin{split}
+    \frac{\delta}{\delta\theta_1}J(\theta)&\overset{!}{\approx}\frac{J(\theta_1+\epsilon,\theta_2,\ldots,\theta_n)-J(\theta_1-\epsilon,\theta_2,\ldots,\theta_n)}{2\,\epsilon}\\
+    \frac{\delta}{\delta\theta_2}J(\theta)&\overset{!}{\approx}\frac{J(\theta_1,\theta_2+\epsilon,\ldots,\theta_n)-J(\theta_1,\theta_2-\epsilon,\ldots,\theta_n)}{2\,\epsilon}\\
+                                          &\vdots
+  \end{split}
+\end{align*}
+Gradient checking is computationally expensive but it only is needed to verify the implementation when it has been changed.
 
 \clearpage
 
