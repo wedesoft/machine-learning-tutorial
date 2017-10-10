@@ -60,16 +60,21 @@ class TestLayer:
 class MLP:
     def __init__(self, weights, biases):
         self.layers = [Layer(weight, bias) for weight, bias in zip(weights, biases)]
+        x_ = T.vector('x')
+        self.fun = theano.function([x_], outputs=self.output(x_))
+
+    def output(self, x_):
+        a_ = x_
+        for layer in self.layers:
+            a_ = layer.output(a_)
+        return a_
 
     @staticmethod
     def logistic_cost(h, y):
         return -(math.log(h) * y + (1 - y) * math.log(1 - h))
 
     def __call__(self, x):
-        retval = x
-        for layer in self.layers:
-            retval = layer(retval)
-        return retval
+        return self.fun(x)
 
 
 class TestMLP:
