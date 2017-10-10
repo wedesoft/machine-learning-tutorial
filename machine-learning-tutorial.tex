@@ -586,51 +586,42 @@ Given two inputs (and the bias unit) one can approximate a logical ``and'' opera
 \begin{equation*}
   h_\theta(x)=g(-30+20\,x_1+20\,x_2)
 \end{equation*}
-The result is shown in Table \ref{tbl:and}.
-\begin{table}[htbp]
-  \begin{center}
-    \begin{tabular}{cc|c}
-      $x_1$ & $x_2$ & $h_\theta(x)$\\\hline
-      0 & 0 & 0.000\\
-      0 & 1 & 0.000\\
-      1 & 0 & 0.000\\
-      1 & 1 & 1.000\\
-    \end{tabular}
-    \caption{Logical ``and'' implemented using a neural network\label{tbl:and}}
-  \end{center}
-\end{table}
+The result is shown in the following table
+\begin{center}
+  \begin{tabular}{cc|c}
+    $x_1$ & $x_2$ & $h_\theta(x)$\\\hline
+    0 & 0 & 0.000\\
+    0 & 1 & 0.000\\
+    1 & 0 & 0.000\\
+    1 & 1 & 1.000\\
+  \end{tabular}
+\end{center}
 In the same fashion one can approximate a logical ``or''
 \begin{equation*}
   h_\theta(x)=g(-10+20\,x_1+20\,x_2)
 \end{equation*}
-The result is shown in Table \ref{tbl:or}.
-\begin{table}[htbp]
-  \begin{center}
-    \begin{tabular}{cc|c}
-      $x_1$ & $x_2$ & $h_\theta(x)$\\\hline
-      0 & 0 & 0.000\\
-      0 & 1 & 1.000\\
-      1 & 0 & 1.000\\
-      1 & 1 & 1.000\\
-    \end{tabular}
-    \caption{Logical ``and'' implemented using a neural network\label{tbl:or}}
-  \end{center}
-\end{table}
-Logical ``not'' can be approximated as follows (see Table \ref{tbl:not} for result)
+The result is shown in the table below
+\begin{center}
+  \begin{tabular}{cc|c}
+    $x_1$ & $x_2$ & $h_\theta(x)$\\\hline
+    0 & 0 & 0.000\\
+    0 & 1 & 1.000\\
+    1 & 0 & 1.000\\
+    1 & 1 & 1.000\\
+  \end{tabular}
+\end{center}
+Logical ``not'' can be approximated as follows
 \begin{equation*}
   h_\theta(x)=g(10-20\,x_1)
 \end{equation*}
-\begin{table}[htbp]
-  \begin{center}
-    \begin{tabular}{cc|c}
-      $x_1$ & $h_\theta(x)$\\\hline
-      0 & 1.000\\
-      1 & 0.000\\
-    \end{tabular}
-    \caption{Logical ``not'' implemented using a neural network\label{tbl:not}}
-  \end{center}
-\end{table}
-
+Resulting in the desired behaviour as shown in the table below
+\begin{center}
+  \begin{tabular}{cc|c}
+    $x_1$ & $h_\theta(x)$\\\hline
+    0 & 1.000\\
+    1 & 0.000\\
+  \end{tabular}
+\end{center}
 ``(not $x_1$) and (not $x_2$)'' can be implemented using
 \begin{equation*}
   h_\theta(x)=g(10-20\,x_1-20\,x_2)
@@ -639,19 +630,16 @@ Logical ``not'' can be approximated as follows (see Table \ref{tbl:not} for resu
 ``($x_1$ xnor $x_2$)'' (not exclusive-or) requires a hidden layer.
 The hidden layer computes the logical ``and'' and the logical ``nor''.
 The activations of the hidden layer are combined using a logical ``or''.
-\begin{table}[htbp]
-  \begin{center}
-    \begin{tabular}{cccc|c}
-      $x_1$ & $x_2$ $a^{(2)}_1$ & $a^{(2)}_2$ & $h_\theta(x)$\\\hline
-      0 & 0 & 0 & 1 & 0.000\\
-      0 & 1 & 0 & 0 & 1.000\\
-      1 & 0 & 0 & 0 & 1.000\\
-      1 & 1 & 1 & 0 & 1.000\\
-    \end{tabular}
-    \caption{Logical ``and'' implemented using a neural network\label{tbl:xnor}}
-  \end{center}
-\end{table}
-
+See table below for the different states of the neural network
+\begin{center}
+  \begin{tabular}{cccc|c}
+    $x_1$ & $x_2$ & $a^{(2)}_1$ & $a^{(2)}_2$ & $h_\theta(x)$\\\hline
+    0 & 0 & 0 & 1 & 1.000\\
+    0 & 1 & 0 & 0 & 0.000\\
+    1 & 0 & 0 & 0 & 0.000\\
+    1 & 1 & 1 & 0 & 1.000\\
+  \end{tabular}
+\end{center}
 \emph{I.e.} to implement ``xnor'' we use
 \begin{itemize}
 \item $\theta^{(1)}=\begin{pmatrix}-30&20&20\\10&-20&-20\end{pmatrix}$ and
