@@ -574,7 +574,8 @@ The output is determined as follows
   h_\theta(x)=a^{(3)}=g(z^{(3)})
 \end{equation*}
 
-Neural networks can have more layers. \emph{E.g.} a network with four layers
+Essentially a neural network uses more than one logistical regression layer.
+Neural networks can have more than three layers. \emph{E.g.} a network with four layers
 \begin{itemize}
   \item [Layer 1:] Input
   \item [Layer 2:] Hidden layer
@@ -692,7 +693,8 @@ Note that the bias units $\theta_{j0}$ are not regularized.
 
 \subsection{Backpropagation Algorithm}
 In order to find $\mathop{\operatorname{argmin}}_\theta J(\theta)$ we need to compute $\frac{\delta}{\delta\theta^{(l)}_{ij}}J(\theta)$.
-Given one training example $(x,y)$ forward propagation is used to determine the activations
+Given one training example $(x,y)$ forward propagation is used to determine the activations.
+\emph{E.g.} in the case of $L=4$
 \begin{itemize}
   \item $a^{(1)}=x$
   \item $z^{(2)}=\theta^{(1)}\,a^{(1)}$
