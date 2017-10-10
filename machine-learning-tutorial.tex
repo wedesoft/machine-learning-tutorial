@@ -690,6 +690,57 @@ with the bias unit $\theta_0$ not being regularized. The cost function is genera
 \end{equation*}
 Note that the bias units $\theta_{j0}$ are not regularized.
 
+\subsection{Backpropagation Algorithm}
+In order to find $\mathop{\operatorname{argmin}}_\theta J(\theta)$ we need to compute $\frac{\delta}{\delta\theta^{(l)}_{ij}}J(\theta)$.
+Given one training example $(x,y)$ forward propagation is used to determine the activations
+\begin{itemize}
+  \item $a^{(1)}=x$
+  \item $z^{(2)}=\theta^{(1)}\,a^{(1)}$
+  \item $a^{(2)}=g(z^{(2)})$ (add $a^{(2)}_0$)
+  \item $z^{(3)}=\theta^{(2)}\,a^{(2)}$
+  \item $a^{(3)}=g(z^{(3)})$ (add $a^{(3)}_0$)
+  \item $z^{(4)}=\theta^{(3)}\,a^{(3)}$
+  \item $a^{(4)}=h_\theta(x)=g(z^{(4)})$
+\end{itemize}
+
+The gradient is computed using the backpropagation algorithm.
+For each node $j$ in each leayer $l$ the ``error'' $\delta^{(l)}_j$ is determined
+\begin{itemize}
+  \item $\delta^{(4)}=a^{(4)}_j-y_j$
+  \item $\delta^{(3)}=(\theta^{(3)})^\top\delta^{(4)}\odot g^\prime(z^{(3)})$
+  \item $\delta^{(2)}=(\theta^{(2)})^\top\delta^{(3)}\odot g^\prime(z^{(2)})$
+\end{itemize}
+with $\odot$ denoting the elementwise multiplication and $g^\prime(z^{(l)})$ being the derivative of $g(z)=\frac{1}{1+\operatorname{e}^{-z}}$ at $z^{(l)}$.
+\begin{equation*}
+  g^\prime(z)=\frac{\operatorname{e}^{-z}}{(1+\operatorname{e}^{-z})^2}=g(z)\,\big(1-g(z)\big)
+\end{equation*}
+Note that $g(z^{(l)})=a^{(l)}$. \emph{I.e.}
+\begin{equation*}
+  g^\prime(z^{(l)})=a^{(l)}\,(1-a^{(l)})
+\end{equation*}
+There is no error associated with the input values. \emph{I.e.} $\delta^{(l)}$ is only defined for $l\in\{2,3,\ldots,L\}$.
+
+It can be shown that the derivative of the cost function for $\lambda=0$ (no regularization) is
+\begin{equation*}
+  \frac{\delta}{\delta\theta^{(l)}_{ij}}J(\theta)=a^{(l)}_j\,\delta^{(l+1)}_i
+\end{equation*}
+For the complete training set the errors are accumulated for $i\in\{1,2,\ldots,m\}$ with $m$ being the number of training samples.
+\begin{equation*}
+  \Delta^{(l)}_{ij}\coloneqq\Delta^{(l)}_{ij}+a^{(l)}_j\,\delta^{(l+1)}_i
+\end{equation*}
+with $a^{(l)}_j$ and $\delta^{(l+1)}_i$ determined for each training sample $(\sxi,\syi)$.
+Using vector notation the accumulation of errors also can be written as
+\begin{equation*}
+  \Delta^{(l)}\coloneqq\Delta^{(l)}+\delta^{(l+1)}(a^{(l)})^\top
+\end{equation*}
+The gradient of the cost function then is
+\begin{equation*}
+  \frac{\delta}{\delta\theta^{(l)}_{ij}}J(\theta)=D^{(l)}_{ij}\mathrm{\ where\ }
+  D^{(l)}_{ij}\coloneqq\frac{1}{m}\Delta^{(l)}_{ij}+\left\{
+    \begin{array}{ll}\lambda\theta^{(l)}_{ij}&\mathrm{if\ }j\neq 0\\
+  0&\mathrm{if\ }j=0\end{array}\right.
+\end{equation*}
+
 \clearpage
 
 \appendix
