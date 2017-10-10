@@ -39,6 +39,10 @@ A well-posed learning problem (as defined by Tom Mitchell) is:
   A computer program is said to \emph{learn} from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E.
 \end{displayquote}
 
+Relevant software: Tensorflow\footnote{most popular machine learning software available at \url{https://www.tensorflow.org/}},
+Theano\footnote{machine Learning Software available at \url{http://deeplearning.net/software/theano/}},
+and Maxima\footnote{computer algebra system available at \url{http://maxima.sourceforge.net/}}.
+
 \subsection{Supervised Learning}
 \begin{figure}[htbp]
   \begin{center}
@@ -657,7 +661,7 @@ The neural network is visualised in Figure \ref{fig:xnor}.
 
 Neural networks can be used for complex tasks such as handwritten digit classification\footnote{see \url{https://www.youtube.com/watch?v=yxuRnBEczUU}}.
 
-\subsection{Multi-Class Classification}
+\subsection{Multi-Class Classification}\label{cha:multiclassif}
 Multi-class classification with neural networks is an extension of the one-vs-all method (see Section \ref{cha:onevsall}).
 Basically the desired output is specified to be a unit vector.
 \emph{E.g.} the desired outputs (and training labels $\syi$) for four classes ($K=4$) are
@@ -760,6 +764,45 @@ Concretely an ``unrolled'' version of $\theta=(\theta_1,\theta_2,\ldots,\theta_n
   \end{split}
 \end{align*}
 Gradient checking is computationally expensive but it only is needed to verify the implementation when it has been changed.
+
+\subsection{Random Initialization}
+Linear regression can be initialised using $\theta=0$.
+However when using hidden layers, the initial parameters must be distinct otherwise the activations will be equal to each other ($a^{(2)}_1=a^{(2)}_2=\ldots$).
+Furthermore the errors will be equal to each other ($\delta^{(2)}_1=\delta^{(2)}_2=\ldots$) and
+the partial derivatives of $J(\theta)$ will be equal to each other.
+\emph{I.e.} even after one or more gradient descent updates, the parameters will be equal to each other.
+
+To break the symmetry, one can use \emph{random initialization}.
+Each parameter $\theta^{(l)}_{ij}$ is set to a random value in the interval $[-\epsilon,\epsilon]$ so that $\forall i,j,l:-\epsilon\le\theta^{(l)}_{ij}\le\epsilon$.
+
+\subsection{Putting It Together}
+Initially one needs to \textbf{pick a network architecture} (\emph{i.e.} number of layers $L$ and number of units $s_l$ in each layer.
+The number of input units is determined by the dimension of the features $\sxi$ and the number of output units is determined by the number of classes.
+The training labels $\syi$ are unit vectors with one unit vector for each class (see Section \ref{cha:multiclassif}).
+
+A reasonable default is to use one hidden layer.
+When using more than one hidden layer, a reasonable default is to use the same number of units in each hidden layer.
+Usually the more hidden units the better (but also computationally more expensive).
+Usually it is useful to have more hidden units in each layer than the number of input features.
+
+The next step is to \textbf{train the neural network}
+\begin{enumerate}
+  \item Randomly initialize weights
+  \item Implement forward propagation to get $h_\theta(\sxi)$ for any $\sxi$
+  \item Implement code to cimpute cost function $J(\theta)$
+  \item Implement backprop to compute partial derivatives $\frac{\delta}{\delta\theta^{(l)}_{jk}}J(\theta)$.
+    \emph{I.e.} for $i\in\{1,2,\ldots,m\}$
+    \begin{itemize}
+      \item perform forward propagation and backpropagation using example $(\sxi,\syi)$
+      \item Get activations $a^{(l)}$ and delta terms $\delta^{(l)}$ for $l\in\{2,\ldots,L\}$
+      \item Accumulate delta term $\Delta^{(l)}\coloneqq\Delta^{(l)}+\delta^{(l+1)}\,(a^{(l)})^\top$
+    \end{itemize}
+  \item Use gradient checking to compare $\frac{\delta}{\delta\theta^{(l)}_{jk}}J(\theta)$ computed using backpropagation with the numerical estimate for the gradient of $J(\theta)$. Then disable gradient checking.
+  \item Use gradient descent or advanced optimization method with backpropagation to try to minimize $J(\theta)$ as a function of parameters $\theta$.
+\end{enumerate}
+
+Since $J(\theta)$ is non-convex for neural networks, \emph{i.e.} gradient descent can get stuck in a local optimum.
+However in practise this is usually not a problem (even if the global optimum is not found).
 
 \clearpage
 
