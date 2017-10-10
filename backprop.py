@@ -9,17 +9,20 @@ import theano.tensor as T
 
 class Layer:
     def __init__(self, weight, bias, activation=None):
+        self.weight_ = theano.shared(value=np.array(weight), name='weight')
+        self.bias_ = theano.shared(value=np.array(bias), name='bias')
+        self.g_ = self.sigmoid_function if activation is None else activation
         x_ = T.vector('x')
-        weight_ = theano.shared(value=np.array(weight), name='weight')
-        bias_ = theano.shared(value=np.array(bias), name='bias')
-        g = self.sigmoid_function if activation is None else activation
-        z_ = T.dot(weight_, x_) + bias_
-        a_ = g(z_)
-        self.fun = theano.function([x_], outputs=a_)
+        self.fun = theano.function([x_], outputs=self.output(x_))
+
+    def output(self, x_):
+        z_ = T.dot(self.weight_, x_) + self.bias_
+        a_ = self.g_(z_)
+        return a_
 
     @staticmethod
-    def sigmoid_function(z):
-        return 1 / (1 + T.exp(-z))
+    def sigmoid_function(z_):
+        return 1 / (1 + T.exp(-z_))
 
     def __call__(self, x):
         return self.fun(x)
