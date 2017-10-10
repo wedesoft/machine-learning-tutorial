@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # https://github.com/craffel/theano-tutorial/blob/master/Backpropagation.ipynb
+# TODO: finish this
 import pytest
 import math
 from numpy.testing import assert_array_equal
