@@ -304,7 +304,7 @@ the decision boundary is
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.6\textwidth]{decisionboundary}
-    \caption[Linear decision boundary]{Linear decision boundary. ``x'' denotes a positive sample (y=1) and ''o'' a negative sample (y=1)\label{fig:decisionboundary}}
+    \caption[Linear decision boundary]{Linear decision boundary. ``x'' denotes a positive sample (y=1) and ''o'' a negative sample (y=1)\citep{andrewng}\label{fig:decisionboundary}}
   \end{center}
 \end{figure}
 It separates the ``y=1'' region and the ``y=0'' region (also see Figure \ref{fig:decisionboundary}).
@@ -312,7 +312,7 @@ It separates the ``y=1'' region and the ``y=0'' region (also see Figure \ref{fig
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.6\textwidth]{circularboundary}
-    \caption{Circular decision boundary\label{fig:circularboundary}}
+    \caption{Circular decision boundary\citep{andrewng}\label{fig:circularboundary}}
   \end{center}
 \end{figure}
 Similar as in Section \ref{cha:polyregression} one can use polynomial terms to introduce additional features in order to achieve a non-linear decision boundary (see Figure \ref{fig:circularboundary}). \emph{E.g.} one can use a circular decision boundary in the hypothesis
@@ -350,7 +350,7 @@ Cost(h_\theta(x),y)=
       \includegraphics[width=\linewidth]{costy0}
       \caption{Cost function for ``y=0''}
     \end{subfigure}
-    \caption{Cost function for logistic regression\label{fig:costlog}}
+    \caption{Cost function for logistic regression\citep{andrewng}\label{fig:costlog}}
   \end{center}
 \end{figure}
 See Figure \ref{fig:costlog} for a visualisation.
@@ -426,7 +426,7 @@ To make a prediction, the classifier outputting the highest probability is selec
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.6\textwidth]{onevsall}
-    \caption{Multiclass classification using one-vs-all classifiers\label{fig:onevsall}}
+    \caption{Multiclass classification using one-vs-all classifiers\citep{andrewng}\label{fig:onevsall}}
   \end{center}
 \end{figure}
 
@@ -511,6 +511,29 @@ The gradient descent algorithm becomes
   \end{split}
 \end{align*}
 Note that the hypothesis here is $h_\theta(x)=\frac{1}{1+\operatorname{e}^{-\theta^\top x}}$.
+
+\section{Neural Networks Representation}
+\subsection{Non Linear Hypotheses}
+Using polynomial features as shown in Section \ref{cha:polyregression} does not scale well with the number of features.
+When applying logistic regression to image processing, each camera pixel is a feature.
+\emph{E.g.} a $50\times 50$ image results in 2500 features (or 7500 features when using RGB images).
+
+\subsection{Neurons and the Brain}
+Using rewiring and other experiments neurologists have shown that any part of a brain can learn different tasks.
+The motivation behind neural networks is to find a generic algorithm which can be applied to a variety of problems.
+
+\subsection{Model Representation}
+The neuron is modelled as a logistic unit as shown in Figure \ref{fig:logisticunit}.
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{logisticunit}
+    \caption{Modelling a neuron as a logistic unit\citep{andrewng}\label{fig:logisticunit}}
+  \end{center}
+\end{figure}
+$x_1, x_2, \ldots$ are called ``input units'' and $x_0$ is the ``bias unit''.
+$h_\theta(x)$ is the ``output''.
+The sigmoid function $g(z)=\frac{1}{1+\operatorname{e}^{-z}}$ is named ``activation function''.
+The components of the parameter vector $\theta$ can be called ``weights''.
 
 \clearpage
 
