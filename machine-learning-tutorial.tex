@@ -416,8 +416,8 @@ More advanced algorithms have the following advantages
 \end{itemize}
 However the algorithms are more complex. It is not recommended to implement this algorithms yourself.
 
-\subsection{MultiClass Classification: One-vs-all}
-The binary classifier can be generalised to multiclass problems using multiple one-vs-all classifiers.
+\subsection{Multi-Class Classification: One-vs-all}\label{cha:onevsall}
+The binary classifier can be generalised to multi-class problems using multiple one-vs-all classifiers.
 \emph{E.g.} for $y\in\{1,2,3\}$ three classifiers $h_\theta^{(i)}(x)=P(y=i\|\,x;\theta)$ for $i\in\{1,2,3\}$ are trained.
 To make a prediction, the classifier outputting the highest probability is selected (see Figure \ref{fig:onevsall}):
 \begin{equation*}
@@ -426,7 +426,7 @@ To make a prediction, the classifier outputting the highest probability is selec
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.6\textwidth]{onevsall}
-    \caption{Multiclass classification using one-vs-all classifiers\citep{andrewng}\label{fig:onevsall}}
+    \caption{Multi-class classification using one-vs-all classifiers\citep{andrewng}\label{fig:onevsall}}
   \end{center}
 \end{figure}
 
@@ -652,6 +652,20 @@ The neural network is visualised in Figure \ref{fig:xnor}.
     \caption{Logical ``xnor'' implemented with a neural network\citep{andrewng}\label{fig:xnor}}
   \end{center}
 \end{figure}
+
+Neural networks can be used for complex tasks such as handwritten digit classification\footnote{see \url{https://www.youtube.com/watch?v=yxuRnBEczUU}}.
+
+\subsection{Multi-Class Classification}
+Multi-class classification with neural networks is an extension of the one-vs-all method (see Section \ref{cha:onevsall}).
+Basically the desired output is specified to be a unit vector.
+\emph{E.g.} the desired outputs (and training labels $\syi$) are
+\begin{itemize}
+  \item $h_\theta(x)\approx\begin{pmatrix}1\\0\\0\\0\end{pmatrix}$ for class one
+  \item $h_\theta(x)\approx\begin{pmatrix}0\\1\\0\\0\end{pmatrix}$ for class two
+  \item $h_\theta(x)\approx\begin{pmatrix}0\\0\\1\\0\end{pmatrix}$ for class three
+  \item $\ldots$
+\end{itemize}
+The desired training result is $h_\theta(\sxi)\approx\syi$ with $\syi\in\mathbb{R}^4$.
 
 \clearpage
 
