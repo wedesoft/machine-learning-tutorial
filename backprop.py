@@ -11,14 +11,14 @@ import theano.tensor as T
 
 class Layer:
     def __init__(self, weight, bias, activation=None):
-        self.weight_ = theano.shared(value=np.array(weight), name='weight')
+        self.weight_ = theano.shared(value=np.array([weight]), name='weight')
         self.bias_ = theano.shared(value=np.array(bias), name='bias')
         self.g_ = self.sigmoid_function if activation is None else activation
-        x_ = T.vector('x')
+        x_ = T.matrix('x')
         self.fun = theano.function([x_], outputs=self.output_function(x_))
 
     def output_function(self, x_):
-        z_ = T.dot(self.weight_, x_) + self.bias_
+        z_ = T.dot(self.weight_, x_.T).dimshuffle(0, 2, 1)[0] + self.bias_
         a_ = self.g_(z_)
         return a_
 
@@ -27,7 +27,8 @@ class Layer:
         return 1 / (1 + T.exp(-z_))
 
     def __call__(self, x):
-        return self.fun(x)
+        x = np.array(x)
+        return self.fun(x) if len(x.shape) > 1 else self.fun([x])[0]
 
 
 class TestLayer:
@@ -53,14 +54,24 @@ class TestLayer:
     def test_weights(self):
         assert_array_equal(Layer([[1, 2, 3]], [0], lambda z: z)([1, 1, 1]), [6])
 
+    def test_two_outputs(self):
+        assert_array_equal(Layer([[0, 0, 0], [1, 2, 3]], [4, 0], lambda z: z)([1, 1, 1]), [4, 6])
+
     def test_use_sigmoid_by_default(self):
         assert_array_equal(Layer([[1, 2, 3]], [-23])([2, 3, 5]), [0.5])
+
+    def test_batch(self):
+        assert_array_equal(Layer([[1, 2, 3]], [4], lambda z: z)([[0, 0, 0], [1, 1, 1]]), [[4], [10]])
+
+    def test_batch_two_outputs(self):
+        layer = Layer([[0, 0, 0], [1, 2, 3]], [4, 0], lambda z: z)
+        assert_array_equal(layer([[0, 0, 0], [1, 1, 1]]), [[4, 0], [4, 6]])
 
 
 class MLP:
     def __init__(self, weights, biases):
         self.layers = [Layer(weight, bias) for weight, bias in zip(weights, biases)]
-        x_ = T.vector('x')
+        x_ = T.matrix('x')
         self.fun = theano.function([x_], outputs=self.output_function(x_))
         h_, y_ = T.vectors('h', 'y')
         self.logistic_cost = theano.function([h_, y_], outputs=self.logistic_cost_function(h_, y_))
@@ -73,14 +84,14 @@ class MLP:
 
     @staticmethod
     def logistic_cost_function(h_, y_):
-        # TODO: divide by number of samples
         return -(T.log(h_) * y_ + (1 - y_) * T.log(1 - h_)).sum() / y_.size
 
     def cost(self, x, y):
-        return self.logistic_cost(self(x[0])[0], y[0][0])
+        return self.logistic_cost(self(x), y)
 
     def __call__(self, x):
-        return self.fun(x)
+        x = np.array(x)
+        return self.fun(x) if len(x.shape) > 1 else self.fun([x])[0]
 
 
 class TestMLP:
