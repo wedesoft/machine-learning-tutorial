@@ -73,7 +73,7 @@ class MLP:
         self.layers = [Layer(weight, bias) for weight, bias in zip(weights, biases)]
         x_ = T.matrix('x')
         self.fun = theano.function([x_], outputs=self.output_function(x_))
-        h_, y_ = T.vectors('h', 'y')
+        h_, y_ = T.matrices('h', 'y')
         self.logistic_cost = theano.function([h_, y_], outputs=self.logistic_cost_function(h_, y_))
 
     def output_function(self, x_):
@@ -87,7 +87,8 @@ class MLP:
         return -(T.log(h_) * y_ + (1 - y_) * T.log(1 - h_)).sum() / y_.size
 
     def cost(self, x, y):
-        return self.logistic_cost(self(x), y)
+        y = np.array(y)
+        return self.logistic_cost(self(x), y) if len(y.shape) > 1 else self.logistic_cost([self(x)], [y])
 
     def __call__(self, x):
         x = np.array(x)
@@ -117,15 +118,23 @@ class TestMLP:
     def test_two_layers(self, mlp2, layer1, layer2):
         assert_array_equal(mlp2([1, 2, -3]), layer2(layer1([1, 2, -3])))
 
-    def test_logistic_cost(self, mlp1):
-        assert mlp1.logistic_cost([0.1], [0]) > 0
-        assert mlp1.logistic_cost([0.1], [0]) < 0.2
-        assert abs(mlp1.logistic_cost([0.9], [1]) - mlp1.logistic_cost([0.1], [0])) < 1e-6
-        assert mlp1.logistic_cost([0.9], [0]) > 2
-        assert abs(mlp1.logistic_cost([0.9, 0.1], [1, 0]) - mlp1.logistic_cost([0.1], [0])) < 1e-6
+    def test_logistic_cost_behaviour(self, mlp1):
+        assert mlp1.logistic_cost([[0.1]], [[0]]) > 0
+        assert mlp1.logistic_cost([[0.1]], [[0]]) < 0.2
+        assert abs(mlp1.logistic_cost([[0.9]], [[1]]) - mlp1.logistic_cost([[0.1]], [[0]])) < 1e-6
+        assert mlp1.logistic_cost([[0.9]], [[0]]) > 2
+        assert abs(mlp1.logistic_cost([[0.9, 0.1]], [[1, 0]]) - mlp1.logistic_cost([[0.1]], [[0]])) < 1e-6
 
     def test_cost(self, mlp2):
-        assert mlp2.cost([1, 2, -3], [1]) == mlp2.logistic_cost(mlp2([1, 2, -3]), [1])
+        assert mlp2.cost([1, 2, -3], [1]) == mlp2.logistic_cost(mlp2([[1, 2, -3]]), [[1]])
+
+    def test_trivial_batch_cost(self, mlp2):
+        assert mlp2.cost([[1, 2, -3]], [[1]]) == mlp2.logistic_cost(mlp2([[1, 2, -3]]), [[1]])
+
+    def test_batch_cost(self, mlp2):
+        cost1 = mlp2.logistic_cost(mlp2([[1, 0,  0]]), [[0]])
+        cost2 = mlp2.logistic_cost(mlp2([[1, 2, -3]]), [[1]])
+        assert mlp2.cost([[1, 0, 0], [1, 2, -3]], [[0], [1]]) == (cost1 + cost2) / 2
 
 
 if __name__ == '__main__':
