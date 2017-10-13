@@ -821,6 +821,42 @@ steering direction as output (see Figure \ref{fig:alvinn}).
   \end{center}
 \end{figure}
 
+\section{Advice for Applying Machine Learning}
+When machine learning does not yield good results, it is important to first establish what the problem is before
+trying one of the following options
+\begin{itemize}
+  \item get more training examples
+  \item try smaller set of features
+  \item try getting additional features
+  \item try adding polynomial features
+  \item try decreasing $\lambda$
+  \item try increasing $\lambda$
+\end{itemize}
+
+The data set is separated into a training set (60 \%), cross-validation set (20 \%), and test set (20 \%).
+The sum-squared formula (without regularization term) is used to monitor training, to perform cross-validation, and to test the final result:
+\begin{itemize}
+  \item $J_{train}(\theta)=\frac{1}{2\,m}\,\sumi(h_\theta(\sxi)-\syi)^2$
+  \item $J_{cv}(\theta)=\frac{1}{2\,m}\,\sumi(h_\theta(\sxi_{cv})-\syi_{cv})^2$
+  \item $J_{test}(\theta)=\frac{1}{2\,m}\,\sumi(h_\theta(\sxi_{test})-\syi_{test})^2$
+\end{itemize}
+Note that the formulas do not include the regularization term.
+
+Bias (underfit) and high variance (overfit) can be distinguised as follows
+\begin{itemize}
+  \item \textbf{underfit}: training and validation error both high
+  \item \textbf{overfit}: training error low, validation error $>>$ training error
+\end{itemize}
+
+The validation data is to select between different models. It can also be used to choose an optimal regularization term. \emph{E.g.} compare $J_{cv}(\theta)$ for $\lambda\in\{0,0.01,0.02,\ldots,10.24\}$.
+
+One can plot the \emph{learning curve} by showing $J_{train}$ and $J_{cv}$ for increasing training set size $m$.
+The learning curve allow to detect \emph{bias} and \emph{high variance} more easily
+\begin{itemize}
+  \item \textbf{high variance}: model not fully converging (curves apart from each other) $\Rightarrow$ get more data or use simpler model
+  \item \textbf{bias}: curves quickly converge at a high value and adding more training data does not improve results
+\end{itemize}
+
 \clearpage
 
 \appendix

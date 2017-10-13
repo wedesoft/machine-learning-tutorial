@@ -14,12 +14,13 @@ mnist.pkl.gz:
 	xelatex -shell-escape $<
 	biber $(basename $@)
 	xelatex -shell-escape $<
+	xelatex -shell-escape $<
 
 .svg.pdf:
 	inkscape $< -A $@
 
 .py.pdf:
-	python $<
+	python3 $<
 
 machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsupervised.pdf bibliography.bib \
 	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf classifier.pdf polynomial.pdf overfitting.pdf \
