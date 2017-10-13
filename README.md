@@ -21,3 +21,4 @@ See `Dockerfile` for installation instructions.
 * [Delete Matplotlib font cache](https://askubuntu.com/questions/578129/plotting-with-matplotlib-in-python-3-pylab-tkinter-and-qt-fontmanager-errors)
 * [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
 * [Theano-tutorial: Backpropagation](https://github.com/craffel/theano-tutorial/blob/master/Backpropagation.ipynb)
+* [Backpropagation with Tensorflow](https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow)
