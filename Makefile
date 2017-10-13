@@ -5,7 +5,7 @@ all: notes
 notes: machine-learning-tutorial.pdf
 
 check:
-	py.test
+	py.test-3 -x
 
 mnist.pkl.gz:
 	curl -o $@ http://deeplearning.net/data/mnist/mnist.pkl.gz
@@ -20,7 +20,7 @@ mnist.pkl.gz:
 	inkscape $< -A $@
 
 .py.pdf:
-	python $<
+	python3 $<
 
 machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsupervised.pdf bibliography.bib \
 	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf classifier.pdf polynomial.pdf overfitting.pdf \
