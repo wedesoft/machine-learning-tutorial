@@ -124,11 +124,8 @@ class TestMLP:
         assert mlp1.logistic_cost([0.9], [0]) > 2
         assert abs(mlp1.logistic_cost([0.9, 0.1], [1, 0]) - mlp1.logistic_cost([0.1], [0])) < 1e-6
 
-    @pytest.mark.skip
     def test_cost(self, mlp2):
-        #result = mlp2([1, 2, -3])
-        #assert mlp2.cost([[1, 2, -3]], [[1]]) == mlp2.logistic_cost(result[0], 1)
-        pass
+        assert mlp2.cost([1, 2, -3], [1]) == mlp2.logistic_cost(mlp2([1, 2, -3]), [1])
 
 
 if __name__ == '__main__':
