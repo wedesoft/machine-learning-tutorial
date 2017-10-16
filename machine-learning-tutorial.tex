@@ -913,13 +913,31 @@ Precision and recall are defined as follows:
 
 \subsection{Trading of Precision and Recall}
 Considering logistic regression $0\le h_\theta(x)\le 1$:
+\begin{itemize}
+  \item Suppose we want to predict $y=1$ (patient has cancer) only if very confident:
+    Predict $1$ if $h_\theta(x)\ge 0.7$ (instead of $0.5$.
+    In this case $\Rightarrow$ higher precision, lower recall.
+  \item Suppose we want to avoid missing too many cases of cancer (avoid false negatives).
+    In this case $\Rightarrow$ higher recall, lower precision.
+\end{itemize}
+More generally: Predict 1 if $h_\theta(x)\ge threshold$.
 
-Suppose we want to predict $y=1$ (patient has cancer) only if very confident:
-Predict $1$ if $h_\theta(x)\ge 0.7$ (instead of $0.5$.
-In this case $\Rightarrow$ higher precision, lower recall.
+To make algorithms comparable, a single number metric, the $F_1$ score is defined:
+\begin{equation*}
+  F_1\ score=2\frac{P\,R}{P+R}
+\end{equation*}
 
-Suppose we want to avoid missing too many cases of cancer (avoid false negatives).
-In this case $\Rightarrow$ higher recall, lower precision.
+\subsection{Data For Machine Learning}
+\citep{banko2001scaling} shows that data trumps algorithms:
+``It’s not who has the best algorithms who wins, it’s who has the most data.''
+
+Sometimes more features are required rather than more samples.
+
+A useful test is: ``Given the input $x$, can a human expert confidently predict $y$?''
+
+Using a large training set ensures low variance. \emph{I.e.} $J_{train}(\theta)\approx J_{test}(\theta)$.
+This allows using a learning algorithm with many parameters so that $J_{test}(\theta)$ will be small.
+
 
 \clearpage
 

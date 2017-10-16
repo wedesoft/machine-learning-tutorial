@@ -155,11 +155,14 @@ if __name__ == '__main__':
     n_hidden1 = 200
     n_hidden2 = 100
     alpha = 1.0
-    regularization = 0.008
+    regularization = 0.008 # validation: 0.054460
+    regularization = 0.004 #
+    learning_curve_samples = 1
 
-    for n in [n_samples // 2 ** e for e in reversed(range(11))]:
+    for n in [n_samples // 2 ** e for e in reversed(range(learning_curve_samples))]:
         x_train, y_train = data(scale, training[0][0:n], training[1][0:n])
         x_validation, y_validation = data(scale, *validation)
+        x_testing, y_testing = data(scale, *testing)
 
         m1 = random_tensor(28 * 28, n_hidden1)
         b1 = random_tensor(n_hidden1)
@@ -171,14 +174,16 @@ if __name__ == '__main__':
         b3 = random_tensor(10)
         h = lambda x: tf.sigmoid(tf.matmul(h2(x), m3) + b3)
 
-        h_train = h(x_train)
+        h_train      = h(x_train)
         h_validation = h(x_validation)
+        h_testing    = h(x_testing)
 
         cost_train = -tf.reduce_sum(y_train * tf.log(h_train) + (1 - y_train) * tf.log(1 - h_train)) / n + \
                       regularization * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) / (2 * n)
         loss = lambda h, y: tf.reduce_sum(tf.square(h - y)) / tf.cast(y.shape[0], tf.float32)
         loss_train = loss(h_train, y_train)
         loss_validation = loss(h_validation, y_validation)
+        loss_testing = loss(h_testing, y_testing)
 
         train = tf.train.GradientDescentOptimizer(alpha).minimize(cost_train)
 
@@ -189,4 +194,4 @@ if __name__ == '__main__':
             progress = tqdm(range(n_iterations))
             for step in progress:
                 sess.run(train)
-            print("samples: %d, train: %f, validation: %f" % (n, sess.run(loss_train), sess.run(loss_validation)))
+            print("samples: %d, train: %f, validation: %f, testing: %f" % (n, sess.run(loss_train), sess.run(loss_validation), sess.run(loss_testing)))
