@@ -15,6 +15,7 @@
 \usepackage{subcaption}
 
 \usepackage{booktabs}
+\usepackage{multirow}
 
 \usepackage{amsmath}
 \usepackage{txfonts}
@@ -869,6 +870,46 @@ In summary
 
 When using neural networks, it is generally more effective to use a larger neural network (more hidden units and layers) and address overfitting using regularization (rather than working with a small neural network).
 The remaining disadvantage is that larger neural networks are more computationally expensive.
+
+\section{Machine Learning System Design}
+\subsection{Prioritizing What to Work On}
+Example: Spam email classifier with feature vector ``word $i$ occurs in email or not''.
+
+How to spend your time to make it have low error?
+\begin{itemize}
+  \item collect lots of data (\emph{e.g.} ``honetpot'' project)
+  \item develop sophisticated features based on email routing information (from email header)
+  \item develop sophisticated features for message body (\emph{e.g.} should ``discount'' and ``discounts'' be treated as the same word)?
+  \item detect deliberate misspellings (\emph{e.g.} m0rtgage, med1cine, w4tches)
+\end{itemize}
+Instead of randomly fixating on a task, one can use a more systematic way of choosing the next thing to work on.
+
+\subsubsection{Recommended approach}
+\begin{itemize}
+  \item Start with a simple algorithm that you can implement quickly. Implement it and test it on your cross-validation data.
+  \item Plot learning curves to decide if more data, more features, etc. are likely to help.
+  \item Error analysis: manually examine the examples (in cross validation set) that your algorithm made errors on.
+    See if you spot any systematic trend in what type of examples it is making errors on.
+\end{itemize}
+
+It is important to use numerical evaluation, \emph{i.e.} one can quickly evaluate different techniques using the cross validation error. \emph{E.g.} use ``stemming'' or not, distinguish between upper and lower case or not.
+
+In the case of the cancer classification example, only 0.5\% of patients have cancer.
+\emph{I.e.} the classification error for the trivial classifier $h(x)=0$ already has 99.5\% accuracy.
+In this case the \emph{precision/recall} metric is more appropriate.
+\begin{center}
+  \begin{tabular}{cc|cc}
+    & & \multicolumn{2}{c}{actual class}\\
+    &  & 1 & 0\\\hline
+    \multirow{2}{*}{predicted class} & 1 & true positive & false positive\\
+    & 0 & false negative & true negative\\
+  \end{tabular}
+\end{center}
+Precision and recall are defined as follows:
+\begin{itemize}
+  \item $precision=\frac{true\ positives}{true\ positives+false\ positives}$ (ratio of true positives and predicted positives)
+  \item $recall=\frac{true\ positives}{true\ positives+false\ negatives}$ (ratio of true positives and actual positives)
+\end{itemize}
 
 \clearpage
 
