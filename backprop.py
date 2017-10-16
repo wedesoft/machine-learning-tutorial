@@ -10,15 +10,15 @@ import tensorflow as tf
 
 if __name__ == '__main__':
     ### constant data
-    x  = [[0, 0], [0, 1], [1, 0], [1, 1]]
-    y_ = [[0], [1], [1], [0]]
+    x = [[0, 0], [0, 1], [1, 0], [1, 1]]
+    y = [[0], [1], [1], [0]]
 
     ### induction
     # 1x2 input -> 2x3 hidden sigmoid -> 3x1 sigmoid output
 
     # Layer 0 = the x2 inputs
-    x0 = tf.constant(x , dtype=tf.float32)
-    y0 = tf.constant(y_, dtype=tf.float32)
+    x0 = tf.constant(x, dtype=tf.float32)
+    y0 = tf.constant(y, dtype=tf.float32)
 
     # Layer 1 = the 2x2 hidden sigmoid
     m1 = tf.Variable(tf.random_uniform([2, 2], minval=0.1, maxval=0.9, dtype=tf.float32))
