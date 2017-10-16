@@ -86,7 +86,7 @@ def tensor(value):
 
 
 def random_tensor(*shape):
-    scale = 1.0 / reduce(operator.mul, shape)
+    scale = 0.1 / reduce(operator.mul, shape)
     return tf.Variable(tf.random_uniform(shape, minval=-scale, maxval=scale, dtype=tf.float32))
 
 
@@ -103,35 +103,41 @@ if __name__ == '__main__':
     print(len(testing[1]), 'testing samples')
 
     n_iterations = 2000
-    n_hidden = 100
-    regularization = 0.8
+    n_hidden1 = 200
+    n_hidden2 = 100
+    regularization = 10.0
+    alpha = 1.0
+    n_samples = 1000
 
-    n_samples = 8000
-    x_train, y_train = data(*random_selection(n_samples, *training))
-    x_validation, y_validation = data(*random_selection(n_samples // 5, *validation))
+    for reg in [0] + [0.01 * 2 ** e for e in range(11)]:
+        x_train, y_train = data(*random_selection(n_samples, *training))
+        x_validation, y_validation = data(*random_selection(n_samples // 5, *validation))
 
-    m1 = random_tensor(28 * 28, n_hidden)
-    b1 = random_tensor(n_hidden)
-    h1 = lambda x: tf.sigmoid(tf.matmul(x, m1) + b1)
-    m2 = random_tensor(n_hidden, 10)
-    b2 = random_tensor(10)
-    h = lambda x: tf.sigmoid(tf.matmul(h1(x), m2) + b2)
+        m1 = random_tensor(28 * 28, n_hidden1)
+        b1 = random_tensor(n_hidden1)
+        h1 = lambda x: tf.sigmoid(tf.matmul(x, m1) + b1)
+        m2 = random_tensor(n_hidden1, n_hidden2)
+        b2 = random_tensor(n_hidden2)
+        h2 = lambda x: tf.sigmoid(tf.matmul(h1(x), m2) + b2)
+        m3 = random_tensor(n_hidden2, 10)
+        b3 = random_tensor(10)
+        h = lambda x: tf.sigmoid(tf.matmul(h2(x), m3) + b3)
 
-    h_train = h(x_train)
-    h_validation = h(x_validation)
+        h_train = h(x_train)
+        h_validation = h(x_validation)
 
-    cost_train = -tf.reduce_sum(y_train * tf.log(h_train) + (1 - y_train) * tf.log(1 - h_train)) / n_samples + \
-                  regularization * (tf.reduce_sum(m1) + tf.reduce_sum(m2)) / (2 * n_samples)
-    loss = lambda h, y: tf.reduce_sum(tf.square(h - y)) / tf.cast(y.shape[0], tf.float32)
-    loss_train = loss(h_train, y_train)
-    loss_validation = loss(h_validation, y_validation)
+        cost_train = -tf.reduce_sum(y_train * tf.log(h_train) + (1 - y_train) * tf.log(1 - h_train)) / n_samples + \
+                      reg * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) / (2 * n_samples)
+        loss = lambda h, y: tf.reduce_sum(tf.square(h - y)) / tf.cast(y.shape[0], tf.float32)
+        loss_train = loss(h_train, y_train)
+        loss_validation = loss(h_validation, y_validation)
 
-    train = tf.train.GradientDescentOptimizer(1.0).minimize(cost_train)
+        train = tf.train.GradientDescentOptimizer(alpha).minimize(cost_train)
 
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        for step in range(n_iterations):
-            sess.run(train)
-            print('iteration', step + 1,
+        with tf.Session() as sess:
+            sess.run(tf.global_variables_initializer())
+            for step in range(n_iterations):
+                sess.run(train)
+            print('lambda', reg,
                   'training error', sess.run(loss_train),
                   'validation error', sess.run(loss_validation))
