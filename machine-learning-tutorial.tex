@@ -911,6 +911,16 @@ Precision and recall are defined as follows:
   \item $recall=\frac{true\ positives}{true\ positives+false\ negatives}$ (ratio of true positives and actual positives)
 \end{itemize}
 
+\subsection{Trading of Precision and Recall}
+Considering logistic regression $0\le h_\theta(x)\le 1$:
+
+Suppose we want to predict $y=1$ (patient has cancer) only if very confident:
+Predict $1$ if $h_\theta(x)\ge 0.7$ (instead of $0.5$.
+In this case $\Rightarrow$ higher precision, lower recall.
+
+Suppose we want to avoid missing too many cases of cancer (avoid false negatives).
+In this case $\Rightarrow$ higher recall, lower precision.
+
 \clearpage
 
 \appendix
