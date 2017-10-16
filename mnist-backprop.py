@@ -140,20 +140,26 @@ def data(scale, features, labels):
 if __name__ == '__main__':
     # https://stackoverflow.com/questions/11305790/pickle-incompatability-of-numpy-arrays-between-python-2-and-3
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
+
+    n_samples = 50000
+    training = random_selection(n_samples, *training)
+    validation = random_selection(n_samples // 5, *validation)
+    testing = random_selection(n_samples // 5, *testing)
     print(len(training[1]), 'training samples')
     print(len(validation[1]), 'validation samples')
     print(len(testing[1]), 'testing samples')
 
     scale = Scale(training[0], 100)
-    n_iterations = 1000
+
+    n_iterations = 1500
     n_hidden1 = 200
     n_hidden2 = 100
     alpha = 1.0
-    n_samples = 5000
+    regularization = 0.008
 
-    for reg in [0] + [0.001 * 2 ** e for e in range(11)]:
-        x_train, y_train = data(scale, *random_selection(n_samples, *training))
-        x_validation, y_validation = data(scale, *random_selection(n_samples // 5, *validation))
+    for n in [n_samples // 2 ** e for e in reversed(range(11))]:
+        x_train, y_train = data(scale, training[0][0:n], training[1][0:n])
+        x_validation, y_validation = data(scale, *validation)
 
         m1 = random_tensor(28 * 28, n_hidden1)
         b1 = random_tensor(n_hidden1)
@@ -168,8 +174,8 @@ if __name__ == '__main__':
         h_train = h(x_train)
         h_validation = h(x_validation)
 
-        cost_train = -tf.reduce_sum(y_train * tf.log(h_train) + (1 - y_train) * tf.log(1 - h_train)) / n_samples + \
-                      reg * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) / (2 * n_samples)
+        cost_train = -tf.reduce_sum(y_train * tf.log(h_train) + (1 - y_train) * tf.log(1 - h_train)) / n + \
+                      regularization * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) / (2 * n)
         loss = lambda h, y: tf.reduce_sum(tf.square(h - y)) / tf.cast(y.shape[0], tf.float32)
         loss_train = loss(h_train, y_train)
         loss_validation = loss(h_validation, y_validation)
@@ -183,4 +189,4 @@ if __name__ == '__main__':
             progress = tqdm(range(n_iterations))
             for step in progress:
                 sess.run(train)
-                progress.set_description("lambda: %f, train: %f, validation: %f" % (reg, sess.run(loss_train), sess.run(loss_validation)))
+            print("samples: %d, train: %f, validation: %f" % (n, sess.run(loss_train), sess.run(loss_validation)))
