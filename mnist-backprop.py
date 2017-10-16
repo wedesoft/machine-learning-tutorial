@@ -7,6 +7,7 @@ import pickle
 import gzip
 import numpy as np
 from numpy.testing import assert_array_equal
+from tqdm import tqdm
 import tensorflow as tf
 
 
@@ -81,18 +82,59 @@ class TestMultiClassLabel:
         assert multi_class_label([0], 1).dtype != np.bool
 
 
+class Scale:
+    def __init__(self, features, max_scale=10.0):
+        self.average = np.average(features, axis=0)
+        self.deviation = np.maximum(np.std(features, axis=0), 1 / max_scale)
+
+    def __call__(self, values):
+        return np.subtract(values, self.average) / self.deviation
+
+
+class TestFeatureScaling:
+    def test_basic_average(self):
+        assert_array_equal(Scale([[5]], 100).average, [5])
+
+    def test_average_of_two_samples(self):
+        assert_array_equal(Scale([[5], [7]], 100).average, [6])
+
+    def test_vector_of_averages(self):
+        assert_array_equal(Scale([[2, 3]], 100).average, [2, 3])
+
+    def test_lower_bound_deviation(self):
+        assert_array_equal(Scale([[5]], 100).deviation, [0.01])
+
+    def test_standard_deviation_of_two_samples(self):
+        assert_array_equal(Scale([[5], [7]], 100).deviation, [1])
+
+    def test_vector_of_deviations(self):
+        assert_array_equal(Scale([[2, 3], [2, 5]], 100).deviation, [0.01, 1])
+
+    def test_subtract_average(self):
+        assert_array_equal(Scale([[5], [7]], 100)([[9], [10]]), [[3], [4]])
+
+    def test_normalise_standard_deviation(self):
+        assert_array_equal(Scale([[4], [8]], 100)([[6], [8]]), [[0], [1]])
+
+    def test_normalise_feature_vector(self):
+        assert_array_equal(Scale([[0, 0], [2, 4]], 100)([[0, 0], [1, 2], [2, 4]]), [[-1, -1], [0, 0], [1, 1]])
+
+    def test_limit_scaling(self):
+        assert_array_equal(Scale([[0]], 100)([[1]]), [[100]])
+
+
 def tensor(value):
     return tf.constant(value, dtype=tf.float32)
 
 
 def random_tensor(*shape):
-    scale = 1 / reduce(operator.mul, shape)
+    scale = 1 / shape[-1]
     return tf.Variable(tf.random_uniform(shape, minval=-scale, maxval=scale, dtype=tf.float32))
 
 
-def data(features, labels):
+def data(scale, features, labels):
     y = multi_class_label(labels, 10)
-    return tensor(features), tensor(y)
+    return tensor(scale(features)), tensor(y)
 
 
 if __name__ == '__main__':
@@ -102,15 +144,16 @@ if __name__ == '__main__':
     print(len(validation[1]), 'validation samples')
     print(len(testing[1]), 'testing samples')
 
-    n_iterations = 2000
+    scale = Scale(training[0], 100)
+    n_iterations = 1000
     n_hidden1 = 200
     n_hidden2 = 100
     alpha = 1.0
-    n_samples = 1000
+    n_samples = 5000
 
-    for reg in [0.004]: #[0] + [0.001 * 2 ** e for e in range(11)]:
-        x_train, y_train = data(*random_selection(n_samples, *training))
-        x_validation, y_validation = data(*random_selection(n_samples // 5, *validation))
+    for reg in [0] + [0.001 * 2 ** e for e in range(11)]:
+        x_train, y_train = data(scale, *random_selection(n_samples, *training))
+        x_validation, y_validation = data(scale, *random_selection(n_samples // 5, *validation))
 
         m1 = random_tensor(28 * 28, n_hidden1)
         b1 = random_tensor(n_hidden1)
@@ -133,11 +176,11 @@ if __name__ == '__main__':
 
         train = tf.train.GradientDescentOptimizer(alpha).minimize(cost_train)
 
+        init_op = tf.global_variables_initializer()
+
         with tf.Session() as sess:
-            sess.run(tf.global_variables_initializer())
-            for step in range(n_iterations):
-                print(sess.run(loss_train))
+            sess.run(init_op)
+            progress = tqdm(range(n_iterations))
+            for step in progress:
                 sess.run(train)
-            print('lambda', reg,
-                  'training error', sess.run(loss_train),
-                  'validation error', sess.run(loss_validation))
+                progress.set_description("lambda: %f, train: %f, validation: %f" % (reg, sess.run(loss_train), sess.run(loss_validation)))
