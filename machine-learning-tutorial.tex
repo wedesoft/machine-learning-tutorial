@@ -857,6 +857,20 @@ The learning curve allow to detect \emph{bias} and \emph{high variance} more eas
   \item \textbf{bias}: curves quickly converge at a high value and adding more training data does not improve results
 \end{itemize}
 
+In summary
+\begin{itemize}
+  \item get more training examples $\rightarrow$ fixes high variance
+  \item try smaller set of features $\rightarrow$ fixes high variance
+  \item try getting additional features $\rightarrow$ fixes high bias
+  \item try adding polynomial features $\rightarrow$ fixes high bias
+  \item try decreasing $\lambda$ $\rightarrow$ fixes high bias
+  \item try increasing $\lambda$ $\rightarrow$ fixes high variance
+\end{itemize}
+
+When using neural networks, it is generally more effective to use a larger neural network (more hidden units and layers).
+They are more prone to overfitting. However this can be addressed using regularization.
+The remaining disadvantage is that larger neural networks are more computationally expensive.
+
 \clearpage
 
 \appendix
