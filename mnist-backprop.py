@@ -86,7 +86,7 @@ def tensor(value):
 
 
 def random_tensor(*shape):
-    scale = 0.1 / reduce(operator.mul, shape)
+    scale = 1 / reduce(operator.mul, shape)
     return tf.Variable(tf.random_uniform(shape, minval=-scale, maxval=scale, dtype=tf.float32))
 
 
@@ -105,11 +105,10 @@ if __name__ == '__main__':
     n_iterations = 2000
     n_hidden1 = 200
     n_hidden2 = 100
-    regularization = 10.0
     alpha = 1.0
     n_samples = 1000
 
-    for reg in [0] + [0.01 * 2 ** e for e in range(11)]:
+    for reg in [0.004]: #[0] + [0.001 * 2 ** e for e in range(11)]:
         x_train, y_train = data(*random_selection(n_samples, *training))
         x_validation, y_validation = data(*random_selection(n_samples // 5, *validation))
 
@@ -137,6 +136,7 @@ if __name__ == '__main__':
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
             for step in range(n_iterations):
+                print(sess.run(loss_train))
                 sess.run(train)
             print('lambda', reg,
                   'training error', sess.run(loss_train),
