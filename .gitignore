@@ -1,6 +1,7 @@
 .cache
 .docker
 __pycache__
+_minted*
 *.gz
 *.pdf
 *.log

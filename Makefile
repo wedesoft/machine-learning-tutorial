@@ -1,8 +1,10 @@
 .SUFFIXES: .tex .svg .pdf .py
 
-all: notes
+all: notes data
 
 notes: machine-learning-tutorial.pdf
+
+data: mnist.pkl.gz
 
 check:
 	py.test-3 -x
