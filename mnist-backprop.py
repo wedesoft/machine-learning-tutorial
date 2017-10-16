@@ -79,6 +79,19 @@ class TestMultiClassLabel:
         assert multi_class_label([0], 1).dtype != np.bool
 
 
+def tensor(value):
+    return tf.constant(value, dtype=tf.float32)
+
+
+def random_tensor(*shape):
+    return tf.Variable(tf.random_uniform(shape, minval=-0.5, maxval=0.5, dtype=tf.float32))
+
+
+def data(features, labels):
+    y = multi_class_label(labels, 10)
+    return tensor(features), tensor(y)
+
+
 if __name__ == '__main__':
     # https://stackoverflow.com/questions/11305790/pickle-incompatability-of-numpy-arrays-between-python-2-and-3
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
@@ -86,23 +99,28 @@ if __name__ == '__main__':
     print(len(validation[1]), 'validation samples')
     print(len(testing[1]), 'testing samples')
 
-    n = 100
-    x, label = random_selection(100, *training)
-    y = multi_class_label(label, 10)
+    n_iterations = 500
 
-    x_ = tf.constant(x, dtype=tf.float32)
-    y_ = tf.constant(y, dtype=tf.float32)
+    n_samples = 100
+    x_train, y_train = data(*random_selection(n_samples, *training))
+    x_validation, y_validation = data(*random_selection(n_samples // 5, *validation))
 
-    m_ = tf.Variable(tf.random_uniform([28 * 28, 10], minval=-0.5, maxval=0.5, dtype=tf.float32))
-    b_ = tf.Variable(tf.random_uniform([         10], minval=-0.5, maxval=0.5, dtype=tf.float32))
-    h_ = tf.sigmoid(tf.matmul(x_, m_) + b_)
+    m = random_tensor(28 * 28, 10)
+    b = random_tensor(10)
+    h = lambda x: tf.sigmoid(tf.matmul(x, m) + b)
+    h_train = h(x_train)
+    h_validation = h(x_validation)
 
-    loss = tf.reduce_sum(tf.square(h_ - y_)) / n
+    cost_train = -tf.reduce_sum(y_train * tf.log(h_train) + (1 - y_train) * tf.log(1 - h_train)) / n_samples
+    loss = lambda h, y: tf.reduce_sum(tf.square(h - y)) / tf.cast(y.shape[0], tf.float32)
+    loss_train = loss(h_train, y_train)
+    loss_validation = loss(h_validation, y_validation)
 
-    train = tf.train.GradientDescentOptimizer(1.0).minimize(loss)
+    train = tf.train.GradientDescentOptimizer(1.0).minimize(cost_train)
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
-        for step in range(500):
-            print(sess.run(loss))
+        for step in range(n_iterations):
             sess.run(train)
+        print(sess.run(loss_train))
+        print(sess.run(loss_validation))
