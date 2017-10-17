@@ -33,4 +33,4 @@ machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsu
 	backprop.py mnist-backprop.py
 
 clean:
-	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg
+	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg mnist.ckpt* checkpoint
