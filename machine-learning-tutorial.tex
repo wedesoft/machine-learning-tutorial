@@ -968,7 +968,13 @@ The cost function of logistic regression is
 \end{equation*}
 The \ac{SVM} uses a modified cost function
 \begin{equation*}
-  \mathop{\operatorname{min}}_\theta\bigg[\sumi\syi cost_1(\theta^T\sxi)+(1-\syi)cost_0(\theta^\top\sxi)\bigg]+\frac{\lambda}{2}\sum_{j=1}^n\theta_j^2
+  \mathop{\operatorname{min}}_\theta C\bigg[\sumi\syi cost_1(\theta^T\sxi)+(1-\syi)cost_0(\theta^\top\sxi)\bigg]+\frac{1}{2}\sum_{j=1}^n\theta_j^2
+\end{equation*}
+The parameter $C$ is used instead of $\frac{1}{\lambda}$ to control the regularization trade-off.
+
+A \ac{SVM} does not output a probability. Instead it just makes a prediction:
+\begin{equation*}
+  h_\theta(x)=\left\{\begin{array}{rl}1&\mathrm{if }\theta^\top x\ge 0\\0&\mathrm{otherwise}\end{array}\right.
 \end{equation*}
 
 \clearpage
