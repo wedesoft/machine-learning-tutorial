@@ -155,11 +155,12 @@ if __name__ == '__main__':
     n_hidden1 = 200
     n_hidden2 = 100
     alpha = 1.0
-    regularization = 0.004 # validation: 0.057019, test: 0.060454
+    regularization = 0.004 # validation: 0.057019
     regularization = 0.008 # validation: 0.054460
-    regularization = 0.016 # validation: 0.055690, test: 0.059200
-    regularization = 0.032 # validation: 0.054299, test: 0.060644
-    regularization = 0.064 # validation:
+    regularization = 0.016 # validation: 0.055690
+    regularization = 0.032 # validation: 0.054299
+    regularization = 0.064 # validation: 0.057817
+    regularisation = 0.032 # test: 0.060644
     learning_curve_samples = 1
 
     for n in [n_samples // 2 ** e for e in reversed(range(learning_curve_samples))]:
