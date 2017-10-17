@@ -193,9 +193,12 @@ if __name__ == '__main__':
 
         init_op = tf.global_variables_initializer()
 
+        saver = tf.train.Saver()
+
         with tf.Session() as sess:
             sess.run(init_op)
             progress = tqdm(range(n_iterations))
             for step in progress:
                 sess.run(train)
             print("samples: %d, train: %f, validation: %f, testing: %f" % (n, sess.run(loss_train), sess.run(loss_validation), sess.run(loss_testing)))
+            print('saved model as', saver.save(sess, "mnist.ckpt"))

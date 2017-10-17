@@ -2,6 +2,8 @@
 .docker
 __pycache__
 _minted*
+checkpoint
+mnist.ckpt*
 *.gz
 *.pdf
 *.log
