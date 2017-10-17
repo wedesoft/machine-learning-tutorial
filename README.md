@@ -5,6 +5,13 @@
 These are notes to one of [Andrew Ng's machine learning video lectures](https://www.youtube.com/playlist?list=PLLssT5z_DsK-h9vYZkQkYNWcItqhlRJLN).
 
 See `Dockerfile` for installation instructions.
+You can use a virtual environment for installing the Python packages which are not part of the GNU/Linux distribution.
+
+```
+sudo apt-get install python-virtualenv
+virtualenv -p python3 venv
+source ./venv/bin/activate
+```
 
 ## External Links
 

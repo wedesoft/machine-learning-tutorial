@@ -25,7 +25,8 @@ mnist.pkl.gz:
 	python3 $<
 
 machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsupervised.pdf bibliography.bib \
-	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf classifier.pdf polynomial.pdf overfitting.pdf \
+	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf classifier.pdf polynomial.pdf \
+	overfitting.pdf logcost.pdf \
 	scaling.jpg gradientproscons.jpg decisionboundary.jpg circularboundary.jpg costy1.jpg costy0.jpg onevsall.jpg \
 	logisticunit.jpg hidden.jpg xnor.jpg lecun.jpg alvinn.jpg \
 	convolution.py least_squares.py gradient_descent.py learning_rate.py classifier.py polynomial.py overfitting.py \
