@@ -1062,6 +1062,17 @@ For each $\sxi\in\mathbb{R}^{n+1}$ we obtain a feature vector
     \mathrm{\ with\ }f^{(i)}_0=1
 \end{equation*}
 
+Given $x$, the \ac{SVM} computes the features $f\in\mathbb{R}^{m+1}$ and makes a prediction using the parameter vector $\theta\in\mathbb{R}^{m+1}$:
+\begin{itemize}
+  \item predict ``y=1'' if $\theta^\top\,f\ge 0$
+  \item predict ``y=0'' otherwise
+\end{itemize}
+\newcommand{\sfi}{\ensuremath{f^{(i)}}}
+An \ac{SVM} is trained using the cost function based on the feature vectors
+\begin{equation*}
+  \mathop{\operatorname{min}}_\theta C\bigg[\sumi\syi cost_1(\theta^T\sfi)+(1-\syi)cost_0(\theta^\top\sfi)\bigg]+\frac{1}{2}\sum_{j=1}^m\theta_j^2
+\end{equation*}
+Note that $n=m$ and we still do not regularize $\theta_0$.
 
 \clearpage
 
