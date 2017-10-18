@@ -1012,6 +1012,15 @@ If the margin is large, $||\theta||$ can be smaller.
 
 When $\theta_0\ne 0$, there is a generalisation of this argument that shows, that the same holds for decision boundaries not passing through the origin.
 
+\subsection{Kernels}
+Non-linear decision boundaries can be achieved using higher-order polynomials (see Section \ref{cha:polyregression}).
+\emph{E.g.} predict $y=1$ if
+$\theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_1x_2+\theta_4x_1^2+\theta_5x_2^2+\ldots\ge 0$:
+\begin{equation*}
+  h_\theta(x)=\left\{\begin{array}{rl}1&\mathrm{if\ }\theta_0+\theta_1 x_1+\ldots\ge 0\\0&\mathrm{otherwise}\end{array}\right.
+\end{equation*}
+With features $f_1=x_1$, $f_2=x_2$, $f_3=x_1 x_2$, $\ldots$.
+
 \clearpage
 
 \appendix
