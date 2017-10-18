@@ -1074,6 +1074,18 @@ An \ac{SVM} is trained using the cost function based on the feature vectors
 \end{equation*}
 Note that $n=m$ and we still do not regularize $\theta_0$.
 
+The parameter $C$($=\frac{1}{\lambda}$) controls the bias and variance trade-off:
+\begin{itemize}
+  \item large $C$: lower bias, high variance
+  \item small $C$: higher bias, low variance
+\end{itemize}
+The parameter $\sigma$ controls the smoothness
+\begin{itemize}
+  \item large $\sigma^2$: features $f_i$ vary more smoothly $\rightarrow$ higher bias, lower variance
+  \item small $\sigma^2$: features $f_i$ vary less smoothly $\rightarrow$ lower bias, higher variance
+\end{itemize}
+
+
 \clearpage
 
 \appendix
