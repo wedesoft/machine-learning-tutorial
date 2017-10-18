@@ -1021,6 +1021,15 @@ $\theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_1x_2+\theta_4x_1^2+\theta_5x_2^2+\ld
 \end{equation*}
 With features $f_1=x_1$, $f_2=x_2$, $f_3=x_1 x_2$, $\ldots$.
 
+One can define new features using the proximity to landmarks (\emph{e.g.} $l^{(1)},l^{(2)},l^{(3)}$).
+\begin{align*}
+  \begin{split}
+    f_1=similarity(x,l^{(1)})&=\ \ \,\operatorname{e}^{-\frac{||x-l^{(1)}||^2}{2\sigma^2}}\\
+    f_1=similarity(x,l^{(2)})&=\ \ \,\operatorname{e}^{-\frac{||x-l^{(2)}||^2}{2\sigma^2}}\\
+    f_1=\underbrace{similarity}_{\mathrm{kernel}}(x,l^{(3)})&=\underbrace{\operatorname{e}^{-\frac{||x-l^{(3)}||^2}{2\sigma^2}}}_{\mathrm{Gaussian\ kernel}}
+  \end{split}
+\end{align*}
+
 \clearpage
 
 \appendix
