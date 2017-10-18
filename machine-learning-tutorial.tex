@@ -1021,12 +1021,13 @@ $\theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_1x_2+\theta_4x_1^2+\theta_5x_2^2+\ld
 \end{equation*}
 With features $f_1=x_1$, $f_2=x_2$, $f_3=x_1 x_2$, $\ldots$.
 
-One can define new features using the proximity to landmarks (\emph{e.g.} $l^{(1)},l^{(2)},l^{(3)}$ and assuming $\theta_0=0$ for simplification).
+A \ac{SVM} uses kernels to define new features to build sophisticated classifiers.
+\emph{E.g.} one can define new features using the proximity to the landmarks $l^{(1)},l^{(2)},l^{(3)}$.
 \begin{align*}
   \begin{split}
     f_1=similarity(x,l^{(1)})&=\operatorname{e}^{-\cfrac{||x-l^{(1)}||^2}{2\sigma^2}}=\operatorname{e}^{-\cfrac{\sum_{j=1}^n(x_j-l^{(1)}_j)^2}{2\sigma^2}}\\
-    f_1=similarity(x,l^{(2)})&=\operatorname{e}^{-\cfrac{||x-l^{(2)}||^2}{2\sigma^2}}\\
-    f_1=\underbrace{similarity}_{\mathrm{kernel}}(x,l^{(3)})&=\underbrace{\operatorname{e}^{-\cfrac{||x-l^{(3)}||^2}{2\sigma^2}}}_{\mathrm{Gaussian\ kernel}}
+    f_2=similarity(x,l^{(2)})&=\operatorname{e}^{-\cfrac{||x-l^{(2)}||^2}{2\sigma^2}}=\hspace{1cm}\vdots\\
+    f_3=\underbrace{similarity}_{\mathrm{kernel}}(x,l^{(3)})&=\underbrace{\operatorname{e}^{-\cfrac{||x-l^{(3)}||^2}{2\sigma^2}}}_{\mathrm{Gaussian\ kernel}}=\hspace{1cm}\vdots
   \end{split}
 \end{align*}
 \emph{I.e.}
@@ -1034,6 +1035,33 @@ One can define new features using the proximity to landmarks (\emph{e.g.} $l^{(1
   \item if $x\approx l^{(1)}$: $f_1\approx 1$
   \item if $x$ is far from $l^{(1)}$: $f_1\approx 0$
 \end{itemize}
+$\sigma$ is the size of the kernel's support region.
+
+In practice all training examples are chosen as landmarks, so that there are $m$ landmarks (where $m$ is the size of the training set):\\
+Given $(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)}),\ldots,(x^{(m)},y^{(m)})$\\
+choose $l^{(1)}=x^{(1)},l^{(2)}=x^{(2)},\ldots l^{(m)}=x^{(m)}$.\\
+For an example $x$, the features values are
+\begin{align*}
+  \begin{split}
+    f_1&=similarity(x,l^{(1)})\\
+    f_2&=similarity(x,l^{(2)})\\
+    &\vdots
+  \end{split}
+\end{align*}
+For the training example $(\sxi,\syi)$ the feature values are
+\begin{align*}
+  \begin{split}
+    f^{(i)}_1&=similarity(x^{(1)},l^{(1)})\\
+    f^{(i)}_2&=similarity(x^{(2)},l^{(2)})\\
+    &\vdots
+  \end{split}
+\end{align*}
+For each $\sxi\in\mathbb{R}^{n+1}$ we obtain a feature vector
+\begin{equation*}
+  f^{(i)}=\begin{pmatrix}f^{(i)}_0\\f^{(i)}_1\\f^{(i)}_2\\\vdots\\f^{(i)}_m\end{pmatrix}
+    \mathrm{\ with\ }f^{(i)}_0=1
+\end{equation*}
+
 
 \clearpage
 
