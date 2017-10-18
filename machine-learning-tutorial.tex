@@ -1095,8 +1095,25 @@ However the software should let you choose the parameter $C$ and the kernel (sim
 \begin{itemize}
   \item no kernel (``linear kernel''): Predict ``y=1'' if $\theta^\top x\ge 0$
   \item Gaussian kernel (when $n\ll m$): $f_i=\operatorname{e}^{-\cfrac{||x-\sli||^2}{2\sigma^2}}$, where $\sli=\sxi$, need to choose $\sigma^2$.
+  \item Polynomial kernels: $k(x,l)=(x^\top l+constant)^{degree}$
+  \item More esoteric: string kernel, chi-square kernel, histogram intersection kernel, ...
 \end{itemize}
 Note: do perform feature scaling before using the Gaussian kernel.
+
+Not all similarity functions $similarity(x,l)$ make valid kernels.
+An \ac{SVM} kernel needs to satisfy ``Mercer's Theorem'' to make sure \ac{SVM} packages' optimizations run correctly, and do not diverge.
+
+Many \ac{SVM} packages already have built-in multi-class classification functionality.
+Otherwise, one can use the one-vs-all method: train $K$ \acp{SVM} to distinguish $y=i$ from the rest for $i\in\{1,2,\ldots,K\}$ resulting in parameter vectors $\theta^{(1)},\theta^{(2)},\ldots,\theta^{(K)}$ and pick class $i$ with largest $(\theta^{(i)})^\top f$.
+
+When $n$ is the number of features (\emph{e.g.} $x\in\mathbb{R}^{n+1}$ and
+$m$ is the number of training examples:
+\begin{itemize}
+  \item if $n$ is large (relative to $m$): use logistic regression, or \ac{SVM} without a kernel (``linar kernel'')
+  \item if $n$ is small, $m$ is intermediate: use \ac{SVM} with Gaussian kernel
+  \item if $n$ is small, $m$ is large: create/add more features, then use logistic regression or \ac{SVM} without a kernel
+\end{itemize}
+Neural network likely to work well for most of these settings, but may be slower to train.
 
 \clearpage
 
