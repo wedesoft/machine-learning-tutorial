@@ -976,6 +976,7 @@ A \ac{SVM} does not output a probability. Instead it just makes a prediction:
 \begin{equation*}
   h_\theta(x)=\left\{\begin{array}{rl}1&\mathrm{if }\theta^\top x\ge 0\\0&\mathrm{otherwise}\end{array}\right.
 \end{equation*}
+The constant offset $\theta_0$ is realised using $x_0=1$.
 
 \section{Large Margin Intuition}
 \acp{SVM} use the following non-differentiable terms for defining the cost function:
@@ -993,7 +994,23 @@ The \ac{SVM} will try to find a decision boundary which has a distance from the 
 \ac{SVM} can give you a \emph{large margin classifier} which is more robust.
 
 \section{Mathematics behind Large Margin Classification}
-% 12.3
+The regularization objective is to minimize
+\begin{equation*}
+  \frac{1}{2}\sum_j^n\theta_j^2
+\end{equation*}
+\emph{i.e.} to keep the norm of the parameter vector $||\theta||$ small.
+Assuming the simplified case $\theta_0=0$, the objective of the cost function is to keep
+\begin{align*}
+  \begin{split}
+    p^{(i)}\cdot||\theta||\ge 1&\mathrm{\ if\ }y^{(i)}=1\\
+    p^{(i)}\cdot||\theta||\le -1&\mathrm{\ if\ }y^{(i)}=0
+  \end{split}
+\end{align*}
+small, where $p^{(i)}$ is the projection of $\sxi$ onto the vector $\theta$.
+\emph{I.e.} if the achievable margin is small, $||\theta||$ must be large.
+If the margin is large, $||\theta||$ can be smaller.
+
+When $\theta_0\ne 0$, there is a generalisation of this argument that shows, that the same holds for decision boundaries not passing through the origin.
 
 \clearpage
 
