@@ -978,7 +978,7 @@ A \ac{SVM} does not output a probability. Instead it just makes a prediction:
 \end{equation*}
 The constant offset $\theta_0$ is realised using $x_0=1$.
 
-\section{Large Margin Intuition}
+\subsection{Large Margin Intuition}
 \acp{SVM} use the following non-differentiable terms for defining the cost function:
 \begin{align*}
   \begin{split}
@@ -993,7 +993,7 @@ The constant offset $\theta_0$ is realised using $x_0=1$.
 The \ac{SVM} will try to find a decision boundary which has a distance from the labelled data.
 \ac{SVM} can give you a \emph{large margin classifier} which is more robust.
 
-\section{Mathematics behind Large Margin Classification}
+\subsection{Mathematics behind Large Margin Classification}
 The regularization objective is to minimize
 \begin{equation*}
   \frac{1}{2}\sum_j^n\theta_j^2
