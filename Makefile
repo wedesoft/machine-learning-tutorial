@@ -4,6 +4,9 @@ all: notes data
 
 notes: machine-learning-tutorial.pdf
 
+train: data
+	./mnist-backprop.py
+
 data: mnist.pkl.gz
 
 check:

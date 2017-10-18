@@ -1068,6 +1068,7 @@ Given $x$, the \ac{SVM} computes the features $f\in\mathbb{R}^{m+1}$ and makes a
   \item predict ``y=0'' otherwise
 \end{itemize}
 \newcommand{\sfi}{\ensuremath{f^{(i)}}}
+\newcommand{\sli}{\ensuremath{l^{(i)}}}
 An \ac{SVM} is trained using the cost function based on the feature vectors
 \begin{equation*}
   \mathop{\operatorname{min}}_\theta C\bigg[\sumi\syi cost_1(\theta^T\sfi)+(1-\syi)cost_0(\theta^\top\sfi)\bigg]+\frac{1}{2}\sum_{j=1}^m\theta_j^2
@@ -1085,6 +1086,17 @@ The parameter $\sigma$ controls the smoothness
   \item small $\sigma^2$: features $f_i$ vary less smoothly $\rightarrow$ lower bias, higher variance
 \end{itemize}
 
+\subsection{Using an SVM}
+It is recommended to use an existing highly optimized \ac{SVM} libraries (\emph{e.g.}
+liblinear\footnote{\url{https://www.csie.ntu.edu.tw/~cjlin/liblinear/}},
+libsvm\footnote{\url{https://www.csie.ntu.edu.tw/~cjlin/libsvm/}}, ...) to solve for parameters $\theta$.
+However the software should let you choose the parameter $C$ and the kernel (similarity function).\\
+\emph{E.g.}
+\begin{itemize}
+  \item no kernel (``linear kernel''): Predict ``y=1'' if $\theta^\top x\ge 0$
+  \item Gaussian kernel (when $n\ll m$): $f_i=\operatorname{e}^{-\cfrac{||x-\sli||^2}{2\sigma^2}}$, where $\sli=\sxi$, need to choose $\sigma^2$.
+\end{itemize}
+Note: do perform feature scaling before using the Gaussian kernel.
 
 \clearpage
 
@@ -1108,7 +1120,7 @@ The parameter $\sigma$ controls the smoothness
 \subsection{Overfitting Example}\label{app:overfitting}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{overfitting.py}
 
-\subsection{Backpropagation using Theano}\label{app:backprop}
+\subsection{Backpropagation using Tensorflow}\label{app:backprop}
 Backpropagation example from \url{https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{backprop.py}
 
