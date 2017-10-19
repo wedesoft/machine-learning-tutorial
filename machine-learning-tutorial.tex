@@ -1147,6 +1147,16 @@ Each iteration then
 Note that there is no $x_0=1$ convention here.
 If a cluster is empty, the cluster centroid needs to be eliminated or initalised with a new random position.
 
+\subsection{Optimization Objective}
+The optimization objective of the k-means algorithm is
+\begin{equation*}
+  \mathop{\operatorname{argmin}}_{\substack{c^{(1)},\ldots,c^{(m)}\\\mu_1,\ldots,\mu_K}}J(c^{(1)},\ldots,c^{(m)},\mu_1,\ldots,\mu_K)
+\end{equation*}
+using
+\begin{equation*}
+  J(c^{(1)},\ldots,c^{(m)},\mu_1,\ldots,\mu_K)=\frac{1}{m}\sumi||\sxi-\mu_{c^{(i)}}||
+\end{equation*}
+
 \clearpage
 
 \appendix

@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
-        progress = tqdm(range(10000))
+        progress = tqdm(range(1000))
         for step in progress:
             progress.set_description('loss: %8.6f, cost %8.6f' % (sess.run(loss), sess.run(cost)))
             sess.run(train)

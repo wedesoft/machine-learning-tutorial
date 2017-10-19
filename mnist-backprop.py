@@ -148,19 +148,14 @@ if __name__ == '__main__':
     print(len(validation[1]), 'validation samples')
     print(len(testing[1]), 'testing samples')
 
-    scale = Scale(training[0], 100)
-
-    n_iterations = 1500
-    n_hidden1 = 200
-    n_hidden2 = 100
+    n_iterations = 1000
+    n_hidden1 = 150
+    n_hidden2 = 150
     alpha = 1.0
-    regularization = 0.004 # validation: 0.057019
-    regularization = 0.008 # validation: 0.054460
-    regularization = 0.016 # validation: 0.055690
-    regularization = 0.032 # validation: 0.054299
-    regularization = 0.064 # validation: 0.057817
-    regularisation = 0.032 # test: 0.060644
+    regularization = 0.000
     learning_curve_samples = 1
+
+    scale = Scale(training[0][0:n_samples], 100)
 
     for n in [n_samples // 2 ** e for e in reversed(range(learning_curve_samples))]:
         X = tf.placeholder("float", name='X')
@@ -181,25 +176,32 @@ if __name__ == '__main__':
 
         predict_op = tf.argmax(h, 1)
         tf.add_to_collection('predict_op', predict_op)
+        tf.add_to_collection('h', h)
 
-        cost_train = -tf.reduce_sum(Y * tf.log(h) + (1 - Y) * tf.log(1 - h)) / n + \
-                      regularization * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) / (2 * n)
+        # https://stackoverflow.com/questions/33712178/tensorflow-nan-bug
+        cost_train = -tf.reduce_sum(Y * tf.log(tf.clip_by_value(h, 1e-10, 1)) + (1 - Y) * tf.log(tf.clip_by_value(1 - h, 1e-10, 1))) / n + \
+                      regularization * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2)) + tf.reduce_sum(tf.square(m3))) / (2 * n)
         loss = tf.reduce_sum(tf.square(h - Y)) / (tf.cast(tf.size(Y), tf.float32) / 10)
 
         train = tf.train.GradientDescentOptimizer(alpha).minimize(cost_train)
 
         init_op = tf.global_variables_initializer()
 
-        saver = tf.train.Saver([m1, b1, m2, b2, m3, b3])
+        saver = tf.train.Saver()
 
         with tf.Session() as sess:
             sess.run(init_op)
             progress = tqdm(range(n_iterations))
             for step in progress:
+                progress.set_description('train: %8.6f, validation %8.6f' %
+                        (sess.run(loss, feed_dict={X: x_train, Y: y_train}),
+                         sess.run(loss, feed_dict={X: x_validation, Y: y_validation})))
                 sess.run(train, feed_dict={X: x_train, Y: y_train})
             print("samples: %d, train: %f, validation: %f, testing: %f" % \
                     (n,
                      sess.run(loss, feed_dict={X: x_train     , Y: y_train     }),
                      sess.run(loss, feed_dict={X: x_validation, Y: y_validation}),
                      sess.run(loss, feed_dict={X: x_testing   , Y: y_testing   })))
+            print(y_train)
+            print(np.argmax(y_train, axis=-1))
             print('saved model as', saver.save(sess, "mnist.ckpt"))
