@@ -128,7 +128,7 @@ def tensor(value):
 
 
 def random_tensor(*shape):
-    scale = 1 / shape[-1]
+    scale = 1
     return tf.Variable(tf.random_uniform(shape, minval=-scale, maxval=scale, dtype=tf.float32))
 
 
