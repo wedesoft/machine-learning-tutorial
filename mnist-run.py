@@ -19,7 +19,7 @@ if __name__ == '__main__':
         saver.restore(sess, 'mnist.ckpt')
         predict_op = tf.get_collection('predict_op')
         for x, y in zip(*testing):
-            cv2.imshow('x', x.reshape(28, 28))
+            cv2.imshow('x', cv2.resize(x.reshape(28, 28), 280, 280))
             prediction = sess.run(predict_op, feed_dict={'X:0': [x]})[0]
             print("prediction = %d (label = %d)" % (prediction, y))
             if cv2.waitKey(-1) == 27:

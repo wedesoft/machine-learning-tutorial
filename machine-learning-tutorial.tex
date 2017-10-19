@@ -1131,6 +1131,22 @@ Clustering algorithms can find clusters in unlabelled data. Examples are:
   \item astronomical data analysis
 \end{itemize}
 
+\subsection{k-Means Algorithm}
+The input is
+\begin{itemize}
+  \item $K$ (number of cluster)
+  \item training set $\{x^{(1)},x^{(2)},x^{(3)},\ldots,x^{(m)}\}$, $\sxi\in\mathbb{R}^n$
+\end{itemize}
+The \emph{k-means} algorithm randomly selects $k$ cluster centroids
+$\mu_1,\mu_2,\ldots,\mu_K\in\mathbb{R}^n$.
+Each iteration then
+\begin{enumerate}
+  \item \emph{cluster assignment step}: assigns each data point $\sxi$ to the nearest cluster centroid $\mu_j$ (\emph{i.e.} $c^{(i)}\coloneqq\displaystyle\mathop{\operatorname{argmin}}_j ||\sxi-\mu_j||$)
+  \item \emph{move centroids step}: the centroids are set to the mean location of each cluster $\mu_k\coloneqq\displaystyle\sum_{i,c^{(i)}=k}\sxi\bigg/\sum_{i,c^{(i)}=k}1$
+\end{enumerate}
+Note that there is no $x_0=1$ convention here.
+If a cluster is empty, the cluster centroid needs to be eliminated or initalised with a new random position.
+
 \clearpage
 
 \appendix
