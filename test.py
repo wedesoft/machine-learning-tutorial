@@ -132,21 +132,26 @@ if __name__ == '__main__':
     scale = Scale(training[0], 1000)
     x = tf.placeholder(tf.float32, [None, 28 * 28])
     y = tf.placeholder(tf.float32, [None, 10])
-    m1 = tf.Variable(tf.truncated_normal([784, 10], stddev=1/784))
-    b1 = tf.Variable(tf.truncated_normal([10]))
+    m1 = tf.Variable(tf.truncated_normal([784, 300], stddev=1/784))
+    b1 = tf.Variable(tf.truncated_normal([300]))
+    m2 = tf.Variable(tf.truncated_normal([300, 10], stddev=1/300))
+    b2 = tf.Variable(tf.truncated_normal([10]))
 
     a0 = tf.sigmoid(x)
     z1 = tf.add(tf.matmul(a0, m1), b1)
     a1 = tf.sigmoid(z1)
-    h = a1
+    z2 = tf.add(tf.matmul(a1, m2), b2)
+    a2 = tf.sigmoid(z2)
+    h = a2
 
     cost = -tf.reduce_mean(y * tf.log(h) + (1 - y) * tf.log(1 - h))
-    dm1 = tf.gradients(cost, m1)
-    db1 = tf.gradients(cost, b1)
+    dm1, db1, dm2, db2 = tf.gradients(cost, [m1, b1, m2, b2])
 
     step = [
             tf.assign(m1, tf.subtract(m1, tf.multiply(alpha, dm1[0]))),
-            tf.assign(b1, tf.subtract(b1, tf.multiply(alpha, db1[0])))
+            tf.assign(b1, tf.subtract(b1, tf.multiply(alpha, db1[0]))),
+            tf.assign(m2, tf.subtract(m2, tf.multiply(alpha, dm2[0]))),
+            tf.assign(b2, tf.subtract(b2, tf.multiply(alpha, db2[0])))
             ]
 
     with tf.Session() as sess:
