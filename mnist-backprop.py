@@ -133,8 +133,7 @@ def random_tensor(*shape):
 
 
 def data(scale, features, labels):
-    y = multi_class_label(labels, 10)
-    return tensor(scale(features)), tensor(y)
+    return scale(features), multi_class_label(labels, 10)
 
 
 if __name__ == '__main__':
@@ -164,41 +163,43 @@ if __name__ == '__main__':
     learning_curve_samples = 1
 
     for n in [n_samples // 2 ** e for e in reversed(range(learning_curve_samples))]:
+        X = tf.placeholder("float", name='X')
+        Y = tf.placeholder("float", name='Y')
         x_train, y_train = data(scale, training[0][0:n], training[1][0:n])
         x_validation, y_validation = data(scale, *validation)
         x_testing, y_testing = data(scale, *testing)
 
         m1 = random_tensor(28 * 28, n_hidden1)
         b1 = random_tensor(n_hidden1)
-        h1 = lambda x: tf.sigmoid(tf.matmul(x, m1) + b1)
+        h1 = tf.sigmoid(tf.matmul(X, m1) + b1)
         m2 = random_tensor(n_hidden1, n_hidden2)
         b2 = random_tensor(n_hidden2)
-        h2 = lambda x: tf.sigmoid(tf.matmul(h1(x), m2) + b2)
+        h2 = tf.sigmoid(tf.matmul(h1, m2) + b2)
         m3 = random_tensor(n_hidden2, 10)
         b3 = random_tensor(10)
-        h = lambda x: tf.sigmoid(tf.matmul(h2(x), m3) + b3)
+        h = tf.sigmoid(tf.matmul(h2, m3) + b3, name='h')
 
-        h_train      = h(x_train)
-        h_validation = h(x_validation)
-        h_testing    = h(x_testing)
+        predict_op = tf.argmax(h, 1)
+        tf.add_to_collection('predict_op', predict_op)
 
-        cost_train = -tf.reduce_sum(y_train * tf.log(h_train) + (1 - y_train) * tf.log(1 - h_train)) / n + \
+        cost_train = -tf.reduce_sum(Y * tf.log(h) + (1 - Y) * tf.log(1 - h)) / n + \
                       regularization * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) / (2 * n)
-        loss = lambda h, y: tf.reduce_sum(tf.square(h - y)) / tf.cast(y.shape[0], tf.float32)
-        loss_train = loss(h_train, y_train)
-        loss_validation = loss(h_validation, y_validation)
-        loss_testing = loss(h_testing, y_testing)
+        loss = tf.reduce_sum(tf.square(h - Y)) / (tf.cast(tf.size(Y), tf.float32) / 10)
 
         train = tf.train.GradientDescentOptimizer(alpha).minimize(cost_train)
 
         init_op = tf.global_variables_initializer()
 
-        saver = tf.train.Saver()
+        saver = tf.train.Saver([m1, b1, m2, b2, m3, b3])
 
         with tf.Session() as sess:
             sess.run(init_op)
             progress = tqdm(range(n_iterations))
             for step in progress:
-                sess.run(train)
-            print("samples: %d, train: %f, validation: %f, testing: %f" % (n, sess.run(loss_train), sess.run(loss_validation), sess.run(loss_testing)))
+                sess.run(train, feed_dict={X: x_train, Y: y_train})
+            print("samples: %d, train: %f, validation: %f, testing: %f" % \
+                    (n,
+                     sess.run(loss, feed_dict={X: x_train     , Y: y_train     }),
+                     sess.run(loss, feed_dict={X: x_validation, Y: y_validation}),
+                     sess.run(loss, feed_dict={X: x_testing   , Y: y_testing   })))
             print('saved model as', saver.save(sess, "mnist.ckpt"))
