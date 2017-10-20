@@ -1190,6 +1190,18 @@ Less data means less storage space required and more importantly less processing
 Another example is reduction from 3D to 2D (in general dimensionality reduction applies to arbitrary numbers of dimensions).
 In this case 3D features are projected onto a plane so that $z^{(i)}\in\mathbb{R}^2$.
 
+\subsection{Motivation 2: Data Visualization}
+Data visualization is important when trying to decide how to improve a machine learning algorithm.
+Dimensionality reduction can make it possible to visualize data with a high number of dimensions.
+
+\subsection{Principal Component Analysis}
+The most commonly used algorithm for dimensionality reduction is \ac{PCA}.
+First feature scaling needs to be applied so that the features are zero-mean and have similar standard deviations.
+\begin{itemize}
+  \item reduce from 2-dimension to 1-dimension: find a vector $u^{(1)}\in\mathbb{R}^n$ onto which to project the data as to minimize the projection error
+  \item reduce from n-dimension to k-dimension: find $k$ vectors $u^{(1)},u^{(2)},\ldots,u^{(k)}$ onto which to project the data as to minimize the projection error
+\end{itemize}
+Note that \ac{PCA} is not the same as linear regression. Linear regression minimises the \emph{vertical} distance, while PCA minimises the projected distance.
 
 \clearpage
 
@@ -1234,6 +1246,7 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 \begin{acronym}[L-BFGS]
   \acro{BFGS}{Broyden-Fletcher-Goldfarb-Shanno algorithm}
   \acro{L-BFGS}{Limited-memory BFGS}
+  \acro{PCA}{Principal Component Analysis}
   \acro{SVM}{Support Vector Machine}
 \end{acronym}
 
