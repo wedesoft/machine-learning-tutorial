@@ -238,7 +238,7 @@ The least squares problem is written in the following form.
 1&x^{(2)}_1&x^{(2)}_2&\hdots&x^{(2)}_n\\
 \vdots&\vdots&\vdots&\ddots&\vdots\\
 1&x^{(m)}_1&x^{(m)}_2&\hdots&x^{(m)}_n
-  \end{pmatrix}}_{\coloneqq\mathcal{X}}\,\theta=
+  \end{pmatrix}}_{\eqqcolon\mathcal{X}}\,\theta=
 \underbrace{\begin{pmatrix}y^{(1)}\\\vdots\\y^{(m)}\end{pmatrix}}_{y}+\epsilon
 \end{equation*}
 The solution is $\theta=(\mathcal{X}^\top\mathcal{X})^{-1}\mathcal{X}^\top y$.
@@ -1203,6 +1203,22 @@ First feature scaling needs to be applied so that the features are zero-mean and
 \end{itemize}
 Note that \ac{PCA} is not the same as linear regression. Linear regression minimises the \emph{vertical} distance, while PCA minimises the projected distance.
 
+\subsection{Principal Component Analysis Algorithm}
+Given: a zero-mean set of features with a normalised standard deviation $\{x^{(1)},x^{(2)},\ldots,x^{(n)}\}$.\\
+Desired: a set of features $\{z^{(1)},z^{(2)},\ldots,z^{(n)}\}$ with a lower number of dimensions.\\
+\begin{itemize}
+  \item compute ``covariance matrix'' $\Sigma=\cfrac{1}{m}\sum_i^n(\sxi)(\sxi)^\top$
+  \item compute ``eigenvectors'' of $\Sigma$ (or \ac{SVD}) so that $\Sigma=\mathcal{U}\mathcal{S}\mathcal{V}^\top$
+\end{itemize}
+$\mathcal{U}$ contains the vectors to project the features onto in descending order of importance.
+\begin{equation*}
+  \mathcal{U}=\begin{pmatrix}u^{(1)}&u^{(2)}&\cdots&u^{(n)}\end{pmatrix}
+\end{equation*}
+The first $k$ columns of $\mathcal{U}$ are used to obtain the projected features $z^{(i)}$.
+\begin{equation*}
+  z=\underbrace{\begin{pmatrix}u^{(1)}&u^{(2)}&\cdots&u^{(k)}\end{pmatrix}^\top}_{\eqqcolon\mathcal{U}_{reduce}^\top} x
+\end{equation*}
+
 \clearpage
 
 \appendix
@@ -1247,6 +1263,7 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
   \acro{BFGS}{Broyden-Fletcher-Goldfarb-Shanno algorithm}
   \acro{L-BFGS}{Limited-memory BFGS}
   \acro{PCA}{Principal Component Analysis}
+  \acro{SVD}{Singular Value Decomposition}
   \acro{SVM}{Support Vector Machine}
 \end{acronym}
 
