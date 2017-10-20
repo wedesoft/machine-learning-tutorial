@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-import operator
-from functools import reduce
-import sys
+# http://blog.aloni.org/posts/backprop-with-tensorflow/
 import pytest
+from numpy.testing import assert_array_equal
+import sys
+import numpy as np
+import tensorflow as tf
 import pickle
 import gzip
-import numpy as np
-from numpy.testing import assert_array_equal
 from tqdm import tqdm
-import tensorflow as tf
 
 
 def random_choice(count, size):
@@ -123,85 +122,65 @@ class TestFeatureScaling:
         assert_array_equal(Scale([[0]], 100)([[1]]), [[100]])
 
 
-def tensor(value):
-    return tf.constant(value, dtype=tf.float32)
-
-
-def random_tensor(*shape):
-    scale = 1
-    return tf.Variable(tf.random_uniform(shape, minval=-scale, maxval=scale, dtype=tf.float32))
-
-
-def data(scale, features, labels):
-    return scale(features), multi_class_label(labels, 10)
-
-
 if __name__ == '__main__':
     # https://stackoverflow.com/questions/11305790/pickle-incompatability-of-numpy-arrays-between-python-2-and-3
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
 
-    n_samples = 50000
+    n_samples = 5000
+    n_classes = 10
+    n_iterations = 3000
+    n_hidden = 600
+    regularize = 0.2
+    alpha = 0.5
     training = random_selection(n_samples, *training)
-    validation = random_selection(n_samples // 5, *validation)
-    testing = random_selection(n_samples // 5, *testing)
-    print(len(training[1]), 'training samples')
-    print(len(validation[1]), 'validation samples')
-    print(len(testing[1]), 'testing samples')
+    scale = Scale(training[0], 1000)
 
-    n_iterations = 1000
-    n_hidden1 = 150
-    n_hidden2 = 150
-    alpha = 1.0
-    regularization = 0.000
-    learning_curve_samples = 1
+    x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
+    y = tf.placeholder(tf.float32, [None, 10])
+    m1 = tf.Variable(tf.truncated_normal([784, n_hidden], stddev=1/784))
+    b1 = tf.Variable(tf.truncated_normal([n_hidden]))
+    m2 = tf.Variable(tf.truncated_normal([n_hidden, 10], stddev=1/n_hidden))
+    b2 = tf.Variable(tf.truncated_normal([10]))
+    theta = [m1, b1, m2, b2]
 
-    scale = Scale(training[0][0:n_samples], 100)
+    a0 = tf.sigmoid(x)
+    z1 = tf.add(tf.matmul(a0, m1), b1)
+    a1 = tf.sigmoid(z1)
+    z2 = tf.add(tf.matmul(a1, m2), b2)
+    a2 = tf.sigmoid(z2)
+    h = a2
 
-    for n in [n_samples // 2 ** e for e in reversed(range(learning_curve_samples))]:
-        X = tf.placeholder("float", name='X')
-        Y = tf.placeholder("float", name='Y')
-        x_train, y_train = data(scale, training[0][0:n], training[1][0:n])
-        x_validation, y_validation = data(scale, *validation)
-        x_testing, y_testing = data(scale, *testing)
+    m = tf.cast(tf.size(y) / n_classes, tf.float32)
+    reg_term = (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) * regularize / (m * 2)
+    error_term = -tf.reduce_sum(y * tf.log(h) + (1 - y) * tf.log(1 - h)) / m
+    cost = error_term + regularize * reg_term
+    fit = tf.reduce_sum(tf.square(h - y)) / (2 * m)
+    prediction = tf.argmax(h, axis=-1)
+    dtheta = tf.gradients(cost, theta)
+    tf.add_to_collection('prediction', prediction)
 
-        m1 = random_tensor(28 * 28, n_hidden1)
-        b1 = random_tensor(n_hidden1)
-        h1 = tf.sigmoid(tf.matmul(X, m1) + b1)
-        m2 = random_tensor(n_hidden1, n_hidden2)
-        b2 = random_tensor(n_hidden2)
-        h2 = tf.sigmoid(tf.matmul(h1, m2) + b2)
-        m3 = random_tensor(n_hidden2, 10)
-        b3 = random_tensor(10)
-        h = tf.sigmoid(tf.matmul(h2, m3) + b3, name='h')
+    step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue)))
+            for value, dvalue in zip(theta, dtheta)]
 
-        predict_op = tf.argmax(h, 1)
-        tf.add_to_collection('predict_op', predict_op)
-        tf.add_to_collection('h', h)
+    saver = tf.train.Saver(theta)
 
-        # https://stackoverflow.com/questions/33712178/tensorflow-nan-bug
-        cost_train = -tf.reduce_sum(Y * tf.log(tf.clip_by_value(h, 1e-10, 1)) + (1 - Y) * tf.log(tf.clip_by_value(1 - h, 1e-10, 1))) / n + \
-                      regularization * (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2)) + tf.reduce_sum(tf.square(m3))) / (2 * n)
-        loss = tf.reduce_sum(tf.square(h - Y)) / (tf.cast(tf.size(Y), tf.float32) / 10)
-
-        train = tf.train.GradientDescentOptimizer(alpha).minimize(cost_train)
-
-        init_op = tf.global_variables_initializer()
-
-        saver = tf.train.Saver()
-
-        with tf.Session() as sess:
-            sess.run(init_op)
-            progress = tqdm(range(n_iterations))
-            for step in progress:
-                progress.set_description('train: %8.6f, validation %8.6f' %
-                        (sess.run(loss, feed_dict={X: x_train, Y: y_train}),
-                         sess.run(loss, feed_dict={X: x_validation, Y: y_validation})))
-                sess.run(train, feed_dict={X: x_train, Y: y_train})
-            print("samples: %d, train: %f, validation: %f, testing: %f" % \
-                    (n,
-                     sess.run(loss, feed_dict={X: x_train     , Y: y_train     }),
-                     sess.run(loss, feed_dict={X: x_validation, Y: y_validation}),
-                     sess.run(loss, feed_dict={X: x_testing   , Y: y_testing   })))
-            print(y_train)
-            print(np.argmax(y_train, axis=-1))
-            print('saved model as', saver.save(sess, "mnist.ckpt"))
+    with tf.Session() as sess:
+        train = {x: scale(training[0] ), y: multi_class_label(training[1], n_classes)}
+        validate = {x: scale(validation[0] ), y: multi_class_label(validation[1], n_classes)}
+        test = {x: scale(testing[0] ), y: multi_class_label(testing[1], n_classes)}
+        sess.run(tf.global_variables_initializer())
+        progress = tqdm(range(n_iterations))
+        info = lambda: 'train: %8.6f, validate: %8.6f, test: %8.6f' % \
+                (sess.run(fit, feed_dict=train),
+                 sess.run(fit, feed_dict=validate),
+                 sess.run(fit, feed_dict=test))
+        for i in progress:
+            sess.run(step, feed_dict=train)
+            if i % 10 == 0:
+                progress.set_description(info())
+        print(info())
+        prediction = sess.run(prediction, feed_dict=validate)
+        print('validation labels:', validation[1])
+        print('predictions      :', prediction)
+        print('error rate:', np.average(prediction != validation[1]))
+        print('saved model as', saver.save(sess, "mnist.ckpt"))
