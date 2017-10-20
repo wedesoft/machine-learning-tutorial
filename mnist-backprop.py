@@ -150,19 +150,17 @@ if __name__ == '__main__':
     a2 = tf.sigmoid(z2)
     h = a2
 
+    prediction = tf.argmax(h, axis=-1)
+
     m = tf.cast(tf.size(y) / n_classes, tf.float32)
     reg_term = (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) * regularize / (m * 2)
     error_term = -tf.reduce_sum(y * tf.log(h) + (1 - y) * tf.log(1 - h)) / m
     cost = error_term + regularize * reg_term
     rmsd = tf.reduce_sum(tf.square(h - y)) / (2 * m)
-    prediction = tf.argmax(h, axis=-1)
     dtheta = tf.gradients(cost, theta)
-    tf.add_to_collection('prediction', prediction)
 
     step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue)))
             for value, dvalue in zip(theta, dtheta)]
-
-    saver = tf.train.Saver(theta)
 
     with tf.Session() as sess:
         train = {x: scale(training[0] ), y: multi_class_label(training[1], n_classes)}
@@ -183,4 +181,3 @@ if __name__ == '__main__':
         print('validation labels:', validation[1])
         print('predictions      :', prediction)
         print('error rate:', np.average(prediction != validation[1]))
-        print('saved model as', saver.save(sess, "mnist.ckpt"))
