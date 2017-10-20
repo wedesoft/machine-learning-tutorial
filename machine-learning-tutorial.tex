@@ -1131,13 +1131,13 @@ Clustering algorithms can find clusters in unlabelled data. Examples are:
   \item astronomical data analysis
 \end{itemize}
 
-\subsection{k-Means Algorithm}
+\subsection{K-Means Algorithm}
 The input is
 \begin{itemize}
   \item $K$ (number of cluster)
   \item training set $\{x^{(1)},x^{(2)},x^{(3)},\ldots,x^{(m)}\}$, $\sxi\in\mathbb{R}^n$
 \end{itemize}
-The \emph{k-means} algorithm randomly selects $k$ cluster centroids
+The \emph{K-means} algorithm randomly selects $k$ cluster centroids
 $\mu_1,\mu_2,\ldots,\mu_K\in\mathbb{R}^n$.
 Each iteration then
 \begin{enumerate}
@@ -1148,14 +1148,35 @@ Note that there is no $x_0=1$ convention here.
 If a cluster is empty, the cluster centroid needs to be eliminated or initalised with a new random position.
 
 \subsection{Optimization Objective}
-The optimization objective of the k-means algorithm is
+The optimization objective of the K-means algorithm is
 \begin{equation*}
   \mathop{\operatorname{argmin}}_{\substack{c^{(1)},\ldots,c^{(m)}\\\mu_1,\ldots,\mu_K}}J(c^{(1)},\ldots,c^{(m)},\mu_1,\ldots,\mu_K)
 \end{equation*}
 using
-\begin{equation*}
+\begin{equation}\label{equ:kmeanscost}
   J(c^{(1)},\ldots,c^{(m)},\mu_1,\ldots,\mu_K)=\frac{1}{m}\sumi||\sxi-\mu_{c^{(i)}}||
-\end{equation*}
+\end{equation}
+
+\subsection{Random Initialization}
+The random initialization of the K-means algorithm is recommended to be performed as follows.
+\begin{itemize}
+  \item $K\overset{!}{<}m$
+  \item randomly pick $K$ training examples
+  \item set the initial centroids $\mu_1,\ldots,\mu_K$ equal to these $K$ examples
+\end{itemize}
+
+K-means can get stuck in a local optimum (especially when $K$ is small). One can address this by running the K-means algorithm many times and chosing the best result using the cost function $J$ (see Equation \ref{equ:kmeanscost}).
+
+\subsection{Choosing the Number of Clusters}
+The elbow method for choosing $K$ works by plotting the optimal cost functions value $J$ for different $K$.
+The value where $J$ stops going down rapidly is chosen as the optimal $K$ value.
+Often the elbow method does not give a clear answer though.
+
+Sometimes the value $K$ can be chosen by considering the later/downstream purpose.
+K-means then is evaluated based on a metric for how well it performs for that later purpose
+(\emph{e.g.} manufacture 3 or 5 different t-shirt sizes for customers, image compression, ...).
+
+Other method for clustering: DBSCAN.
 
 \clearpage
 
