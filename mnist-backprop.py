@@ -126,9 +126,9 @@ if __name__ == '__main__':
     # https://stackoverflow.com/questions/11305790/pickle-incompatability-of-numpy-arrays-between-python-2-and-3
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
 
-    n_samples = 5000
+    n_samples = 50000
     n_classes = 10
-    n_iterations = 3000
+    n_iterations = 4000
     n_hidden = 600
     regularize = 0.2
     alpha = 0.5
