@@ -162,6 +162,7 @@ if __name__ == '__main__':
     step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue)))
             for value, dvalue in zip(theta, dtheta)]
 
+    saver = tf.train.Saver()
     with tf.Session() as sess:
         train = {x: scale(training[0] ), y: multi_class_label(training[1], n_classes)}
         validate = {x: scale(validation[0] ), y: multi_class_label(validation[1], n_classes)}
@@ -177,7 +178,9 @@ if __name__ == '__main__':
             if i % 10 == 0:
                 progress.set_description(info())
         print(info())
-        prediction = sess.run(prediction, feed_dict=validate)
+        output = sess.run(prediction, feed_dict=validate)
         print('validation labels:', validation[1])
-        print('predictions      :', prediction)
-        print('error rate:', np.average(prediction != validation[1]))
+        print('predictions      :', output)
+        print('error rate:', np.average(output != validation[1]))
+        tf.add_to_collection('prediction', prediction)
+        saver.save(sess, 'model')

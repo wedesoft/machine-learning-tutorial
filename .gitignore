@@ -3,7 +3,7 @@
 __pycache__
 _minted*
 checkpoint
-mnist.ckpt*
+model.*
 *.gz
 *.pdf
 *.log
