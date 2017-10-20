@@ -23,6 +23,7 @@
 \usepackage{minted}
 
 \usepackage[backend=biber,style=alphabetic,natbib=true]{biblatex}
+
 \addbibresource{bibliography.bib}
 
 \title{Notes to Andrew Ng's Machine Learning Course}
@@ -873,6 +874,8 @@ In summary
 When using neural networks, it is generally more effective to use a larger neural network (more hidden units and layers) and address overfitting using regularization (rather than working with a small neural network).
 The remaining disadvantage is that larger neural networks are more computationally expensive.
 
+It is important to \textbf{first implement a small prototype machine learning algorithm} to obtain early feedback from working with the data to inform further work on solving the machine learning problem.
+
 \section{Machine Learning System Design}
 \subsection{Prioritizing What to Work On}
 Example: Spam email classifier with feature vector ``word $i$ occurs in email or not''.
@@ -1177,6 +1180,16 @@ K-means then is evaluated based on a metric for how well it performs for that la
 (\emph{e.g.} manufacture 3 or 5 different t-shirt sizes for customers, image compression, ...).
 
 Other method for clustering: DBSCAN.
+
+\section{Dimensionality Reduction}
+\subsection{Motivation 1: Data Compression}
+For example one feature could be length in centimeter (rounded) and the other length in inches (rounded).
+This 2D data $\sxi\in\mathbb{R}^2$ ($i\in\{1,2,\ldots,m\}$) can be reduced/projected to 1D $z^{(i)}\in\mathbb{R}$.
+Less data means less storage space required and more importantly less processing time required for training machine learning algorithms.
+
+Another example is reduction from 3D to 2D (in general dimensionality reduction applies to arbitrary numbers of dimensions).
+In this case 3D features are projected onto a plane so that $z^{(i)}\in\mathbb{R}^2$.
+
 
 \clearpage
 
