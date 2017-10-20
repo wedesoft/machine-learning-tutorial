@@ -154,7 +154,7 @@ if __name__ == '__main__':
     reg_term = (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) * regularize / (m * 2)
     error_term = -tf.reduce_sum(y * tf.log(h) + (1 - y) * tf.log(1 - h)) / m
     cost = error_term + regularize * reg_term
-    fit = tf.reduce_sum(tf.square(h - y)) / (2 * m)
+    rmsd = tf.reduce_sum(tf.square(h - y)) / (2 * m)
     prediction = tf.argmax(h, axis=-1)
     dtheta = tf.gradients(cost, theta)
     tf.add_to_collection('prediction', prediction)
@@ -171,9 +171,9 @@ if __name__ == '__main__':
         sess.run(tf.global_variables_initializer())
         progress = tqdm(range(n_iterations))
         info = lambda: 'train: %8.6f, validate: %8.6f, test: %8.6f' % \
-                (sess.run(fit, feed_dict=train),
-                 sess.run(fit, feed_dict=validate),
-                 sess.run(fit, feed_dict=test))
+                (sess.run(rmsd, feed_dict=train),
+                 sess.run(rmsd, feed_dict=validate),
+                 sess.run(rmsd, feed_dict=test))
         for i in progress:
             sess.run(step, feed_dict=train)
             if i % 10 == 0:
