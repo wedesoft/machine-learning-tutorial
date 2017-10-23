@@ -1264,6 +1264,22 @@ The appropriate method to prevent overfitting is regularization (see Section \re
 
 Before you implement \ac{PCA}, consider working with the original/raw data first.
 
+\section{Anomaly Detection Problem}
+\subsection{Motivation}
+Given a dataset $\{x^{(1)},x^{(2)},\ldots,x^{(m)}\}$ is $x_{test}$ anomalous?
+
+The model is a probability distribution $p(x)$. A test sample is considered an anomaly if the probability is below a certain threshold $\epsilon$:
+\begin{equation*}
+  p(x_{test})<\epsilon:\Leftrightarrow x_{test}\mathrm{\ is\ an\ anomaly}
+\end{equation*}
+
+Example applications are
+\begin{itemize}
+  \item fraud detection (monitoring online behaviour of users)
+  \item manufacturing (detecting faulty parts)
+  \item monitoring computers in a data center
+\end{itemize}
+
 \clearpage
 
 \appendix
