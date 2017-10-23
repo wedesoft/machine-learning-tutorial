@@ -1280,6 +1280,23 @@ Example applications are
   \item monitoring computers in a data center
 \end{itemize}
 
+\subsection{Gaussian Distribution}
+Say $x\in\mathbb{R}$ is a variable with Gaussian distribution with mean $\mu$ and variance $\sigma^2$
+\begin{equation*}
+x\in\mathbb{R}\sim\mathcal{N}(\mu,\sigma^2)
+\end{equation*}
+The symbol $\sim$ means ``distributed as''. The probability distribution is
+\begin{equation*}
+  p(x;\mu,\sigma^2)=\frac{1}{\sqrt{2\pi}\sigma}\operatorname{e}^{-\cfrac{(x-\mu)^2}{2\sigma^2}}
+\end{equation*}
+
+The parameters of the distribution can be estimated as follows
+\begin{itemize}
+  \item $\mu=\frac{1}{m}\sumi\sxi$
+  \item $\sigma^2=\frac{1}{m}\sumi(\sxi-\mu)^2$
+\end{itemize}
+These parameters are actually the maximum likelihood estimates of the parameters.
+
 \clearpage
 
 \appendix
