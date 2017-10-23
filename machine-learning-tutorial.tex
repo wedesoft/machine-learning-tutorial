@@ -1319,6 +1319,19 @@ The anomaly detection algorithm works as follows
   \item Given a new example $x$, compute $p(x)=\prod_{j=1}^n p(x_j;\mu_j,\sigma_j^2)$. The example is considered an anomaly if $p(x)<\epsilon$.
 \end{enumerate}
 
+\subsection{Developing and Evaluating an Anomaly Detection System}
+\begin{itemize}
+  \item Use unlabelled training data (ideally not containing any anomalies).
+  \item Use cross-validation and test-data containing a small number of known anomalies.
+\end{itemize}
+\emph{E.g.} given a data set with 10000 good (normal) engines and 20 flawed engines.
+Divide the data into
+\begin{itemize}
+  \item training set: 6000 good engines
+  \item cross-validation set: 2000 good engines (y=0), 10 anomalous (y=1)
+  \item test: 2000 good engines (y=0), 10 anomalous (y=1)
+\end{itemize}
+
 \clearpage
 
 \appendix
