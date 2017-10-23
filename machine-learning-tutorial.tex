@@ -913,7 +913,7 @@ Precision and recall are defined as follows:
   \item $recall=\frac{true\ positives}{true\ positives+false\ negatives}$ (ratio of true positives and actual positives)
 \end{itemize}
 
-\subsection{Trading of Precision and Recall}
+\subsection{Trading of Precision and Recall}\label{cha:f1}
 Considering logistic regression $0\le h_\theta(x)\le 1$:
 \begin{itemize}
   \item Suppose we want to predict $y=1$ (patient has cancer) only if very confident:
@@ -1331,6 +1331,17 @@ Divide the data into
   \item cross-validation set: 2000 good engines (y=0), 10 anomalous (y=1)
   \item test: 2000 good engines (y=0), 10 anomalous (y=1)
 \end{itemize}
+\begin{equation*}
+  y=\left\{\begin{array}{ll}1&\mathrm{if\ }p(x)<\epsilon\\0&\mathrm{if\ }p(x)\ge\epsilon\end{array}\right.
+\end{equation*}
+Possible evaluation metrics are
+\begin{itemize}
+  \item true positive, false positive, true negative, false negative
+  \item precision/recall
+  \item $F_1$-score
+\end{itemize}
+Cross-validation can also be used to choose $\epsilon$.
+Note that the data is highly skewed (y=1 is rate), it is necessary to use a good evaluation metric (see Section\ref{cha:f1}).
 
 \clearpage
 
