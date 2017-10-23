@@ -1203,7 +1203,7 @@ First feature scaling needs to be applied so that the features are zero-mean and
 \end{itemize}
 Note that \ac{PCA} is not the same as linear regression. Linear regression minimises the \emph{vertical} distance, while PCA minimises the projected distance.
 
-\subsection{Principal Component Analysis Algorithm}
+\subsection{Principal Component Analysis Algorithm}\label{cha:pca}
 Given: a zero-mean set of features with a normalised standard deviation $\{x^{(1)},x^{(2)},\ldots,x^{(n)}\}$.\\
 Desired: a set of features $\{z^{(1)},z^{(2)},\ldots,z^{(n)}\}$ with a lower number of dimensions.\\
 \begin{itemize}
@@ -1219,6 +1219,29 @@ The first $k$ columns of $\mathcal{U}$ are used to obtain the projected features
   z=\underbrace{\begin{pmatrix}u^{(1)}&u^{(2)}&\cdots&u^{(k)}\end{pmatrix}^\top}_{\eqqcolon\mathcal{U}_{reduce}^\top} x
 \end{equation*}
 Note that here the convention $x_0=1$ is not used!
+
+\subsection{Choosing the Number of Principal Components}
+The number $k$ (number of \acp{PCA} to retain) results in a certain projection error
+\begin{equation*}
+  \frac{1}{m}\sumi||\sxi-x^{(i)}_{approx}||^2
+\end{equation*}
+The total variation in the data is
+\begin{equation*}
+  \frac{1}{m}\sumi||\sxi||^2
+\end{equation*}
+$k$ is chosen, so that the projection error is small relative to the total variation in the data. \emph{E.g.}
+\begin{equation*}
+  \frac{\sumi||\sxi-x^{(i)}_{approx}||^2}{\sumi||\sxi||^2}\le 0.01
+\end{equation*}
+in this case ``99\% of variance is retained''
+Using the matrix of singular values $\mathcal{S}$ of the covariance matrix (see Section \ref{cha:pca})
+\begin{equation*}
+  \mathcal{S}=\operatorname{diag}(s_{11}\,s_{22}\,\ldots\,s_{nn})
+\end{equation*}
+one can limit the loss in variance as follows
+\begin{equation*}
+  1-\frac{\sum_{i=1}^k s_{ii}}{\sum_{i=1}^n s_{ii}}\le 0.01
+\end{equation*}
 
 \clearpage
 
