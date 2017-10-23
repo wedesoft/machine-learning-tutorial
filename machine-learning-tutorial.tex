@@ -1297,6 +1297,31 @@ The parameters of the distribution can be estimated as follows
 \end{itemize}
 These parameters are actually the maximum likelihood estimates of the parameters.
 
+\subsection{Anomaly Detection Algorithm}
+Given a training set $\{x^{(1)},x^{(2)},\ldots,x^{(m)}\}$ with each $x\in\mathbb{R}^n$
+we assume independent Gaussian distributions
+\begin{itemize}
+\item $x_1\sum\mathcal{N}(\mu_1,\sigma^2_1)$
+\item $x_2\sum\mathcal{N}(\mu_2,\sigma^2_2)$
+\item $x_3\sum\mathcal{N}(\mu_3,\sigma^2_3)$
+\item $\ldots$
+\end{itemize}
+The overall probability $p(x)$ is the product of the individual probabilities
+\begin{equation*}
+  p(x)=p(x_1;\mu_1,\sigma_1^2) p(x_2;\mu_2,\sigma_2^2) p(x_3;\mu_3,\sigma_3^2) \ldots=
+  \prod_{j=1}^n p(x_j;\mu_j,\sigma_j^2)
+\end{equation*}
+The anomaly detection algorithm works as follows
+\begin{enumerate}
+  \item Choose features $x_i$ that you think are indicative of anomalous examples
+  \item Fit parameters $\mu_1,\ldots,\mu_n,\sigma_1^2,\ldots,\sigma_n^2$
+    \begin{itemize}
+    \item $\mu_j=\frac{1}{m}\sumi\sxi_j$
+    \item $\sigma_j^2=\frac{1}{m}\sumi(\sxi_j-\mu_j)^2$
+    \end{itemize}
+  \item Given a new example $x$, compute $p(x)=\prod_{j=1}^n p(x_j;\mu_j,\sigma_j^2)$. The example is considered an anomaly if $p(x)<\epsilon$.
+\end{enumerate}
+
 \clearpage
 
 \appendix
