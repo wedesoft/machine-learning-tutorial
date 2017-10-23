@@ -16,10 +16,10 @@ mnist.pkl.gz:
 	curl -o $@ http://deeplearning.net/data/mnist/mnist.pkl.gz
 
 .tex.pdf:
-	xelatex -shell-escape $<
+	pdflatex -shell-escape $<
 	biber $(basename $@)
-	xelatex -shell-escape $<
-	xelatex -shell-escape $<
+	pdflatex -shell-escape $<
+	pdflatex -shell-escape $<
 
 .svg.pdf:
 	inkscape $< -A $@
