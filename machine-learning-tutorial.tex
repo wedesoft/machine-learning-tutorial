@@ -436,7 +436,7 @@ To make a prediction, the classifier outputting the highest probability is selec
   \end{center}
 \end{figure}
 
-\section{Regularization}
+\section{Regularization}\label{cha:regularization}
 \subsection{The Problem of Overfitting}
 \begin{itemize}
   \item If the model is \textbf{underfit}, there is a poor fit to the data causing a \emph{high bias}.
@@ -1243,11 +1243,26 @@ one can limit the loss in variance as follows
   1-\frac{\sum_{i=1}^k s_{ii}}{\sum_{i=1}^n s_{ii}}\le 0.01
 \end{equation*}
 
+For visualisation usually $k=2$ or $k=3$ is used.
+
 \subsection{Reconstruction from Compressed Representation}
 The projected sample $z^{(i)}$ can be projected back to get the uncompressed representation which is an approximation of the initial feature set. This process is called ``reconstruction''.
 \begin{equation*}
   \underbrace{\sxi_{approx}}_{\in\mathbb{R}^n}=\underbrace{\mathcal{U}_{reduce}}_{\in\mathbb{R}^{n\times k}}\cdot\underbrace{z^{(i)}}_{\in\mathbb{R}^k}
 \end{equation*}
+
+\subsection{Advice for Applying PCA}
+Given a large dataset $x^{(i)}$, one can use an unlabeled dataset and apply \ac{PCA} to it, in order to obtain a lower-dimensional representation $z^{(i)}$ in order to
+\begin{itemize}
+  \item speed up the learning algorithm and
+  \item reduce memory/disk needed to store the data
+\end{itemize}
+Note that the input for the predictor needs to be mapped the same way using $\mathcal{U}_{reduce}$ obtained from the training set. \emph{I.e.} \ac{PCA} is only performed on the training set and not on the cross validation $x^{(i)}_{cv}$ and test set $x^{(i)}_{test}$.
+
+\ac{PCA} should not be used to prevent overfitting since \ac{PCA} could throw away valuable information.
+The appropriate method to prevent overfitting is regularization (see Section \ref{cha:regularization}).
+
+Before you implement \ac{PCA}, consider working with the original/raw data first.
 
 \clearpage
 
