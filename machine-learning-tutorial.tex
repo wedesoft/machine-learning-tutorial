@@ -1243,6 +1243,12 @@ one can limit the loss in variance as follows
   1-\frac{\sum_{i=1}^k s_{ii}}{\sum_{i=1}^n s_{ii}}\le 0.01
 \end{equation*}
 
+\subsection{Reconstruction from Compressed Representation}
+The projected sample $z^{(i)}$ can be projected back to get the uncompressed representation which is an approximation of the initial feature set. This process is called ``reconstruction''.
+\begin{equation*}
+  \underbrace{\sxi_{approx}}_{\in\mathbb{R}^n}=\underbrace{\mathcal{U}_{reduce}}_{\in\mathbb{R}^{n\times k}}\cdot\underbrace{z^{(i)}}_{\in\mathbb{R}^k}
+\end{equation*}
+
 \clearpage
 
 \appendix
