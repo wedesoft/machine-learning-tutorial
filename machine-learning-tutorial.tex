@@ -1433,6 +1433,24 @@ The gradient descent update rule is
 \end{align*}
 Note that the content based approach requires feature vectors $\theta^{(j)}$.
 
+\subsection{Collaborative Filtering}
+In this example each user provides a preference vector $\theta^{(j)}$ for different types of movies.
+It turns out that given $\theta^{(1)},\ldots,\theta^{(n_u)}$ one can infer the feature vectors $\sxi$ for a movie:
+\begin{equation*}
+  \mathop{\operatorname{argmin}}_{\sxi}\frac{1}{2}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{k=1}^n(\sxi_k)^2
+\end{equation*}
+or for all the movies:
+\begin{equation*}
+  \mathop{\operatorname{argmin}}_{x^{(1)},\ldots,x^{(n_m)}}\frac{1}{2}\sum_{i=1}^{n_m}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^n(\sxi_k)^2
+\end{equation*}
+
+So far it was shown that
+\begin{itemize}
+  \item Given $x^{(1)},\ldots,x^{(n_m)}$ one can estimate $\theta^{(1)},\ldots,\theta^{(n_u)}$
+  \item Given $\theta^{(1)},\ldots,\theta^{(n_u)}$ one can estimate $x^{(1)},\ldots,x^{(n_m)}$
+\end{itemize}
+One can use this two algorithms starting with a random guess for $\theta$ to estimate $x$ and then use $x$ to get an improved estimate for $\theta$ ...
+
 \clearpage
 
 \appendix
