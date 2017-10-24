@@ -1415,20 +1415,20 @@ The problem is formulated similar to the linear regression problem.
   \item $\sxi$ feature vector for movie $i$ (\emph{e.g.} how much romance, how much action, ...)
   \item $m^{(j)}$ number of movies rated by user $j$
 \end{itemize}
-The predicted rating for user $j$ and movie $i$ is $(\theta^{(j)})^\top(\sxi)$.
+The predicted rating for user $j$ and movie $i$ is $(\theta^{(j)})^\top\sxi$.
 $\theta^{(j)}$ is learned using
 \begin{equation*}
-  \mathop{\operatorname{argmin}}_{\theta^{(j)}}\frac{1}{2\,\cancel{m^{(j)}}}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2\,\cancel{m^{(j)}}}\sum_{k=1}^n(\theta^{(j)}_k)^2
+  \mathop{\operatorname{argmin}}_{\theta^{(j)}}\frac{1}{2\,\cancel{m^{(j)}}}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)^2+\frac{\lambda}{2\,\cancel{m^{(j)}}}\sum_{k=1}^n(\theta^{(j)}_k)^2
 \end{equation*}
 The optimization objective for all users $\theta^{(1)},\theta^{(2)},\ldots,\theta^{(n_u)}$ is:
 \begin{equation*}
-  \mathop{\operatorname{argmin}}_{\theta^{(1)},\ldots,\theta^{(n_u)}}\frac{1}{2}\sum_{j=1}^{n_u}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^n(\theta^{(j)}_k)^2
+  \mathop{\operatorname{argmin}}_{\theta^{(1)},\ldots,\theta^{(n_u)}}\frac{1}{2}\sum_{j=1}^{n_u}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^n(\theta^{(j)}_k)^2
 \end{equation*}
 The gradient descent update rule is
 \begin{align*}
   \begin{split}
-    \theta_k^{(j)}&\coloneqq\theta_k^{(j)}-\alpha\,\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)\sxi_k\ (\mathrm{for\ }k=0)\\
-    \theta_k^{(j)}&\coloneqq\theta_k^{(j)}-\alpha\,\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)\sxi_k+\lambda\theta^{(j)}_k\ (\mathrm{for\ }k\ne 0)
+    \theta_k^{(j)}&\coloneqq\theta_k^{(j)}-\alpha\,\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)\sxi_k\ (\mathrm{for\ }k=0)\\
+    \theta_k^{(j)}&\coloneqq\theta_k^{(j)}-\alpha\,\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)\sxi_k+\lambda\theta^{(j)}_k\ (\mathrm{for\ }k\ne 0)
   \end{split}
 \end{align*}
 Note that the content based approach requires feature vectors $\theta^{(j)}$.
@@ -1437,11 +1437,11 @@ Note that the content based approach requires feature vectors $\theta^{(j)}$.
 In this example each user provides a preference vector $\theta^{(j)}$ for different types of movies.
 It turns out that given $\theta^{(1)},\ldots,\theta^{(n_u)}$ one can infer the feature vectors $\sxi$ for a movie:
 \begin{equation*}
-  \mathop{\operatorname{argmin}}_{\sxi}\frac{1}{2}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{k=1}^n(\sxi_k)^2
+  \mathop{\operatorname{argmin}}_{\sxi}\frac{1}{2}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{k=1}^n(\sxi_k)^2
 \end{equation*}
 or for all the movies:
 \begin{equation*}
-  \mathop{\operatorname{argmin}}_{x^{(1)},\ldots,x^{(n_m)}}\frac{1}{2}\sum_{i=1}^{n_m}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^n(\sxi_k)^2
+  \mathop{\operatorname{argmin}}_{x^{(1)},\ldots,x^{(n_m)}}\frac{1}{2}\sum_{i=1}^{n_m}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^n(\sxi_k)^2
 \end{equation*}
 
 So far it was shown that
@@ -1461,11 +1461,22 @@ A more efficient approach is to jointly optimize $x^{(1)},\ldots,x^{(n_m)}$ and 
 where
 \begin{equation*}
   J(x^{(1)},\ldots,x^{(n_m)},\theta^{(1)},\ldots,\theta^{(n_u)})=
-  \frac{1}{2}\sum_{(i,j);r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2
+  \frac{1}{2}\sum_{(i,j);r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)^2
   +\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^n(\sxi_k)^2
   +\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^n(\theta^{(j)}_k)^2
 \end{equation*}
 Note that it is not necessary to hardcode a constant feature $\theta_0=1$ or $x_0=1$ because the algorithm can learn those features if required.
+
+The collaborate filtering algorithm works as follows
+\begin{enumerate}
+  \item Initialize $x^{(1)},\ldots,x^{(n_m)},\theta^{(1)},\ldots,\theta^{(n_u)}$ to small random values
+  \item Minimize $J(x^{(1)},\ldots,x^{(n_m)},\theta^{(1)},\ldots,\theta^{(n_u)})$ using gradient descent
+    \begin{itemize}
+      \item $\sxi_k\coloneqq\sxi_k-\alpha\,\sum_{j;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)\theta^{(j)}_k+\lambda\sxi_k$
+      \item $\theta_k^{(j)}\coloneqq\theta_k^{(j)}-\alpha\,\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)\sxi_k+\lambda\theta^{(j)}_k$
+    \end{itemize}
+  \item For a user with parameters $\theta$ and a movie with (learned) features $x$, predict a star rating of $\theta^\top x$
+\end{enumerate}
 
 \section{Further Reading}
 \begin{itemize}
