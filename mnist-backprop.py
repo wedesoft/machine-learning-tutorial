@@ -140,9 +140,9 @@ if __name__ == '__main__':
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
     y = tf.placeholder(tf.float32, [None, 10])
-    m1 = tf.Variable(tf.truncated_normal([784, n_hidden], stddev=1/784))
+    m1 = tf.Variable(tf.truncated_normal([784, n_hidden], stddev=1.0/784))
     b1 = tf.Variable(tf.truncated_normal([n_hidden]))
-    m2 = tf.Variable(tf.truncated_normal([n_hidden, 10], stddev=1/n_hidden))
+    m2 = tf.Variable(tf.truncated_normal([n_hidden, 10], stddev=1.0/n_hidden))
     b2 = tf.Variable(tf.truncated_normal([10]))
     theta = [m1, b1, m2, b2]
 
