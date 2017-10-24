@@ -124,7 +124,10 @@ class TestFeatureScaling:
 
 if __name__ == '__main__':
     # https://stackoverflow.com/questions/11305790/pickle-incompatability-of-numpy-arrays-between-python-2-and-3
-    training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
+    try:
+        training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
+    except TypeError:
+        training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'))
 
     n_samples = 50000
     n_classes = 10
