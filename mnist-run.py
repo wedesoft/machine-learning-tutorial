@@ -9,7 +9,7 @@ import gzip
 class Scale:
     def __init__(self, features, max_scale=10.0):
         self.average = np.average(features, axis=0)
-        self.deviation = np.maximum(np.std(features, axis=0), 1 / max_scale)
+        self.deviation = np.maximum(np.std(features, axis=0), 1.0 / max_scale)
 
     def __call__(self, values):
         return np.subtract(values, self.average) / self.deviation
@@ -17,7 +17,10 @@ class Scale:
 
 if __name__ == '__main__':
     # https://stackoverflow.com/questions/11305790/pickle-incompatability-of-numpy-arrays-between-python-2-and-3
-    training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
+    try:
+        training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
+    except TypeError:
+        training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'))
     scale = Scale(training[0], 1000)
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph('model.meta')
