@@ -1294,7 +1294,7 @@ The parameters of the distribution can be estimated as follows
 \end{itemize}
 These parameters are actually the maximum likelihood estimates of the parameters.
 
-\subsection{Anomaly Detection Algorithm}
+\subsection{Anomaly Detection Algorithm}\label{cha:anomaly}
 Given a training set $\{x^{(1)},x^{(2)},\ldots,x^{(m)}\}$ with each $x\in\mathbb{R}^n$
 we assume independent Gaussian distributions
 \begin{itemize}
@@ -1379,6 +1379,26 @@ In this case the joint distribution $p(x)$ is modelled instead of modelling $p(x
   p(x;\mu,\Sigma)=\frac{1}{(2\pi)^{n/2}|\Sigma|^\frac{1}{2}}\operatorname{e}^{-\frac{1}{2}(x-\mu)^\top\Sigma^{-1}(x-\mu)}
 \end{equation*}
 where $|\Sigma|$ is the determinant of $\Sigma$.
+
+\subsection{Anomaly Detection using the Multivariate Gaussian Distribution}
+Similar as in Section \ref{cha:anomaly} the anomaly detection using the multivariate Gaussian distribution is implemented as follows
+\begin{enumerate}
+  \item Fit a model $p(x)$ to the training data
+  \begin{itemize}
+    \item $\mu_j=\frac{1}{m}\sumi\sxi_j$
+    \item $\Sigma=\frac{1}{m}\sumi(\sxi-\mu)(\sxi-\mu)^\top$
+  \end{itemize}
+  \item Given a new example compute
+    $p(x;\mu,\Sigma)=\displaystyle\frac{1}{(2\pi)^{n/2}|\Sigma|^\frac{1}{2}}\operatorname{e}^{-\frac{1}{2}(x-\mu)^\top\Sigma^{-1}(x-\mu)}$
+\end{enumerate}
+Flag $x$ as anomaly if $p(x)<\epsilon$.
+
+The multivariate Gaussian approach automatically captures correlations between features.
+However it is computationally more expensive if $n$ is large.
+Also the size of the training set $m$ must be larger than the number of features $n$ (otherwise $\Sigma$ is not invertible).
+In practise $m$ should be an order of magnitude larger than $n$ (rule of thumb $m\ge 10\,n$).
+
+Note that the features need to be non-redundant otherwise the features might be linear-dependent so that $\Sigma$ is non-invertible.
 
 \clearpage
 
