@@ -1363,6 +1363,15 @@ Note that the data is highly skewed (y=1 is rate), it is necessary to use a good
   \end{itemize}
 \end{minipage}
 
+\subsection{Choosing What Features to Use}
+One can plot a histogram to check whether the distribution is Gaussian. If the distribution is not Gaussian, one can use a transform (\emph{e.g.} log-transform) to obtain a feature with a Gaussian distribution.
+
+\subsubsection{Error analysis for anomaly detection}
+Desired are features so that $p(x)$ large for normal examples $x$ and small for anomalous examples.
+The most common problem is that $p(x)$ is comparable for normal and anomalous examples.
+In this case additional feature(s) is/are needed to distinguish the anomaly from the other normal examples.
+\emph{E.g.} the ratio of two existing features to identify unusual combination of two features.
+
 \clearpage
 
 \appendix
