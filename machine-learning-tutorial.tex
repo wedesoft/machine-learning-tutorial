@@ -1343,6 +1343,26 @@ Possible evaluation metrics are
 Cross-validation can also be used to choose $\epsilon$.
 Note that the data is highly skewed (y=1 is rate), it is necessary to use a good evaluation metric (see Section\ref{cha:f1}).
 
+\subsection{Anomaly Detection vs. Supervised Learning}
+\begin{minipage}[t]{.45\textwidth}
+  \center{\textbf{Anomaly detection}}
+  \begin{itemize}
+    \item Very small number of positive examples (y=1). 0-20 is common (\emph{e.g.} manufacturing)
+    \item Large number of negative (y=0) examples
+    \item Many different ``types'' of anomalies.
+      Hard for any algorithm to learn from positive examples what the anomalies look like.
+    \item Future anomalies may look nothing like any of the anomalous examples we've seen so far.
+  \end{itemize}
+\end{minipage}
+\begin{minipage}[t]{.45\textwidth}
+  \center{\textbf{Supervised learning}}
+  \begin{itemize}
+    \item Large number of positive and negative example (\emph{e.g. spam email classification})
+    \item Enough positive exmaples for algorithm to get a sense of what positive examples are like,
+      future positive examples likely to be similar to ones in training set.
+  \end{itemize}
+\end{minipage}
+
 \clearpage
 
 \appendix
