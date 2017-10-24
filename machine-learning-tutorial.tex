@@ -1372,6 +1372,14 @@ The most common problem is that $p(x)$ is comparable for normal and anomalous ex
 In this case additional feature(s) is/are needed to distinguish the anomaly from the other normal examples.
 \emph{E.g.} the ratio of two existing features to identify unusual combination of two features.
 
+\subsection{Multivariate Gaussian Distribution}
+One can use a multivariate Gaussian distribution to detect unusual combinations of features.
+In this case the joint distribution $p(x)$ is modelled instead of modelling $p(x_1),p(x_2),\ldots$ separately.
+\begin{equation*}
+  p(x;\mu,\Sigma)=\frac{1}{(2\pi)^{n/2}|\Sigma|^\frac{1}{2}}\operatorname{e}^{-\frac{1}{2}(x-\mu)^\top\Sigma^{-1}(x-\mu)}
+\end{equation*}
+where $|\Sigma|$ is the determinant of $\Sigma$.
+
 \clearpage
 
 \appendix
