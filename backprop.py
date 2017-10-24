@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow
 # https://github.com/craffel/theano-tutorial/blob/master/Backpropagation.ipynb
-import pytest
 import math
 from numpy.testing import assert_array_equal
 import numpy as np

@@ -84,7 +84,7 @@ class TestMultiClassLabel:
 class Scale:
     def __init__(self, features, max_scale=10.0):
         self.average = np.average(features, axis=0)
-        self.deviation = np.maximum(np.std(features, axis=0), 1 / max_scale)
+        self.deviation = np.maximum(np.std(features, axis=0), 1.0 / max_scale)
 
     def __call__(self, values):
         return np.subtract(values, self.average) / self.deviation
