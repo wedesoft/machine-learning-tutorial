@@ -14,6 +14,8 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 
+\usepackage{cancel}
+
 \usepackage{amsmath}
 \usepackage{txfonts}
 
@@ -1399,6 +1401,37 @@ Also the size of the training set $m$ must be larger than the number of features
 In practise $m$ should be an order of magnitude larger than $n$ (rule of thumb $m\ge 10\,n$).
 
 Note that the features need to be non-redundant otherwise the features might be linear-dependent so that $\Sigma$ is non-invertible.
+
+\section{Recommender Systems}
+\subsection{Content Based Recommendations}
+Recommender systems are a popular application of machine learning (\emph{e.g.} Amazon product recommendation).
+
+For example one can attempt to predict movie ratings for new movies not rated by a user jet.
+The problem is formulated similar to the linear regression problem.
+\begin{itemize}
+  \item $r(i,j)=1$ if user $j$ has rated movie $i$ ($0$ otherwise)
+  \item $y^{(i,j)}$ is the rating by user $j$ on movie $i$ (if defined)
+  \item $\theta^{(j)}$ parameter vector for user $j$
+  \item $\sxi$ feature vector for movie $i$ (\emph{e.g.} how much romance, how much action, ...)
+  \item $m^{(j)}$ number of movies rated by user $j$
+\end{itemize}
+The predicted rating for user $j$ and movie $i$ is $(\theta^{(j)})^\top(\sxi)$.
+$\theta^{(j)}$ is learned using
+\begin{equation*}
+  \mathop{\operatorname{min}}_{\theta^{(j)}}\frac{1}{2\,\cancel{m^{(j)}}}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2\,\cancel{m^{(j)}}}\sum_{k=1}^n(\theta^{(j)}_k)^2
+\end{equation*}
+The optimization objective for all users $\theta^{(1)},\theta^{(2)},\ldots,\theta^{(n_u)}$ is:
+\begin{equation*}
+  \mathop{\operatorname{min}}_{\theta^{(1)},\ldots,\theta^{(n_u)}}\frac{1}{2}\sum_{j=1}^{n_u}\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^n(\theta^{(j)}_k)^2
+\end{equation*}
+The gradient descent update rule is
+\begin{align*}
+  \begin{split}
+    \theta_k^{(j)}&\coloneqq\theta_k^{(j)}-\alpha\,\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)\sxi_k\ (\mathrm{for\ }k=0)\\
+    \theta_k^{(j)}&\coloneqq\theta_k^{(j)}-\alpha\,\sum_{i;r(i,j)=1}\big((\theta^{(j)})^\top(\sxi)-y^{(i,j)}\big)\sxi_k+\lambda\theta^{(j)}_k\ (\mathrm{for\ }k\ne 0)
+  \end{split}
+\end{align*}
+Note that the content based approach requires feature vectors $\theta^{(j)}$.
 
 \clearpage
 
