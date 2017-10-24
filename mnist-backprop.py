@@ -136,7 +136,7 @@ if __name__ == '__main__':
     regularize = 0.2
     alpha = 0.5
     training = random_selection(n_samples, *training)
-    scale = Scale(training[0], 1000)
+    scale = Scale(training[0], 1000.0)
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
     y = tf.placeholder(tf.float32, [None, 10])
