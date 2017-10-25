@@ -132,7 +132,7 @@ if __name__ == '__main__':
     n_samples = 50000
     batch_size = 300
     n_classes = 10
-    n_iterations = 50000
+    n_iterations = 10000
     n_hidden = 300
     regularize = 0.01
     alpha = 0.5

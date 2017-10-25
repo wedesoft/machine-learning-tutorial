@@ -1548,6 +1548,10 @@ The gradient update rule in this case is
 \end{equation*}
 Mini-batch gradient descent can be parallelized more easily to gain computational speed.
 
+\subsection{Stochastic Gradient Descent Convergence}
+Checking for convergence can also be costly when $m$ is large.
+Instead of computing the value of $J_{train}$ when doing \ac{SGD}, one can compute $cost(\theta,(\sxi,\syi))$ for the training sample under consideration before updating $\theta$ and every 1000 iterations plot the average cost of the last 1000 examples processed by the algorithm.
+
 \section{Further Reading}
 \begin{itemize}
   \item \acp{CNN}
