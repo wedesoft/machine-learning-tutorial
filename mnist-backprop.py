@@ -132,10 +132,10 @@ if __name__ == '__main__':
     n_samples = 50000
     batch_size = 300
     n_classes = 10
-    n_iterations = 10000
+    n_iterations = 20000
     n_hidden = 300
-    regularize = 0.01
-    alpha = 0.5
+    regularize = 0.001
+    alpha = 0.3
     training = random_selection(n_samples, *training)
     scale = Scale(training[0], 1000.0)
 

@@ -1557,6 +1557,26 @@ Instead of computing the value of $J_{train}$ when doing \ac{SGD}, one can compu
 \end{itemize}
 One can slowly decrease the learning rate $\alpha$ with the number of iterations. However this adds an additional parameter to tune.
 
+\subsection{Online Learning}
+An online learning algorithm can work with a continuous stream of data.
+\emph{E.g.} on a shipping service website users specify origin and destination of shipment and after receiving a quote for the price, they either decide to use the service (y=1) or not (y=0). We want to learn $p(y=1|x;\theta)$ to optimize the price (the price is part of $x$) using logistic regression.
+\begin{itemize}
+  \item Get $(x,y)$ corresponding to a user
+  \item Update $\theta$ using $(x,y)$: $\theta_j\coloneqq\theta_j-\alpha\,\big(h_\theta(x)-y)x_j$ for $j\in\{0\,\ldots,n\}$
+\end{itemize}
+This online learning algorithm will adapt to changing user preferences.
+Note that if there is enough incoming data, it might be sufficient to look at each training sample once.
+
+Another example would be the problem of which product results to display when a user enters a certain search term.
+\begin{itemize}
+  \item $x$ is the feature vector of the phone (how many words in user query match the name of the phone, how many words match the description of the phone)
+  \item $y=1$ if user clicks on the link, $y=0$ otherwise.
+  \item learn $p(y=1|x;\theta)$
+\end{itemize}
+This problem is known as the problem of predicting \ac{CTR}.
+
+Other examples are: Choosing special offsers to show sers; customized selection of news articles; product recommendations; ...
+
 \section{Further Reading}
 \begin{itemize}
   \item \acp{CNN}
@@ -1607,6 +1627,7 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 \begin{acronym}[L-BFGS]
   \acro{BFGS}{Broyden-Fletcher-Goldfarb-Shanno algorithm}
   \acro{CNN}{Convolutional Neural Network}
+  \acro{CTR}{Click through rate}
   \acro{L-BFGS}{Limited-memory BFGS}
   \acro{LSTM}{Long short-term memory}
   \acro{PCA}{Principal Component Analysis}
