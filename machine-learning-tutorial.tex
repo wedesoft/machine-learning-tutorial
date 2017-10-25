@@ -1609,6 +1609,22 @@ Logistic regression can be parallelized in a similar fashion.
 MapReduce can also be applied when using multi-core, vector instructions, or \acp{GPU}.
 The Tensorflow\footnote{\url{https://www.tensorflow.org/}} implementation supports \acp{GPU} and \ac{SIMD}.
 
+\section{Application Example Photo OCR}
+\subsection{Problem Description and Pipeline}
+Photo \ac{OCR} can be useful for making it possible to query images by text seen in those images.
+Another application of \ac{OCR} are devices to enable blind people to read.
+The photo \ac{OCR} pipeline is as follows
+\begin{enumerate}
+  \item text detection
+  \item character segmentation
+  \item character classification
+\end{enumerate}
+An optional final step is to perform a spell check.
+
+Deciding on the pipeline (how to break down the problem) is one of the most important decisions when designing a machine learning system.
+The quality of each pipeline step fully impacts the performance of the final system.
+A pipeline often offers a natural way to split up the work in a development team.
+
 \section{Further Reading}
 \begin{itemize}
   \item \acp{CNN}
@@ -1663,10 +1679,11 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
   \acro{GPU}{Graphics Processing Unit}
   \acro{L-BFGS}{Limited-memory BFGS}
   \acro{LSTM}{Long short-term memory}
+  \acro{OCR}{Optical Character Recognition}
   \acro{PCA}{Principal Component Analysis}
   \acro{RBM}{Restricted Boltzmann Machine}
   \acro{SGD}{Stochastic Gradient Descent}
-  \acro{SIMD}{single instruction, multiple data}
+  \acro{SIMD}{Single Instruction, Multiple Data}
   \acro{SVD}{Singular Value Decomposition}
   \acro{SVM}{Support Vector Machine}
 \end{acronym}
