@@ -130,10 +130,11 @@ if __name__ == '__main__':
         training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'))
 
     n_samples = 50000
+    batch_size = 300
     n_classes = 10
-    n_iterations = 4000
-    n_hidden = 600
-    regularize = 0.2
+    n_iterations = 50000
+    n_hidden = 300
+    regularize = 0.01
     alpha = 0.5
     training = random_selection(n_samples, *training)
     scale = Scale(training[0], 1000.0)
@@ -177,7 +178,9 @@ if __name__ == '__main__':
                  sess.run(rmsd, feed_dict=validate),
                  sess.run(rmsd, feed_dict=test))
         for i in progress:
-            sess.run(step, feed_dict=train)
+            selection = random_selection(batch_size, train[x], train[y])
+            mini_batch = {x: selection[0], y: selection[1]}
+            sess.run(step, feed_dict=mini_batch)
             if i % 10 == 0:
                 progress.set_description(info())
         print(info())
