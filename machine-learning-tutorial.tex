@@ -1551,6 +1551,11 @@ Mini-batch gradient descent can be parallelized more easily to gain computationa
 \subsection{Stochastic Gradient Descent Convergence}
 Checking for convergence can also be costly when $m$ is large.
 Instead of computing the value of $J_{train}$ when doing \ac{SGD}, one can compute $cost(\theta,(\sxi,\syi))$ for the training sample under consideration before updating $\theta$ and every 1000 iterations plot the average cost of the last 1000 examples processed by the algorithm.
+\begin{itemize}
+  \item it might be necessary to average over more samples if the curve is too noisy (disadvantage is delayed feedback)
+  \item Sometimes a smaller learning rate $\alpha$ can lead to better results especially if the cost is diverging
+\end{itemize}
+One can slowly decrease the learning rate $\alpha$ with the number of iterations. However this adds an additional parameter to tune.
 
 \section{Further Reading}
 \begin{itemize}
