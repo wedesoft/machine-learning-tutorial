@@ -1647,6 +1647,26 @@ One can use a 1D sliding window classifier to segment characters (see Figure \re
 \end{figure}
 \emph{I.e.} a classifier is training to detect character boundaries.
 
+\subsection{Getting Lots of Data and Artificial Data}
+For the photo \ac{OCR} problem one can generate artificial data by downloading many fonts and create a synthetic training set using different backgrounds.
+One can apply blurring and artifical distortions (warps) to the training data to train the machine learning algorithm for increased robustness.
+
+Another example is training data for a speech recognition algorithm. One can synthesise examples by adding different background sounds (\emph{e.g.} mobile phone noises, compression artifacts, machinery, crowd of people).
+
+Note that it usually does not help to add purely random/meaningless noise to your training data.
+
+\subsubsection{Discussion on getting more data}
+Getting more training data can be a great way to increase the performance of a machine learning algorithm.
+\begin{enumerate}
+  \item Make sure you have a low bias classifier before expending the effort (plot learning curves). \emph{E.g.} keep increasing the number of features/number of hidden units in neural network until you have a low bias classifier.
+  \item Ask yourself: ``How much work would it be to get $10\times$ as much data as we currently have?''
+    \begin{itemize}
+      \item Artifical data synthesis
+      \item Collect/label it yourself\footnote{How many seconds does it take you to label one training sample?}
+      \item ``Crowd source'' (\emph{e.g.} Amazon Mechanical Turk)
+    \end{itemize}
+\end{enumerate}
+
 \section{Further Reading}
 \begin{itemize}
   \item \acp{CNN}
