@@ -166,7 +166,7 @@ A result of the iterative algorithm is shown in Figure \ref{fig:gradient_descent
   \end{center}
 \end{figure}
 
-\section{Linear Regression with Multiple Variables}
+\section{Linear Regression with Multiple Variables}\label{cha:linearmulti}
 \subsection{Multiple Features}
 In the case of $n$ features, each feature $\sxi$ is a $n+1$ dimensional feature vector with $x_0$ set to $1$ for convenience:
 \begin{equation*}
@@ -1502,9 +1502,54 @@ The prediction of a movie rating is $(\theta^{(j)})^\top x^{(i)}+\mu_i$ where $\
 
 Note that it is more important to predict a rating for a user which has not provided any ratings, than to predict a rating for a movie which has not received any ratings.
 
+\section{Large Scale Machine Learning}
+\subsection{Learning with Large Datasets}
+If $m$ is large (\emph{e.g.} $m=100,000,000$), the computational expense of a gradient descent step such as
+\begin{equation*}
+  \theta_j\coloneqq\theta_j-\alpha\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\sxi_j
+\end{equation*}
+is very high.
+If the model is very simple (training and validation cost function converge quickly), a small random subset of the data might be sufficient to train the learning algorithm.
+
+\subsection{Stochastic Gradient Descent}
+Without loss of generality, suppose we are performing linear regression (see Section \ref{cha:linearmulti}) for
+\begin{itemize}
+  \item $h_\theta(x)=\displaystyle\sum_{j=0}^n\theta_jx_j$
+  \item $J_{train}(\theta)=\cfrac{1}{2\,m}\sumi\big(h_\theta(\sxi)-\syi\big)^2=\frac{1}{m}\sumi cost\big(\theta,(\sxi,\syi)\big)$
+\end{itemize}
+using gradient descent
+\begin{equation*}
+  \theta_j\coloneqq\theta_j-\alpha\underbrace{\frac{1}{m}\sumi\big(h_\theta(\sxi)-\syi\big)\sxi_j}_{=\frac{\delta}{\delta\theta}J_{train}(\theta)}
+  \mathrm{\ for\ }j\in\{0,\ldots,n\}
+\end{equation*}
+Summing over a large $m$ is computationally expensive.
+Instead one can use \ac{SGD} (also known as batch gradient descent).
+\emph{E.g.} using a single sample for a gradient descent step:
+\begin{enumerate}
+  \item Randomly shuffle dataset
+  \item For $i\in\{1,\ldots,m\}$
+    \begin{enumerate}
+      \item $\theta_j\coloneqq\theta_j-\alpha\big(h_\theta(\sxi)-\syi\big)\sxi_j$ for $j\in\{0,\ldots,n\}$
+    \end{enumerate}
+\end{enumerate}
+\ac{SGD} generally requires much less performance than a gradient descent using the full training set at each step.
+
+\subsubsection{Mini-batch Gradient Descent}
+There are three variations of the gradient descent algorithm:
+\begin{itemize}
+  \item Batch gradient descent: Use all $m$ examples in each iteration
+  \item \acf{SGD}: Use 1 example in each iteration
+  \item Mini-batch gradient descent: Use $b$ examples in each iteration (typically $2\le b\le100$)
+\end{itemize}
+The gradient update rule in this case is
+\begin{equation*}
+  \theta_j\coloneqq\theta_j-\alpha\frac{1}{b}\sum_{k=i}^{i+b-1}\big(h_\theta(x^{(k)})-y^{(k)}\big)x^{(k)}_j
+  \mathrm{\ using\ }i=1,b+1,2\,b+1,\ldots
+\end{equation*}
+Mini-batch gradient descent can be parallelized more easily to gain computational speed.
+
 \section{Further Reading}
 \begin{itemize}
-  \item \ac{SGD}
   \item \acp{CNN}
   \item \ac{LSTM}
   \item \ac{RBM}
