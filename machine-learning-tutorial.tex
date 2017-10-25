@@ -1167,7 +1167,7 @@ The random initialization of the K-means algorithm is recommended to be performe
   \item set the initial centroids $\mu_1,\ldots,\mu_K$ equal to these $K$ examples
 \end{itemize}
 
-K-means can get stuck in a local optimum (especially when $K$ is small). One can address this by running the K-means algorithm many times and chosing the best result using the cost function $J$ (see Equation \ref{equ:kmeanscost}).
+K-means can get stuck in a local optimum (especially when $K$ is small). One can address this by running the K-means algorithm many times and chosing the best result using the cost function $J$ (see Equation (\ref{equ:kmeanscost})).
 
 \subsection{Choosing the Number of Clusters}
 The elbow method for choosing $K$ works by plotting the optimal cost functions value $J$ for different $K$.
@@ -1459,12 +1459,12 @@ A more efficient approach is to jointly optimize $x^{(1)},\ldots,x^{(n_m)}$ and 
   J(x^{(1)},\ldots,x^{(n_m)},\theta^{(1)},\ldots,\theta^{(n_u)})
 \end{equation*}
 where
-\begin{equation*}
+\begin{equation}\label{equ:collaborative}
   J(x^{(1)},\ldots,x^{(n_m)},\theta^{(1)},\ldots,\theta^{(n_u)})=
   \frac{1}{2}\sum_{(i,j);r(i,j)=1}\big((\theta^{(j)})^\top\sxi-y^{(i,j)}\big)^2
   +\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^n(\sxi_k)^2
   +\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^n(\theta^{(j)}_k)^2
-\end{equation*}
+\end{equation}
 Note that it is not necessary to hardcode a constant feature $\theta_0=1$ or $x_0=1$ because the algorithm can learn those features if required.
 
 The collaborate filtering algorithm works as follows
@@ -1477,6 +1477,20 @@ The collaborate filtering algorithm works as follows
     \end{itemize}
   \item For a user with parameters $\theta$ and a movie with (learned) features $x$, predict a star rating of $\theta^\top x$
 \end{enumerate}
+
+\subsection{Vectorization: Low Rank Matrix Factorization}
+Equation (\ref{equ:collaborative}) can be vectorized using
+\begin{itemize}
+  \item a matrix $\mathcal{Y}$ composed from $y^{(i,j)}$
+  \item a matrix $\mathcal{X}=\begin{pmatrix}(x^{(1)})^\top\\(x^{(2)})^\top\\\hdots\\(x^{(n_m)})^\top\end{pmatrix}$ of the movie feature vectors
+  \item a matrix $\Theta=\begin{pmatrix}\theta^{(1)}&\theta^{(2)}&\hdots&\theta^{(n_u)}\end{pmatrix}$ of the user parameters
+\end{itemize}
+$\mathcal{X}$ and $\Theta$ are assumed to be low rank matrices (\emph{i.e.} movies and users can be clustered).
+
+The feature vectors $\sxi$ for each movie offer a convenient way to find similar movies:
+\begin{equation*}
+  ||x^{(i)}-x^{(j)}||\mathrm{\ is\ small}\Leftrightarrow\mathrm{movies\ }i\mathrm{\ and\ }j\mathrm{\ are\ ``similar''}
+\end{equation*}
 
 \section{Further Reading}
 \begin{itemize}
