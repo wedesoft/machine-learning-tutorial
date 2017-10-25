@@ -1577,6 +1577,34 @@ This problem is known as the problem of predicting \ac{CTR}.
 
 Other examples are: Choosing special offsers to show sers; customized selection of news articles; product recommendations; ...
 
+\subsection{MapReduce and Data Parallelism}
+For large scale machine learning problems it might be necessary to distribute the computation over several machines.
+
+\subsubsection{MapReduce}
+\citep{mapreduce} introduces a simple approach to parallel computing on a large scale.
+The gradient descent algorithm
+\begin{equation*}
+  \theta_j\coloneqq\theta_j-\alpha\frac{1}{m}\big(h_\theta(\sxi)-\syi)\sxi_j
+\end{equation*}
+can be parallelized using the MapReduce approach as follows
+\begin{enumerate}
+  \item Map step:
+    \begin{itemize}
+      \item machine 1
+        \begin{itemize}
+          \item use $(x^{(1)},y^{(1)}),\ldots,(x^{(100)},y^{(100)})$
+          \item compute $temp^{(1)}_j=\sum_{i=1}^{100}\big(h_\theta(\sxi)-\syi)$
+        \end{itemize}
+      \item machine 2
+        \begin{itemize}
+          \item use $(x^{(101)},y^{(101)}),\ldots,(x^{(200)},y^{(200)})$
+          \item compute $temp^{(2)}_j=\sum_{i=101}^{200}\big(h_\theta(\sxi)-\syi)$
+        \end{itemize}
+      \item $\vdots$
+    \end{itemize}
+  \item Reduce step: $\theta_j\coloneqq\theta_j-\alpha\frac{1}{m}(temp^{(1)}_j+temp^{(2)}_j+\ldots)$ for $j\in\{0,\ldots,n\}$
+\end{enumerate}
+
 \section{Further Reading}
 \begin{itemize}
   \item \acp{CNN}
