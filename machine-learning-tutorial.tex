@@ -1626,15 +1626,15 @@ The quality of each pipeline step fully impacts the performance of the final sys
 A pipeline often offers a natural way to split up the work in a development team.
 
 \subsection{Sliding Windows}
+\begin{footnotesize}
+\emph{The video in the playlist is broken. Watch \url{https://www.youtube.com/watch?v=JZRhXI-ydMc} instead}.
+\end{footnotesize}
+
 Pedestrian detection is simpler than text detection because the aspect ratio of the bounding boxes is the same.
 One can use $82\times36$ image patches with positive examples (y=1) and negative examples (y=0).
 Given an input image, the classifier is applied to image patches obtained by running sliding windows of different size over an image.
 The image patches are scaled so that they can be used as input to the classifier.
 In a similar fashion one can classify regions containing image text.
-
-\begin{footnotesize}
-\emph{The video in the playlist is broken. Watch \url{https://www.youtube.com/watch?v=JZRhXI-ydMc} instead}.
-\end{footnotesize}
 
 The output image of the classifier is dilated using an ``expansion'' filter. Furthermore one can use connected components to suppress small regions and finally compute bounding boxes for the remaining regions.
 
@@ -1656,6 +1656,10 @@ Another example is training data for a speech recognition algorithm. One can syn
 Note that it usually does not help to add purely random/meaningless noise to your training data.
 
 \subsubsection{Discussion on getting more data}
+\begin{footnotesize}
+  \emph{The video in the playlist is broken. Watch \url{https://www.youtube.com/watch?v=KpQSs4g6KHY}}
+\end{footnotesize}
+
 Getting more training data can be a great way to increase the performance of a machine learning algorithm.
 \begin{enumerate}
   \item Make sure you have a low bias classifier before expending the effort (plot learning curves). \emph{E.g.} keep increasing the number of features/number of hidden units in neural network until you have a low bias classifier.
