@@ -179,7 +179,6 @@ if __name__ == '__main__':
     with tf.Session() as sess:
         train = {x: scale(training[0] ), y: multi_class_label(training[1], n_classes)}
         validate = {x: scale(validation[0] ), y: multi_class_label(validation[1], n_classes)}
-        test = {x: scale(testing[0] ), y: multi_class_label(testing[1], n_classes)}
         sess.run(tf.global_variables_initializer())
         progress = tqdm(range(n_iterations))
         info = lambda: 'train: %8.6f, validate: %8.6f' % \

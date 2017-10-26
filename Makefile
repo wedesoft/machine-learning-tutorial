@@ -33,7 +33,7 @@ machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsu
 	scaling.jpg gradientproscons.jpg decisionboundary.jpg circularboundary.jpg costy1.jpg costy0.jpg onevsall.jpg \
 	logisticunit.jpg hidden.jpg xnor.jpg lecun.jpg alvinn.jpg charseg.png ceiling.png \
 	convolution.py least_squares.py gradient_descent.py learning_rate.py classifier.py polynomial.py overfitting.py \
-	backprop.py mnist-backprop.py mnist-run.py
+	backprop.py mnist-backprop.py mnist-run.py mnist-convolutional.py
 
 clean:
 	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg mnist.ckpt* checkpoint
