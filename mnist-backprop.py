@@ -132,8 +132,9 @@ if __name__ == '__main__':
     n_samples = 50000
     batch_size = 300
     n_classes = 10
-    n_iterations = 20000
-    n_hidden = 300
+    n_iterations = 30000
+    n_hidden1 = 300
+    n_hidden2 = 150
     regularize = 0.001
     alpha = 0.3
     training = random_selection(n_samples, *training)
@@ -141,23 +142,27 @@ if __name__ == '__main__':
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
     y = tf.placeholder(tf.float32, [None, 10])
-    m1 = tf.Variable(tf.truncated_normal([784, n_hidden], stddev=1.0/784))
-    b1 = tf.Variable(tf.truncated_normal([n_hidden]))
-    m2 = tf.Variable(tf.truncated_normal([n_hidden, 10], stddev=1.0/n_hidden))
-    b2 = tf.Variable(tf.truncated_normal([10]))
-    theta = [m1, b1, m2, b2]
+    m1 = tf.Variable(tf.truncated_normal([784, n_hidden1], stddev=1.0/784))
+    b1 = tf.Variable(tf.truncated_normal([n_hidden1]))
+    m2 = tf.Variable(tf.truncated_normal([n_hidden1, n_hidden2], stddev=1.0/n_hidden1))
+    b2 = tf.Variable(tf.truncated_normal([n_hidden2]))
+    m3 = tf.Variable(tf.truncated_normal([n_hidden2, 10], stddev=1.0/n_hidden2))
+    b3 = tf.Variable(tf.truncated_normal([10]))
+    theta = [m1, b1, m2, b2, m3, b3]
 
     a0 = tf.sigmoid(x)
     z1 = tf.add(tf.matmul(a0, m1), b1)
     a1 = tf.sigmoid(z1)
     z2 = tf.add(tf.matmul(a1, m2), b2)
     a2 = tf.sigmoid(z2)
-    h = a2
+    z3 = tf.add(tf.matmul(a2, m3), b3)
+    a3 = tf.sigmoid(z3)
+    h = a3
 
     prediction = tf.argmax(h, axis=-1)
 
     m = tf.cast(tf.size(y) / n_classes, tf.float32)
-    reg_term = (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2))) * regularize / (m * 2)
+    reg_term = (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2)) + tf.reduce_sum(tf.square(m3))) * regularize / (m * 2)
     error_term = -tf.reduce_sum(y * tf.log(h) + (1 - y) * tf.log(1 - h)) / m
     cost = error_term + regularize * reg_term
     rmsd = tf.reduce_sum(tf.square(h - y)) / (2 * m)
