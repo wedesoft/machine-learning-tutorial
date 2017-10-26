@@ -1709,53 +1709,51 @@ As a developer don't waste your time working on something which really is not go
     \end{itemize}
 \end{itemize}
 
-\subsection{Further Reading}
-\begin{itemize}
-  \item \acp{CNN}
-  \item \ac{LSTM}
-  \item \ac{RBM}
-\end{itemize}
+\begin{footnotesize}
+  Further reading: \ac{RBM}, \acp{CNN}, \ac{LSTM}
+\end{footnotesize}
 
 \clearpage
 
 \appendix
 \section{Appendix}
-\subsection{Least Squares Estimator}\label{app:lse}
+\subsection{Source Code}
+\subsubsection{Least Squares Estimator}\label{app:lse}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{least_squares.py}
 
-\subsection{Linear Regression}\label{app:gradientdescent}
+\subsubsection{Linear Regression}\label{app:gradientdescent}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{gradient_descent.py}
 
-\subsection{Learning Rate}\label{app:alphas}
+\subsubsection{Learning Rate}\label{app:alphas}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{learning_rate.py}
 
-\subsection{Logistic Regression}\label{app:classifier}
+\subsubsection{Logistic Regression}\label{app:classifier}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{classifier.py}
 
-\subsection{Polynomial Features}\label{app:polynomial}
+\subsubsection{Polynomial Features}\label{app:polynomial}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{polynomial.py}
 
-\subsection{Overfitting Example}\label{app:overfitting}
+\subsubsection{Overfitting Example}\label{app:overfitting}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{overfitting.py}
 
-\subsection{Backpropagation using Tensorflow}\label{app:backprop}
+\subsubsection{Backpropagation using Tensorflow}\label{app:backprop}
 Backpropagation example from \url{https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{backprop.py}
 
-\subsection{Backpropagation applied to the MNIST Dataset}\label{app:mnistbackprop}
-\subsubsection{Training}
+\subsubsection{Backpropagation applied to the MNIST Dataset}\label{app:mnistbackprop}
+\paragraph{Training}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-backprop.py}
-\subsubsection{Testing}
+\paragraph{Testing}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-run.py}
 
-\subsection{Convolution using Theano}
+\subsubsection{Convolution using Theano}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}
 
 \section{References and Glossary}
-\subsection{References}
+\subsubsection{References}
 \printbibliography[heading=none]
 
-\subsection{Glossary}
+\subsubsection{Glossary}
 \begin{acronym}[L-BFGS]
   \acro{BFGS}{Broyden-Fletcher-Goldfarb-Shanno algorithm}
   \acro{CNN}{Convolutional Neural Network}

@@ -173,10 +173,9 @@ if __name__ == '__main__':
         test = {x: scale(testing[0] ), y: multi_class_label(testing[1], n_classes)}
         sess.run(tf.global_variables_initializer())
         progress = tqdm(range(n_iterations))
-        info = lambda: 'train: %8.6f, validate: %8.6f, test: %8.6f' % \
+        info = lambda: 'train: %8.6f, validate: %8.6f' % \
                 (sess.run(rmsd, feed_dict=train),
-                 sess.run(rmsd, feed_dict=validate),
-                 sess.run(rmsd, feed_dict=test))
+                 sess.run(rmsd, feed_dict=validate))
         for i in progress:
             selection = random_selection(batch_size, train[x], train[y])
             mini_batch = {x: selection[0], y: selection[1]}
