@@ -191,6 +191,6 @@ if __name__ == '__main__':
         output = sess.run(prediction, feed_dict=validate)
         print('validation labels:', validation[1])
         print('predictions      :', output)
-        print('error rate:', np.average(output != validation[1]))
+        print('validation error rate:', np.average(output != validation[1]))
         tf.add_to_collection('prediction', prediction)
         saver.save(sess, 'model')
