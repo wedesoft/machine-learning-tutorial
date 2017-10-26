@@ -34,7 +34,7 @@
 \section{Introduction}
 
 \subsection{What is Machine Learning}
-These are course notes\footnote{source code here: \url{https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial}} to Andrew Ng's video lecture\citep{andrewng}\footnote{also available here: \url{https://www.youtube.com/playlist?list=PL0Smm0jPm9WcCsYvbhPCdizqNKps69W4Z}}.
+These are course notes\footnote{source code here: \url{https://igit.comm.ad.roke.co.uk/jw4/machine-learning-tutorial}} to Andrew Ng's video lecture\citep{andrewng,andrewng2}\footnote{also available here: \url{https://www.youtube.com/playlist?list=PL0Smm0jPm9WcCsYvbhPCdizqNKps69W4Z}}.
 A well-posed learning problem (as defined by Tom Mitchell) is:
 \begin{displayquote}
   A computer program is said to \emph{learn} from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E.
@@ -1675,8 +1675,41 @@ Getting more training data can be a great way to increase the performance of a m
 \begin{footnotesize}
   \emph{The video in the playlist is broken. Watch \url{https://www.youtube.com/watch?v=YO073I5cqpQ} instead.}
 \end{footnotesize}
+Your time as a developer is the most valuable resource when implementing machine learning systems.
+It is important to always know what part of the pipeline to spend most development effort on.
 
-\section{Further Reading}
+One can use evaluation metrics (\emph{e.g.} accuracy) to evaluate the overall performance.
+One can simulate (\emph{i.e.} manually create) perfect input for a part of the pipeline to test the performance of the remaining pipeline. Each difference gives an upper bound on the potential performance improvement of optimizing an individual part of the pipeline (see Figure \ref{fig:ceiling}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{ceiling}
+    \caption{Ceiling analysis example\citep{andrewng}\label{fig:ceiling}}
+  \end{center}
+\end{figure}
+As a developer don't waste your time working on something which really is not going to matter. Don't trust your gut-feeling.
+
+\section{Summary and Thank You}
+\subsection{Main Topics}
+\begin{itemize}
+  \item Supervised Learning
+    \begin{itemize}
+      \item Linear regression, logistic regression, neural networks, \acp{SVM}
+    \end{itemize}
+  \item Unsupervised Learning
+    \begin{itemize}
+      \item K-means, \ac{PCA}, anomaly detection
+    \end{itemize}
+  \item Special applications/special topics
+    \begin{itemize}
+      \item Recommender systems, large scale machine learning
+    \end{itemize}
+  \item Advice on building a machine learning system
+    \begin{itemize}
+      \item Bias/variance, regularization; deciding what to work on next: evaluation of learning algorithms, learning curves, error analysis, ceiling analysis
+    \end{itemize}
+\end{itemize}
+
+\subsection{Further Reading}
 \begin{itemize}
   \item \acp{CNN}
   \item \ac{LSTM}
