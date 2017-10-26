@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from functools import reduce
+from operator import add
 import pickle
 import gzip
 import tensorflow as tf
@@ -36,6 +38,7 @@ if __name__ == '__main__':
     n_iterations = 10000
     batch_size = 100
     alpha = 0.3
+    regularize = 0.008
     scale = Scale(training[0], 1000.0)
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
@@ -66,8 +69,10 @@ if __name__ == '__main__':
     prediction = tf.argmax(h, axis=-1)
 
     m = tf.cast(tf.size(y) / n_classes, tf.float32)
+    reg_term = reduce(add, [tf.reduce_sum(tf.square(parameter)) for parameter in reg_candidates]) / (m * 2)
     safe_log = lambda v: tf.log(tf.clip_by_value(v, 1e-10, 1.0))
-    cost = -tf.reduce_sum(y * safe_log(h) + (1 - y) * safe_log(1 - h)) / m
+    error_term = -tf.reduce_sum(y * safe_log(h) + (1 - y) * safe_log(1 - h)) / m
+    cost = error_term + regularize * reg_term
     dtheta = tf.gradients(cost, theta)
     step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue))) for value, dvalue in zip(theta, dtheta)]
     rmsd = tf.reduce_sum(tf.square(h - y)) / (2 * m)
