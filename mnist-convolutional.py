@@ -35,10 +35,10 @@ def random_selection(size, *arrays):
 if __name__ == '__main__':
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
     n_classes = 10
-    n_iterations = 10000
+    n_iterations = 100000
     batch_size = 100
-    alpha = 0.3
-    regularize = 0.008
+    alpha = 0.2
+    regularize = 0.016
     scale = Scale(training[0], 1000.0)
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
