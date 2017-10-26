@@ -33,7 +33,7 @@ def random_selection(size, *arrays):
 if __name__ == '__main__':
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
     n_classes = 10
-    n_iterations = 100 # 50000
+    n_iterations = 10000
     batch_size = 100
     alpha = 0.3
     scale = Scale(training[0], 1000.0)
