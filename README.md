@@ -29,3 +29,4 @@ source ./venv/bin/activate
 * [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
 * [Theano-tutorial: Backpropagation](https://github.com/craffel/theano-tutorial/blob/master/Backpropagation.ipynb)
 * [Backpropagation with Tensorflow](https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow)
+* [Tensorflow and Deep Learning without a PhD](https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/)
