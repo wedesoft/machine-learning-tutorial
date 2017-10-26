@@ -2,6 +2,8 @@
 # http://blog.aloni.org/posts/backprop-with-tensorflow/
 import pytest
 from numpy.testing import assert_array_equal
+from functools import reduce
+from operator import add
 import sys
 import numpy as np
 import tensorflow as tf
@@ -132,10 +134,10 @@ if __name__ == '__main__':
     n_samples = 50000
     batch_size = 300
     n_classes = 10
-    n_iterations = 30000
+    n_iterations = 50000
     n_hidden1 = 300
     n_hidden2 = 150
-    regularize = 0.001
+    regularize = 0.008
     alpha = 0.3
     training = random_selection(n_samples, *training)
     scale = Scale(training[0], 1000.0)
@@ -149,6 +151,7 @@ if __name__ == '__main__':
     m3 = tf.Variable(tf.truncated_normal([n_hidden2, 10], stddev=1.0/n_hidden2))
     b3 = tf.Variable(tf.truncated_normal([10]))
     theta = [m1, b1, m2, b2, m3, b3]
+    reg_candidates = [m1, m2, m3]
 
     a0 = tf.sigmoid(x)
     z1 = tf.add(tf.matmul(a0, m1), b1)
@@ -162,8 +165,9 @@ if __name__ == '__main__':
     prediction = tf.argmax(h, axis=-1)
 
     m = tf.cast(tf.size(y) / n_classes, tf.float32)
-    reg_term = (tf.reduce_sum(tf.square(m1)) + tf.reduce_sum(tf.square(m2)) + tf.reduce_sum(tf.square(m3))) * regularize / (m * 2)
-    error_term = -tf.reduce_sum(y * tf.log(h) + (1 - y) * tf.log(1 - h)) / m
+    reg_term = reduce(add, [tf.reduce_sum(tf.square(parameter)) for parameter in reg_candidates]) / (m * 2)
+    safe_log = lambda v: tf.log(tf.clip_by_value(v, 1e-10, 1.0))
+    error_term = -tf.reduce_sum(y * safe_log(h) + (1 - y) * safe_log(1 - h)) / m
     cost = error_term + regularize * reg_term
     rmsd = tf.reduce_sum(tf.square(h - y)) / (2 * m)
     dtheta = tf.gradients(cost, theta)
