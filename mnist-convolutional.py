@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# http://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/
 from functools import reduce
 from operator import add
 import pickle

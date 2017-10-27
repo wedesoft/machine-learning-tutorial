@@ -703,7 +703,7 @@ with the bias unit $\theta_0$ not being regularized. The cost function is genera
 \end{equation*}
 Note that the bias units $\theta_{j0}$ are not regularized.
 
-\subsection{Backpropagation Algorithm}\ref{cha:backprop}
+\subsection{Backpropagation Algorithm}\label{cha:backprop}
 In order to find $\mathop{\operatorname{argmin}}_\theta J(\theta)$ we need to compute $\frac{\delta}{\delta\theta^{(l)}_{ij}}J(\theta)$.
 Given one training example $(x,y)$ forward propagation is used to determine the activations.
 \emph{E.g.} in the case of $L=4$
@@ -1784,6 +1784,27 @@ Given input images, the autoencoder can ``learn'' edge detection as shown in Fig
     \caption{Autoencoder weights learned by a sparse autoencoder\citep{andrewngsparse2}\label{fig:autoimage}}
   \end{center}
 \end{figure}
+
+\subsection{Restricted Boltzmann Machines}
+A \ac{RBM} uses binary visible units $v_i$ and binary hidden units $h_j$.
+The parameters of the model are bias units $a_i$ for the visible units and bias units $b_j$ for the hidden units.
+Using the weights $w_{i,j}$ the following energy function is to be minimized\citep{wiki:rbm}:
+\begin{equation*}
+  E(v,h)=-\sum_ia_iv_i-\sum_jb_jh_j-\sum_i\sum_jv_iw_{i,j}h_j=-a^\top v-b^\top h-v^\top Wh
+\end{equation*}
+The probability function is
+\begin{equation*}
+  P(v,h)=\frac{1}{Z}\operatorname{e}^{-E(v,h)}\mathrm{\ with\ normalization\ factor\ }Z\mathrm{\ so\ that\ }\int P(v,h)dvdh=1
+\end{equation*}
+The activation probabilities of hidden units are
+\begin{equation*}
+  P(h_j=1|v)=\sigma\big(b_j+\sum_{i=1}^mw_{i,j}v_i\big)
+\end{equation*}
+The activation probabilities of the visible units are
+\begin{equation*}
+  P(v_i=1|h)=\sigma\big(a_i+\sum_{j=1}^nw_{i,j}h_j\big)
+\end{equation*}
+Where $\sigma$ is the logistic function $\sigma(z)=\frac{1}{1+\operatorname{e}^{-z}}$.
 
 \subsection{Further reading}
 \begin{itemize}
