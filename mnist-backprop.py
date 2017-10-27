@@ -176,24 +176,24 @@ if __name__ == '__main__':
             for value, dvalue in zip(theta, dtheta)]
 
     saver = tf.train.Saver()
-    with tf.Session() as sess:
+    with tf.Session() as session:
         train = {x: scale(training[0] ), y: multi_class_label(training[1], n_classes)}
         validate = {x: scale(validation[0] ), y: multi_class_label(validation[1], n_classes)}
-        sess.run(tf.global_variables_initializer())
+        session.run(tf.global_variables_initializer())
         progress = tqdm(range(n_iterations))
         info = lambda: 'train: %8.6f, validate: %8.6f' % \
-                (sess.run(rmsd, feed_dict=train),
-                 sess.run(rmsd, feed_dict=validate))
+                (session.run(rmsd, feed_dict=train),
+                 session.run(rmsd, feed_dict=validate))
         for i in progress:
             selection = random_selection(batch_size, train[x], train[y])
             mini_batch = {x: selection[0], y: selection[1]}
-            sess.run(step, feed_dict=mini_batch)
+            session.run(step, feed_dict=mini_batch)
             if i % 10 == 0:
                 progress.set_description(info())
         print(info())
-        output = sess.run(prediction, feed_dict=validate)
+        output = session.run(prediction, feed_dict=validate)
         print('validation labels:', validation[1])
         print('predictions      :', output)
         print('validation error rate:', np.average(output != validation[1]))
         tf.add_to_collection('prediction', prediction)
-        saver.save(sess, 'model')
+        saver.save(session, 'model')

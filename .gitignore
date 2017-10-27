@@ -3,7 +3,9 @@
 __pycache__
 _minted*
 checkpoint
-model.*
+*.data-*
+*.index
+*.meta
 *.gz
 *.pdf
 *.log

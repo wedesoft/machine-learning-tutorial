@@ -1773,6 +1773,7 @@ In detail each iteration of the algorithm (using a new $(x,y)$) is
     \end{enumerate}
 \end{enumerate}
 
+\subsubsection{Visualization}
 One can determine the input image $x$ with $||x||_2=1$ that causes hidden unit $i$ to be maximally active (the $x$ that maximizes $a^{(2)}_i$) in order to visualize the inner workings of the algorithm:
 \begin{equation*}
   x_j=\frac{w^{(1)}_{ij}}{\displaystyle\sum_{j=1}^{100}(w^{(1)}_{ij})^2}
@@ -1805,6 +1806,7 @@ The activation probabilities of the visible units are
   P(v_i=1|h)=\sigma\big(a_i+\sum_{j=1}^nw_{i,j}h_j\big)
 \end{equation*}
 Where $\sigma$ is the logistic function $\sigma(z)=\frac{1}{1+\operatorname{e}^{-z}}$.
+Note that encoding and decoding use the same weights.
 
 The training objective given a training set is to maximize $P(v)$.
 \citep{hinton2006training} introduces the \ac{CD} algorithm\citep{wiki:rbm}:
@@ -1816,10 +1818,10 @@ The training objective given a training set is to maximize $P(v)$.
   \item Update the weights $W$ using $\Delta W=\epsilon(vh^\top-v^\prime h^{\prime\top})$.
   \item Update the biases $a$ and $b$ using $\Delta a=\epsilon(v-v^\prime)$, $\Delta b=\epsilon(h-h^\prime)$.
 \end{enumerate}
+See Appendix \ref{app:rbm} for an implementation.
 
 \subsection{Further reading}
 \begin{itemize}
-  \item \ac{RBM}
   \item \acp{CNN} (also see Appendix \ref{app:convolution} and \ref{app:mnistcnn})
   \item \ac{LSTM}
   \item \ac{RNN}
@@ -1859,6 +1861,9 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 
 \subsubsection{Backpropagation using a Convolutional Neural Network applied to the MNIST Dataset}\label{app:mnistcnn}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-convolutional.py}
+
+\subsubsection{Restricted Boltzmann Machine}\label{app:rbm}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-rbm.py}
 
 \section{References and Glossary}
 \subsection{References}
