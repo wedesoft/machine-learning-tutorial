@@ -29,13 +29,14 @@ def show(title, img, wait=True):
 
 
 if __name__ == '__main__':
+	# http://deeplearning.net/data/mnist/mnist.pkl.gz
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
     epsilon = 1.0
-    n_hidden = 40
+    n_hidden = 200
     batch_size = 100
     n_iterations = 50000
 
-    v = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
+    v = tf.placeholder(tf.float32, [None, 28 * 28], name='v')
     w = tf.Variable(tf.truncated_normal([28 * 28, n_hidden], stddev=1.0/math.sqrt(784 * n_hidden)))
     a = tf.Variable(tf.constant(0.5, shape=[784]))
     b = tf.Variable(tf.constant(0.5, shape=[n_hidden]))
@@ -73,4 +74,6 @@ if __name__ == '__main__':
             show('original', selection[0:1], False)
             show('reconstruction', session.run(vp, feed_dict={v: selection[0:1]}), False)
         session.run(step, feed_dict=mini_batch)
+    tf.add_to_collection('vs', vs)
+    tf.add_to_collection('vp', vp)
     saver.save(session, 'rbm')

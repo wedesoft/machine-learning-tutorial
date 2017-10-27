@@ -34,6 +34,7 @@ def random_selection(size, *arrays):
 
 
 if __name__ == '__main__':
+	# http://deeplearning.net/data/mnist/mnist.pkl.gz
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
     n_classes = 10
     n_iterations = 100000

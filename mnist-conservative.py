@@ -169,6 +169,7 @@ def make_classifier(images, labels):
 
 if __name__ == '__main__':
     # https://stackoverflow.com/questions/11305790/pickle-incompatability-of-numpy-arrays-between-python-2-and-3
+	# http://deeplearning.net/data/mnist/mnist.pkl.gz
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
     print(len(training[1]), 'training samples')
     print(len(validation[1]), 'validation samples')
