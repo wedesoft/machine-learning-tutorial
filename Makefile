@@ -31,7 +31,7 @@ machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsu
 	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf classifier.pdf polynomial.pdf \
 	overfitting.pdf logcost.pdf \
 	scaling.jpg gradientproscons.jpg decisionboundary.jpg circularboundary.jpg costy1.jpg costy0.jpg onevsall.jpg \
-	logisticunit.jpg hidden.jpg xnor.jpg lecun.jpg alvinn.jpg charseg.png ceiling.png \
+	logisticunit.jpg hidden.jpg xnor.jpg lecun.jpg alvinn.jpg charseg.jpg ceiling.jpg sparse.jpg autoimage.jpg \
 	convolution.py least_squares.py gradient_descent.py learning_rate.py classifier.py polynomial.py overfitting.py \
 	backprop.py mnist-backprop.py mnist-run.py mnist-convolutional.py
 

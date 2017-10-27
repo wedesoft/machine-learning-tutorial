@@ -703,7 +703,7 @@ with the bias unit $\theta_0$ not being regularized. The cost function is genera
 \end{equation*}
 Note that the bias units $\theta_{j0}$ are not regularized.
 
-\subsection{Backpropagation Algorithm}
+\subsection{Backpropagation Algorithm}\ref{cha:backprop}
 In order to find $\mathop{\operatorname{argmin}}_\theta J(\theta)$ we need to compute $\frac{\delta}{\delta\theta^{(l)}_{ij}}J(\theta)$.
 Given one training example $(x,y)$ forward propagation is used to determine the activations.
 \emph{E.g.} in the case of $L=4$
@@ -1713,48 +1713,120 @@ As a developer don't waste your time working on something which really is not go
 
 \appendix
 \section{Appendix}
+\subsection{Sparse Autoencoders}
+\subsubsection{Identity Function}
+Sparse autoencoders\citep{andrewngsparse1,andrewngsparse2} learn the identity function using a neural network where the hidden layer has less units than the input/output (see Figure \ref{fig:sparse}).
+\begin{equation*}
+    h_\theta(x)\approx x
+\end{equation*}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{sparse}
+    \caption{Sparse autoencoder\citep{andrewngsparse2}\label{fig:sparse}}
+  \end{center}
+\end{figure}
+Sparse autoencoding is closely related to \ac{PCA}.
+The autoencoder learns a compressed representation of the input.
+
+\subsubsection{Sparsity Constraint}
+Instead of using a smaller number of hidden units, the sparsity constrains the activations to be mostly ``inactive''.
+\emph{I.e.}
+\begin{equation*}
+  a^{(2)}_i\approx -1
+\end{equation*}
+More formally given a training set $\{x^{(1)},x^{(2)},\ldots\}$ drawn from a distribution $\mathcal{D}$, the expectation value for $a^{(2)}_i$ should be a value $\rho$ which is close to $-1$ (\emph{e.g.} $\rho=-0.9$)
+\begin{equation*}
+  E_{x\sim\mathcal{D}}[a^{(2)}_i]=\rho\mathrm{\ for\ all\ }i
+\end{equation*}
+In principle the algorithm works as follows
+\begin{enumerate}
+  \item Keep a running estimate $\widehat{\rho}_i$ of $E_{x\sim\mathcal{D}}[a^{(2)}_i]$
+  \item On each iteration of gradient descent, update parameters to make expectation closer to $\rho$
+\end{enumerate}
+The running estimates are initialised to $\widehat{\rho}_i\coloneqq 0$ and then updated as follows
+\begin{equation}\label{equ:updaterho}
+  \widehat{\rho}_i\coloneqq 0.999\,\widehat{\rho}_i+0.001\,a^{(2)}_i
+\end{equation}
+The activations are
+\begin{equation*}
+  a^{(2)}_i=f\big(\sum_{j=1}^nw^{(1)}_{ij}x_j+b^{(1)}_i\big)
+\end{equation*}
+\begin{itemize}
+  \item $b^{(1)}_i$ is decreased if $\widehat{\rho}_i>\rho$ so that hidden unit $a^{(2)}_i$ is less active.
+  \item $b^{(1)}_i$ is increased if $\widehat{\rho}_i<\rho$ so that hidden unit $a^{(2)}_i$ becomes more active.
+\end{itemize}
+\emph{I.e.} the update rule for $b^{(1)}_i$ is
+\begin{equation}\label{equ:updateb}
+  b^{(1)}_i\coloneqq b^{(1)}_i-\alpha\beta(\widehat{\rho}_i-\rho)\mathrm{\ for\ all\ }i
+\end{equation}
+using the estimated expectation values from Equation (\ref{equ:updaterho}).
+$\beta\in\mathbb{R}$ is an additional parameter.
+
+In detail each iteration of the algorithm (using a new $(x,y)$) is
+\begin{enumerate}
+  \item Run forward pass to compute activations
+  \item Use backpropagation\footnote{see Section \ref{cha:backprop}} to perform one iteration of \acf{SGD}
+  \item Use
+    \begin{enumerate}
+      \item Use Equation (\ref{equ:updaterho}) to update $\widehat{\rho}_i$
+      \item Use Equation (\ref{equ:updateb}) to update $b^{(1)}_i$
+    \end{enumerate}
+\end{enumerate}
+
+One can determine the input image $x$ with $||x||_2=1$ that causes hidden unit $i$ to be maximally active (the $x$ that maximizes $a^{(2)}_i$) in order to visualize the inner workings of the algorithm:
+\begin{equation*}
+  x_j=\frac{w^{(1)}_{ij}}{\displaystyle\sum_{j=1}^{100}(w^{(1)}_{ij})^2}
+\end{equation*}
+Given input images, the autoencoder can ``learn'' edge detection as shown in Figure \ref{fig:autoimage}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{autoimage}
+    \caption{Autoencoder weights learned by a sparse autoencoder\citep{andrewngsparse2}\label{fig:autoimage}}
+  \end{center}
+\end{figure}
+
 \subsection{Further reading}
 \begin{itemize}
-  \item sparse autoencoders\citep{andrewngsparse1,andrewngsparse2}
   \item \ac{RBM}
-  \item \acp{CNN}
+  \item \acp{CNN} (also see Appendix \ref{app:convolution} and \ref{app:mnistcnn})
   \item \ac{LSTM}
   \item \ac{RNN}
 \end{itemize}
 
-\subsection{Least Squares Estimator}\label{app:lse}
+\subsection{Implementations}
+\subsubsection{Least Squares Estimator}\label{app:lse}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{least_squares.py}
 
-\subsection{Linear Regression}\label{app:gradientdescent}
+\subsubsection{Linear Regression}\label{app:gradientdescent}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{gradient_descent.py}
 
-\subsection{Learning Rate}\label{app:alphas}
+\subsubsection{Learning Rate}\label{app:alphas}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{learning_rate.py}
 
-\subsection{Logistic Regression}\label{app:classifier}
+\subsubsection{Logistic Regression}\label{app:classifier}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{classifier.py}
 
-\subsection{Polynomial Features}\label{app:polynomial}
+\subsubsection{Polynomial Features}\label{app:polynomial}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{polynomial.py}
 
-\subsection{Overfitting Example}\label{app:overfitting}
+\subsubsection{Overfitting Example}\label{app:overfitting}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{overfitting.py}
 
-\subsection{Backpropagation using Tensorflow}\label{app:backprop}
+\subsubsection{Backpropagation using Tensorflow}\label{app:backprop}
 Backpropagation example from \url{https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{backprop.py}
 
-\subsection{Backpropagation applied to the MNIST Dataset}\label{app:mnistbackprop}
-\subsubsection{Training}
+\subsubsection{Backpropagation applied to the MNIST Dataset}\label{app:mnistbackprop}
+\paragraph{Training}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-backprop.py}
-\subsubsection{Testing}
+\paragraph{Testing}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-run.py}
 
-\subsection{Backpropagation using a Convolutional Neural Network applied to the MNIST Dataset}\label{app:mnistcnn}
-\inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-convolutional.py}
-
-\subsection{Convolution using Tensorflow}
+\subsubsection{Convolution using Tensorflow}\label{app:convolution}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}
+
+\subsubsection{Backpropagation using a Convolutional Neural Network applied to the MNIST Dataset}\label{app:mnistcnn}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-convolutional.py}
 
 \section{References and Glossary}
 \subsection{References}
