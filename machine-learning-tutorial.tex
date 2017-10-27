@@ -1806,6 +1806,17 @@ The activation probabilities of the visible units are
 \end{equation*}
 Where $\sigma$ is the logistic function $\sigma(z)=\frac{1}{1+\operatorname{e}^{-z}}$.
 
+The training objective given a training set is to maximize $P(v)$.
+\citep{hinton2006training} introduces the \ac{CD} algorithm\citep{wiki:rbm}:
+\begin{enumerate}
+  \item Take a training sample $v$, compute the probabilities of the hidden units and sample a hidden activation vector $h$ from this probability distribution.
+  \item Compute the \emph{positive gradient} $vh^\top$.
+  \item Using $h$, sample a reconstruction $v^\prime$ of the visible units, then resample the hidden activations $h^\prime$ from this (Gibbs sampling step).
+  \item Compute the \emph{negative gradient} $v^\prime h^{\prime\top}$.
+  \item Update the weights $W$ using $\Delta W=\epsilon(vh^\top-v^\prime h^{\prime\top})$.
+  \item Update the biases $a$ and $b$ using $\Delta a=\epsilon(v-v^\prime)$, $\Delta b=\epsilon(h-h^\prime)$.
+\end{enumerate}
+
 \subsection{Further reading}
 \begin{itemize}
   \item \ac{RBM}
@@ -1856,6 +1867,7 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 \subsection{Glossary}
 \begin{acronym}[L-BFGS]
   \acro{BFGS}{Broyden-Fletcher-Goldfarb-Shanno algorithm}
+  \acro{CD}{Contrastive Divergence}
   \acro{CNN}{Convolutional Neural Network}
   \acro{CTR}{Click through rate}
   \acro{GPU}{Graphics Processing Unit}
