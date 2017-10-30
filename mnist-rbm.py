@@ -29,7 +29,7 @@ def show(title, img, wait=True):
 
 
 if __name__ == '__main__':
-	# http://deeplearning.net/data/mnist/mnist.pkl.gz
+    # http://deeplearning.net/data/mnist/mnist.pkl.gz
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
     epsilon = 1.0
     n_hidden = 200
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     hs = sample(tf.sigmoid(tf.add(tf.matmul(vs, w), b)))
     negative_gradient = tf.matmul(tf.transpose(vs), hs)
 
-    error = tf.reduce_mean(tf.square(v - vs))
+    error = tf.sqrt(tf.reduce_mean(tf.square(v - vs)))
     dw = tf.subtract(positive_gradient, negative_gradient) / m
     da = tf.reduce_mean(tf.subtract(v, vs), 0)
     db = tf.reduce_mean(tf.subtract(h, hs), 0)
