@@ -11,18 +11,6 @@ from tqdm import tqdm
 import cv2
 
 
-class Scale:
-    def __init__(self, features, max_scale=10.0):
-        self.average = np.average(features, axis=0)
-        self.deviation = np.maximum(np.std(features, axis=0), 1.0 / max_scale)
-
-    def __call__(self, values):
-        return np.subtract(values, self.average) / self.deviation
-
-    def restore(self, values):
-        return np.clip(np.add(np.multiply(values, self.deviation), self.average), 0, 1)
-
-
 def random_choice(count, size):
     return np.random.choice(count, size, replace=False)
 
@@ -46,12 +34,11 @@ if __name__ == '__main__':
     batch_size = 100
     n_hidden1 = 300
     n_hidden2 = 150
-    alpha = 1.0
-    beta = 0.04
-    regularize = 0.008
+    alpha = 0.001
+    beta = 0.0
+    #regularize = 0.008
     rho_update = 0.01
     rho_target = 0.2
-    scale = Scale(training[0], 1000.0)
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
     m1 = tf.Variable(tf.truncated_normal([28 * 28, n_hidden1], stddev=1/(28 * 28)))
@@ -66,7 +53,7 @@ if __name__ == '__main__':
     theta = [m1, b1, m2, b2, m3, b3, m4, b4]
     reg_candidates = [m1, m2, m3, m4]
 
-    a0 = tf.sigmoid(x)
+    a0 = x
     z1 = tf.add(tf.matmul( x, m1), b1)
     a1 = tf.sigmoid(z1)
     z2 = tf.add(tf.matmul(a1, m2), b2)
@@ -79,9 +66,10 @@ if __name__ == '__main__':
 
     m = tf.to_float(tf.shape(x)[0])
     safe_log = lambda v: tf.log(tf.clip_by_value(v, 1e-10, 1.0))
-    reg_term = reduce(add, [tf.reduce_sum(tf.square(parameter)) for parameter in reg_candidates]) / (m * 2)
+    #reg_term = reduce(add, [tf.reduce_sum(tf.square(parameter)) for parameter in reg_candidates]) / (m * 2)
     error_term = -tf.reduce_sum(a0 * safe_log(h) + (1 - a0) * safe_log(1 - h)) / m
-    cost = error_term + regularize * reg_term
+    #cost = error_term + regularize * reg_term
+    cost = error_term
     dtheta = tf.gradients(cost, theta)
     step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue))) for value, dvalue in zip(theta, dtheta)] + \
            [tf.assign(rho, tf.add(tf.multiply((1 - rho_update), rho), tf.multiply(rho_update, tf.reduce_mean(a2, 0)))),
@@ -89,7 +77,7 @@ if __name__ == '__main__':
 
     saver = tf.train.Saver()
     with tf.Session() as session:
-        train = {x: scale(training[0])}
+        train = {x: training[0]}
         j_train = 0
         session.run(tf.global_variables_initializer())
         progress = tqdm(range(n_iterations))
@@ -102,6 +90,6 @@ if __name__ == '__main__':
             session.run(step, feed_dict=mini_batch)
             if i % 50 == 0:
                 show('original', selection[0:1], False)
-                show('reconstruction', scale.restore(session.run(h, feed_dict={x: selection[0:1]})), False)
+                show('reconstruction', session.run(h, feed_dict={x: selection[0:1]}), False)
         tf.add_to_collection('prediction', h)
         saver.save(session, 'auto')
