@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# https://gist.github.com/Cospel/f364df97b4944cec2dc0
+# https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks/autoencoder.py
 import math
 import pickle
 import gzip
@@ -30,28 +30,26 @@ if __name__ == '__main__':
     # http://deeplearning.net/data/mnist/mnist.pkl.gz
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
 
-    n_iterations = 10000
-    batch_size = 100
+    n_iterations = 5000
+    batch_size = 256
     n_hidden1 = 300
     n_hidden2 = 150
-    alpha = 0.001
-    beta = 0.0
-    #regularize = 0.008
-    rho_update = 0.01
-    rho_target = 0.2
+    alpha = 100.0
+    #beta = 0.01
+    #rho_update = 0.01
+    #rho_target = 0.2
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
-    m1 = tf.Variable(tf.truncated_normal([28 * 28, n_hidden1], stddev=1/(28 * 28)))
-    b1 = tf.Variable(tf.constant(0.0, shape=[n_hidden1]))
-    m2 = tf.Variable(tf.truncated_normal([n_hidden1, n_hidden2], stddev=1/n_hidden1))
-    b2 = tf.Variable(tf.constant(0.0, shape=[n_hidden2]))
-    m3 = tf.Variable(tf.truncated_normal([n_hidden2, n_hidden1], stddev=1/n_hidden2))
-    b3 = tf.Variable(tf.constant(0.0, shape=[n_hidden1]))
-    m4 = tf.Variable(tf.truncated_normal([n_hidden1, 28 * 28], stddev=1/n_hidden1))
-    b4 = tf.Variable(tf.constant(0.0, shape=[28 * 28]))
-    rho = tf.Variable(tf.constant(0.0, shape=[n_hidden2]))
+    m1 = tf.Variable(tf.random_normal([28 * 28, n_hidden1], stddev=0.1))
+    b1 = tf.Variable(tf.random_normal([n_hidden1]))
+    m2 = tf.Variable(tf.random_normal([n_hidden1, n_hidden2], stddev=0.1))
+    b2 = tf.Variable(tf.random_normal([n_hidden2]))
+    m3 = tf.Variable(tf.random_normal([n_hidden2, n_hidden1], stddev=0.1))
+    b3 = tf.Variable(tf.random_normal([n_hidden1]))
+    m4 = tf.Variable(tf.random_normal([n_hidden1, 28 * 28], stddev=0.1))
+    b4 = tf.Variable(tf.random_normal([28 * 28]))
+    #rho = tf.Variable(tf.constant(rho_target, shape=[n_hidden2]))
     theta = [m1, b1, m2, b2, m3, b3, m4, b4]
-    reg_candidates = [m1, m2, m3, m4]
 
     a0 = x
     z1 = tf.add(tf.matmul( x, m1), b1)
@@ -64,32 +62,29 @@ if __name__ == '__main__':
     a4 = tf.sigmoid(z4)
     h = a4
 
-    m = tf.to_float(tf.shape(x)[0])
-    safe_log = lambda v: tf.log(tf.clip_by_value(v, 1e-10, 1.0))
-    #reg_term = reduce(add, [tf.reduce_sum(tf.square(parameter)) for parameter in reg_candidates]) / (m * 2)
-    error_term = -tf.reduce_sum(a0 * safe_log(h) + (1 - a0) * safe_log(1 - h)) / m
-    #cost = error_term + regularize * reg_term
-    cost = error_term
+    #m = tf.to_float(tf.shape(x)[0])
+    cost = tf.reduce_mean(tf.pow(x - h, 2))
     dtheta = tf.gradients(cost, theta)
-    step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue))) for value, dvalue in zip(theta, dtheta)] + \
-           [tf.assign(rho, tf.add(tf.multiply((1 - rho_update), rho), tf.multiply(rho_update, tf.reduce_mean(a2, 0)))),
-            tf.assign(b2, tf.subtract(b2, tf.multiply(alpha * beta, tf.subtract(rho, rho_target))))]
+    step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue))) for value, dvalue in zip(theta, dtheta)]
+    #steps += [tf.assign(rho, tf.add(tf.multiply((1 - rho_update), rho), tf.multiply(rho_update, tf.reduce_mean(a2, 0)))),
+    #         tf.assign(b2, tf.subtract(b2, tf.multiply(alpha * beta, tf.subtract(rho, rho_target))))]
 
     saver = tf.train.Saver()
     with tf.Session() as session:
         train = {x: training[0]}
-        j_train = 0
+        j_train = 0.5
         session.run(tf.global_variables_initializer())
         progress = tqdm(range(n_iterations))
         for i in progress:
             selection = random_selection(batch_size, train[x])
             mini_batch = {x: selection}
             j_train = 0.99 * j_train + 0.01 * session.run(cost, feed_dict=mini_batch)
-            activation = session.run(tf.reduce_mean(rho), feed_dict=mini_batch)
-            progress.set_description('cost: %8.6f, rho: %8.6f' % (j_train, activation))
-            session.run(step, feed_dict=mini_batch)
+            progress.set_description('cost: %8.6f' % j_train)
             if i % 50 == 0:
                 show('original', selection[0:1], False)
                 show('reconstruction', session.run(h, feed_dict={x: selection[0:1]}), False)
+            #activation = session.run(tf.reduce_mean(rho), feed_dict=mini_batch)
+            #progress.set_description('cost: %8.6f, rho: %8.6f' % (j_train, activation))
+            session.run(step, feed_dict=mini_batch)
         tf.add_to_collection('prediction', h)
         saver.save(session, 'auto')
