@@ -1772,6 +1772,7 @@ In detail each iteration of the algorithm (using a new $(x,y)$) is
       \item Use Equation (\ref{equ:updateb}) to update $b^{(1)}_i$
     \end{enumerate}
 \end{enumerate}
+See Appendix \ref{app:auto} for an implementation of an autoencoder without the sparsity constraint.
 
 \subsubsection{Visualization}
 One can determine the input image $x$ with $||x||_2=1$ that causes hidden unit $i$ to be maximally active (the $x$ that maximizes $a^{(2)}_i$) in order to visualize the inner workings of the algorithm:
@@ -1868,6 +1869,13 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 
 \paragraph{Dreaming}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-dream.py}
+
+\subsubsection{Autoencoder for the MNIST dataset}\label{app:auto}
+\paragraph{Training}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{autoencoder.py}
+
+\paragraph{Dreaming}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{autoencoder-run.py}
 
 \section{References and Glossary}
 \subsection{References}

@@ -23,21 +23,18 @@ def random_selection(size, *arrays):
 
 def show(title, img, wait=True):
     cv2.imshow(title, cv2.resize(img.reshape(28, 28), (280, 280)))
-    return cv2.waitKey(-1 if wait else 1) != 27
+    return cv2.waitKey(wait or 1) != 27
 
 
 if __name__ == '__main__':
     # http://deeplearning.net/data/mnist/mnist.pkl.gz
     training, validation, testing = pickle.load(gzip.open('mnist.pkl.gz', 'rb'), encoding='iso-8859-1')
 
-    n_iterations = 5000
+    n_iterations = 50000
     batch_size = 256
-    n_hidden1 = 300
-    n_hidden2 = 150
-    alpha = 100.0
-    #beta = 0.01
-    #rho_update = 0.01
-    #rho_target = 0.2
+    n_hidden1 = 200
+    n_hidden2 = 30
+    alpha = 0.1
 
     x = tf.placeholder(tf.float32, [None, 28 * 28], name='x')
     m1 = tf.Variable(tf.random_normal([28 * 28, n_hidden1], stddev=0.1))
@@ -48,7 +45,6 @@ if __name__ == '__main__':
     b3 = tf.Variable(tf.random_normal([n_hidden1]))
     m4 = tf.Variable(tf.random_normal([n_hidden1, 28 * 28], stddev=0.1))
     b4 = tf.Variable(tf.random_normal([28 * 28]))
-    #rho = tf.Variable(tf.constant(rho_target, shape=[n_hidden2]))
     theta = [m1, b1, m2, b2, m3, b3, m4, b4]
 
     a0 = x
@@ -62,17 +58,15 @@ if __name__ == '__main__':
     a4 = tf.sigmoid(z4)
     h = a4
 
-    #m = tf.to_float(tf.shape(x)[0])
-    cost = tf.reduce_mean(tf.pow(x - h, 2))
+    m = tf.to_float(tf.shape(x)[0])
+    cost = tf.reduce_sum(tf.pow(x - h, 2)) / m
     dtheta = tf.gradients(cost, theta)
     step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue))) for value, dvalue in zip(theta, dtheta)]
-    #steps += [tf.assign(rho, tf.add(tf.multiply((1 - rho_update), rho), tf.multiply(rho_update, tf.reduce_mean(a2, 0)))),
-    #         tf.assign(b2, tf.subtract(b2, tf.multiply(alpha * beta, tf.subtract(rho, rho_target))))]
 
     saver = tf.train.Saver()
     with tf.Session() as session:
         train = {x: training[0]}
-        j_train = 0.5
+        j_train = 0.5 * 768
         session.run(tf.global_variables_initializer())
         progress = tqdm(range(n_iterations))
         for i in progress:
@@ -82,9 +76,7 @@ if __name__ == '__main__':
             progress.set_description('cost: %8.6f' % j_train)
             if i % 50 == 0:
                 show('original', selection[0:1], False)
-                show('reconstruction', session.run(h, feed_dict={x: selection[0:1]}), False)
-            #activation = session.run(tf.reduce_mean(rho), feed_dict=mini_batch)
-            #progress.set_description('cost: %8.6f, rho: %8.6f' % (j_train, activation))
+                show('reconstruction', session.run(h, feed_dict={x: selection[0:1]}), 10)
             session.run(step, feed_dict=mini_batch)
         tf.add_to_collection('prediction', h)
         saver.save(session, 'auto')

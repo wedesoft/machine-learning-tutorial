@@ -23,9 +23,9 @@ def random_selection(size, *arrays):
     return result[0] if len(result) == 1 else result
 
 
-def show(title, img, wait=True):
+def show(title, img, wait=-1):
     cv2.imshow(title, cv2.resize(img.reshape(28, 28), (280, 280)))
-    return cv2.waitKey(-1 if wait else 1) != 27
+    return cv2.waitKey(wait or 1) != 27
 
 
 if __name__ == '__main__':
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         progress.set_description('%8.6f' % j_train)
         if i % 50 == 0:
             show('original', selection[0:1], False)
-            show('reconstruction', session.run(vp, feed_dict={v: selection[0:1]}), False)
+            show('reconstruction', session.run(vp, feed_dict={v: selection[0:1]}), 10)
         session.run(step, feed_dict=mini_batch)
     tf.add_to_collection('vs', vs)
     tf.add_to_collection('vp', vp)
