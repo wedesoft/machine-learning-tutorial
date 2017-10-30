@@ -21,11 +21,10 @@ if __name__ == '__main__':
         image = np.random.rand(1, 784)
         prediction = tf.get_collection('prediction')[0]
         i = 0
-        while show('prediction', image, 10):
-            if i % 500 == 0:
-                index = random.randrange(len(testing[0]))
-                image = testing[0][index:index + 1]
-                show('input', image, False)
-            else:
-                image = sess.run(prediction, feed_dict={'x:0': np.where(image >= np.random.rand(1, 784), 1, 0)})
-            i += 1
+        while True:
+            index = random.randrange(len(testing[0]))
+            noise = np.random.rand(1, 784)
+            image = np.clip(testing[0][index:index + 1] + (2 * noise - 1) ** 5, 0, 1)
+            show('input', image, False)
+            result = sess.run(prediction, feed_dict={'x:0': image})
+            show('prediction', result, 300)

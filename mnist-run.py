@@ -27,7 +27,7 @@ if __name__ == '__main__':
         saver = tf.train.import_meta_graph('model.meta')
         saver.restore(sess, 'model')
         prediction = tf.get_collection('prediction')[0]
-        output = sess.run(prediction, feed_dict={'x:0': scale(testing[0])}) 
+        output = sess.run(prediction, feed_dict={'x:0': scale(testing[0])})
         print('test labels:', testing[1])
         print('predictions:', output)
         print('error rate:', np.average(output != testing[1]))
