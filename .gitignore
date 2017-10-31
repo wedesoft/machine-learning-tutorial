@@ -3,6 +3,7 @@
 __pycache__
 _minted*
 checkpoint
+*.txt
 *.data-*
 *.index
 *.meta
