@@ -1834,7 +1834,7 @@ See Appendix \ref{app:rbm} for an implementation.
 \subsubsection{Simple Recurrent Neural Networks}
 \ac{RNN} use context units as additional units.
 The \emph{context units} are a copy of the hidden unit activations of the previous time step (see Nando de Freitas' video lecture\citep{defreitas12}).
-Using the activation functions $\sigma_h$ and $\sigma_y$, the \ac{RNN} is defined as follows\citep{wiki:rnn,elman_finding_1990,suresh}
+Using the activation functions $\sigma_h$ (\emph{e.g.} tanh) and $\sigma_y$ (\emph{e.g.} identity function), the \ac{RNN} is defined as follows\citep{wiki:rnn,elman_finding_1990,suresh}
 \begin{align*}
   \begin{split}
     h_t&=\sigma_h(W_hx_t+U_hh_{t-1}+b_h)\\
