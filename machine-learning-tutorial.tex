@@ -1713,6 +1713,15 @@ As a developer don't waste your time working on something which really is not go
 
 \appendix
 \section{Appendix}
+\subsection{Further reading}
+\begin{itemize}
+  \item \acp{CNN} (also see Appendix \ref{app:convolution} and \ref{app:mnistcnn})
+  \item \ac{RNN}
+  \item \ac{LSTM}
+  \item \ac{GRU}\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}
+  \item \ac{BPTT}
+\end{itemize}
+
 \subsection{Sparse Autoencoders}
 \subsubsection{Identity Function}
 Sparse autoencoders\citep{andrewngsparse1,andrewngsparse2} learn the identity function using a neural network where the hidden layer has less units than the input/output (see Figure \ref{fig:sparse}).
@@ -1821,12 +1830,13 @@ The training objective given a training set is to maximize $P(v)$.
 \end{enumerate}
 See Appendix \ref{app:rbm} for an implementation.
 
-\subsection{Further reading}
-\begin{itemize}
-  \item \acp{CNN} (also see Appendix \ref{app:convolution} and \ref{app:mnistcnn})
-  \item \ac{LSTM}
-  \item \ac{RNN}
-\end{itemize}
+\subsection{Recurrent Neural Networks}
+\ac{RNN} use context units as additional units.
+The context units are a copy of the hidden unit activations in the previous time step.
+\ac{RNN} are training using \ac{BPTT} or trunacted \ac{BPTT}.
+\emph{I.e.} the \ac{RNN} is trained on sequences of inputs and sequences of labels.
+\ac{RNN} do not perform well at tasks requiring to remember a state over many steps.
+\ac{LSTM} and the more simplified \ac{GRU} are designed to perform well at remembering state.
 
 \subsection{Implementations}
 \subsubsection{Least Squares Estimator}\label{app:lse}
@@ -1883,11 +1893,13 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 
 \subsection{Glossary}
 \begin{acronym}[L-BFGS]
+  \acro{BPTT}{Backward Propagation Through Time}
   \acro{BFGS}{Broyden-Fletcher-Goldfarb-Shanno algorithm}
   \acro{CD}{Contrastive Divergence}
   \acro{CNN}{Convolutional Neural Network}
   \acro{CTR}{Click through rate}
   \acro{GPU}{Graphics Processing Unit}
+  \acro{GRU}{Gated Recurrent Unit}
   \acro{L-BFGS}{Limited-memory BFGS}
   \acro{LSTM}{Long short-term memory}
   \acro{OCR}{Optical Character Recognition}
