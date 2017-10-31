@@ -1724,7 +1724,7 @@ As a developer don't waste your time working on something which really is not go
 
 \subsection{Sparse Autoencoders}
 \subsubsection{Identity Function}
-Sparse autoencoders\citep{andrewngsparse1,andrewngsparse2} learn the identity function using a neural network where the hidden layer has less units than the input/output (see Figure \ref{fig:sparse}).
+Sparse autoencoders (see Andrew Ng's two-part video lecture \citep{andrewngsparse1,andrewngsparse2}) learn the identity function using a neural network where the hidden layer has less units than the input/output (see Figure \ref{fig:sparse}).
 \begin{equation*}
     h_\theta(x)\approx x
 \end{equation*}
@@ -1831,12 +1831,25 @@ The training objective given a training set is to maximize $P(v)$.
 See Appendix \ref{app:rbm} for an implementation.
 
 \subsection{Recurrent Neural Networks}
+\subsubsection{Simple Recurrent Neural Networks}
 \ac{RNN} use context units as additional units.
-The context units are a copy of the hidden unit activations in the previous time step.
+The \emph{context units} are a copy of the hidden unit activations of the previous time step (see Nando de Freitas' video lecture\citep{defreitas12}).
+Using the activation functions $\sigma_h$ and $\sigma_y$, the \ac{RNN} is defined as follows\citep{wiki:rnn,elman_finding_1990}
+\begin{align*}
+  \begin{split}
+    h_t&=\sigma_h(W_hx_t+U_hh_{t-1}+b_h)\\
+    y_t&=\sigma_y(W_yh_t+b_y)
+  \end{split}
+\end{align*}
+where $h_{t-1}$ are the context units and $h_t$ are the updated context units.
+Here $y_t$ denotes the output at time $t$. $x_t$ is the input at time $t$.
+
 \ac{RNN} are training using \ac{BPTT} or trunacted \ac{BPTT}.
 \emph{I.e.} the \ac{RNN} is trained on sequences of inputs and sequences of labels.
-\ac{RNN} do not perform well at tasks requiring to remember a state over many steps.
-\ac{LSTM} and the more simplified \ac{GRU} are designed to perform well at remembering state.
+\ac{RNN} suffer from the \emph{vanishing gradients problem}\ref{elman_finding_1990}.
+
+\subsubsection{Long Short-Term Memory}
+\acp{LSTM} use a different architecture preserving the gradients for connections over many time steps.
 
 \subsection{Implementations}
 \subsubsection{Least Squares Estimator}\label{app:lse}
