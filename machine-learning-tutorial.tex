@@ -1715,7 +1715,7 @@ As a developer don't waste your time working on something which really is not go
 \section{Appendix}
 \subsection{Further reading}
 \begin{itemize}
-  \item \acp{CNN} (also see Appendix \ref{app:convolution} and \ref{app:mnistcnn})
+  \item \acp{CNN}\citep{karpathy2016cs231n} (also see Appendix \ref{app:convolution} and \ref{app:mnistcnn})
   \item \ac{RNN}
   \item \ac{LSTM}
   \item \ac{GRU}\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}
@@ -1834,7 +1834,7 @@ See Appendix \ref{app:rbm} for an implementation.
 \subsubsection{Simple Recurrent Neural Networks}
 \ac{RNN} use context units as additional units.
 The \emph{context units} are a copy of the hidden unit activations of the previous time step (see Nando de Freitas' video lecture\citep{defreitas12}).
-Using the activation functions $\sigma_h$ and $\sigma_y$, the \ac{RNN} is defined as follows\citep{wiki:rnn,elman_finding_1990}
+Using the activation functions $\sigma_h$ and $\sigma_y$, the \ac{RNN} is defined as follows\citep{wiki:rnn,elman_finding_1990,suresh}
 \begin{align*}
   \begin{split}
     h_t&=\sigma_h(W_hx_t+U_hh_{t-1}+b_h)\\
@@ -1844,25 +1844,94 @@ Using the activation functions $\sigma_h$ and $\sigma_y$, the \ac{RNN} is define
 where $h_{t-1}$ are the context units and $h_t$ are the updated context units.
 Here $y_t$ denotes the output at time $t$. $x_t$ is the input at time $t$.
 
-\ac{RNN} are training using \ac{BPTT} or trunacted \ac{BPTT}.
-\emph{I.e.} the \ac{RNN} is trained on sequences of inputs and sequences of labels.
-\ac{RNN} suffer from the \emph{vanishing gradients problem}\citep{elman_finding_1990}.
+An \ac{LSTM} can be used in different configurations\citep{karpathy2016cs231n} (also see Figure \ref{fig:rnnconf}):
+\begin{itemize}
+  \item one to many (\emph{e.g.} output a sequence of words describing the input image)
+  \item many to one (\emph{e.g.} sentiment classification of text messages)
+  \item many to many (decoder+encoder) (\emph{e.g.} machine translation)
+  \item many to many (\emph{e.g.} video classification, sequential \ac{OCR}\citep{ba2014multiple,gregor2015draw})
+\end{itemize}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.6\textwidth]{rnnconf}
+    \caption{Different configurations of Recurrent Neural Networks\citep{karpathy2016cs231n}\label{fig:rnnconf}}
+  \end{center}
+\end{figure}
 
-% https://www.youtube.com/watch?v=56TYLaQN4N8&t=29m49s
+\ac{RNN} suffer from the \emph{vanishing gradients problem}\citep{elman_finding_1990}.
+One way to address this is to use the \ac{ReLU} activation function instead of the logistic function\citep{suresh}:
+\begin{equation*}
+  f(x)=\operatorname{max}(0,x)
+\end{equation*}
+A continuous variant of the \ac{ReLU} function is the \emph{softplus} function\cite{wiki:relu}:
+\begin{equation*}
+  f(x)=\operatorname{ln}(1+\operatorname{e}^x)
+\end{equation*}
+Note that the derivative of the softplus function is the logistic function\cite{wiki:relu}:
+\begin{equation*}
+  f^(x)=\frac{1}{1+\operatorname{e}^{-x}}
+\end{equation*}
 
 \subsubsection{Long Short-Term Memory}
-\acp{LSTM} use a different architecture preserving the gradients for connections over many time steps.
-The \ac{LSTM} is defined as follows\citep{wiki:lstm}
+\acp{LSTM} use an architecture preserving the gradients for connections over many time steps.
+The \ac{LSTM} is defined as follows\citep{wiki:lstm}:
 \begin{align*}
   \begin{split}
-    f_t &= \sigma_g(W_{f} * x_t + U_{f} * h_{t-1} + V_{f} \circ c_{t-1} + b_f) \\
-    i_t &= \sigma_g(W_{i} * x_t + U_{i} * h_{t-1} + V_{i} \circ c_{t-1} + b_i) \\
-    o_t &= \sigma_g(W_{o} * x_t + U_{o} * h_{t-1} + V_{o} \circ c_{t-1} + b_o) \\
-    c_t &= f_t \circ c_{t-1} + i_t \circ \sigma_c(W_{c} * x_t + U_{c} * h_{t-1} + b_c) \\
-    h_t &= o_t \circ \sigma_h(c_t)
+    f_t &= \sigma(W_{f} x_t + U_{f} h_{t-1} + b_f) \\
+    i_t &= \sigma(W_{i} x_t + U_{i} h_{t-1} + b_i) \\
+    o_t &= \sigma(W_{o} x_t + U_{o} h_{t-1} + b_o) \\
+    c_t &= f_t \circ c_{t-1} + i_t \circ \operatorname{tanh}(W_{c} x_t + U_{c} h_{t-1} + b_c) \\
+    h_t &= o_t \circ \operatorname{tanh}(c_t)
   \end{split}
 \end{align*}
-with $\circ$ denoting the elementwise product (Hadamard product).
+with ``$\circ$'' denoting the elementwise product (Hadamard product).
+\ac{LSTM} are related to Markov Models.
+\begin{itemize}
+  \item $f_t$, $i_t$, and $o_t$ are the forget, input, and output gate (\emph{e.g.} $f_t=0$ forgets)
+  \item $c_t$ is the hidden state at time $t$
+  \item $h_t$ is the output at time $t$
+  \item $W_f$, $W_i$, $W_o$, and $W_c$ are input weights
+  \item $U_f$, $U_i$, $U_o$, and $U_c$ are weights for the previous output
+\end{itemize}
+The cost function to optimize is the sum of costs for each time step
+\begin{equation*}
+  J(\theta)=\sum_tJ_t(\theta)
+\end{equation*}
+The derivative is the sum of the derivatives for each time step
+\begin{equation*}
+  \frac{\delta J(W)}{\delta W}=\sum_t\frac{\delta J_t(W)}{\delta W}
+\end{equation*}
+
+\subsubsection{Gated Recurrent Unit}
+\acp{GRU} have fewer parameters than \acp{LSTM} since they do not have an output gate\citep{wiki:gru}:
+\begin{align*}
+  \begin{split}
+    z_t &= \sigma(W_{z} x_t + U_{z} h_{t-1} + b_z) \\
+    r_t &= \sigma(W_{r} x_t + U_{r} h_{t-1} + b_r) \\
+    h_t &=  z_t \circ h_{t-1} + (1-z_t) \circ \operatorname{tanh}(W_{h} x_t + U_{h} (r_t \circ h_{t-1}) + b_h)
+  \end{split}
+\end{align*}
+
+\subsubsection{Training}
+\ac{RNN} are training using \ac{BPTT} or trunacted \ac{BPTT}.
+\emph{I.e.} the \ac{RNN} is trained on sequences of inputs and sequences of labels.
+\emph{E.g.} building a character-level language model (many-to-many)\citep{karpathy2016cs231n}.
+The training data is sequences of characters. Each character is encoded using a binary unit vector.
+The output is the prediction for the next character in a sequence\footnote{\url{https://gist.github.com/karpathy/d4dee566867f8291f086}} (see Table \ref{tbl:hello} for example).
+\begin{table}[htbp]
+  \begin{center}
+    \begin{tabular}{l|l}\toprule
+      \textbf{input}&\textbf{target}\\\midrule
+      \texttt{hel} & \texttt{ell}\\
+      \texttt{ell} & \texttt{llo}\\
+      \texttt{llo} & \texttt{lo\_}\\
+      $\vdots$ & $\vdots$\\\bottomrule
+    \end{tabular}
+    \caption{Training data with sequence length 3 for character sequence starting with ``Hello ''\label{tbl:hello}}
+  \end{center}
+\end{table}
+
+% https://www.youtube.com/watch?v=yCC09vCHzF8&index=10&list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC 27m
 
 \subsection{Implementations}
 \subsubsection{Least Squares Estimator}\label{app:lse}
@@ -1931,6 +2000,7 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
   \acro{OCR}{Optical Character Recognition}
   \acro{PCA}{Principal Component Analysis}
   \acro{RBM}{Restricted Boltzmann Machine}
+  \acro{ReLU}{Rectified Linear Unit}
   \acro{RNN}{Recurrent Neural Network}
   \acro{SGD}{Stochastic Gradient Descent}
   \acro{SIMD}{Single Instruction, Multiple Data}
