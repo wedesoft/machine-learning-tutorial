@@ -1846,10 +1846,23 @@ Here $y_t$ denotes the output at time $t$. $x_t$ is the input at time $t$.
 
 \ac{RNN} are training using \ac{BPTT} or trunacted \ac{BPTT}.
 \emph{I.e.} the \ac{RNN} is trained on sequences of inputs and sequences of labels.
-\ac{RNN} suffer from the \emph{vanishing gradients problem}\ref{elman_finding_1990}.
+\ac{RNN} suffer from the \emph{vanishing gradients problem}\citep{elman_finding_1990}.
+
+% https://www.youtube.com/watch?v=56TYLaQN4N8&t=29m49s
 
 \subsubsection{Long Short-Term Memory}
 \acp{LSTM} use a different architecture preserving the gradients for connections over many time steps.
+The \ac{LSTM} is defined as follows\citep{wiki:lstm}
+\begin{align*}
+  \begin{split}
+    f_t &= \sigma_g(W_{f} * x_t + U_{f} * h_{t-1} + V_{f} \circ c_{t-1} + b_f) \\
+    i_t &= \sigma_g(W_{i} * x_t + U_{i} * h_{t-1} + V_{i} \circ c_{t-1} + b_i) \\
+    o_t &= \sigma_g(W_{o} * x_t + U_{o} * h_{t-1} + V_{o} \circ c_{t-1} + b_o) \\
+    c_t &= f_t \circ c_{t-1} + i_t \circ \sigma_c(W_{c} * x_t + U_{c} * h_{t-1} + b_c) \\
+    h_t &= o_t \circ \sigma_h(c_t)
+  \end{split}
+\end{align*}
+with $\circ$ denoting the elementwise product (Hadamard product).
 
 \subsection{Implementations}
 \subsubsection{Least Squares Estimator}\label{app:lse}
