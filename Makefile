@@ -7,13 +7,16 @@ notes: machine-learning-tutorial.pdf
 train: data
 	./mnist-backprop.py
 
-data: mnist.pkl.gz
+data: mnist.pkl.gz shakespeare.txt
 
 check:
 	py.test-3 -x
 
 mnist.pkl.gz:
 	curl -o $@ http://deeplearning.net/data/mnist/mnist.pkl.gz
+
+shakespeare.txt:
+	curl -o $@ http://www.gutenberg.org/cache/epub/100/pg100.txt
 
 .tex.pdf:
 	pdflatex -shell-escape $<
