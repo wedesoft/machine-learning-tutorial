@@ -37,7 +37,7 @@ machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsu
 	logisticunit.jpg hidden.jpg xnor.jpg lecun.jpg alvinn.jpg charseg.jpg ceiling.jpg sparse.jpg autoimage.jpg \
 	convolution.py least_squares.py gradient_descent.py learning_rate.py classifier.py polynomial.py overfitting.py \
 	backprop.py mnist-backprop.py mnist-run.py mnist-convolutional.py mnist-rbm.py mnist-dream.py \
-	autoencoder.py autoencoder-run.py
+	autoencoder.py autoencoder-run.py rnn.py rnn-predict.py
 
 clean:
 	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg mnist.ckpt* checkpoint

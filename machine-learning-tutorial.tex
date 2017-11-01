@@ -1844,6 +1844,7 @@ Using the activation functions $\sigma_h$ (\emph{e.g.} tanh) and $\sigma_y$ (\em
 \end{align*}
 where $h_{t-1}$ are the context units and $h_t$ are the updated context units.
 Here $y_t$ denotes the output at time $t$. $x_t$ is the input at time $t$.
+See Appendix \ref{app:rnn} for an implementation.
 
 An \ac{LSTM} can be used in different configurations\citep{karpathy2016cs231n} (also see Figure \ref{fig:rnnconf}):
 \begin{itemize}
@@ -1982,6 +1983,13 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 
 \paragraph{Denoising}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{autoencoder-run.py}
+
+\subsubsection{Recurrent Neural Network}\label{app:rnn}
+\paragraph{Training}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{rnn.py}
+
+\paragraph{Predicting}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{rnn-predict.py}
 
 \section{References and Glossary}
 \subsection{References}
