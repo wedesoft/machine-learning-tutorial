@@ -79,7 +79,7 @@ def safe_log(v):
 def shakespeare():
     # http://www.gutenberg.org/ebooks/100.txt.utf-8
     with open('shakespeare.txt', 'r') as f:
-        return f.read()[7429:]
+        return f.read()
 
 
 if __name__ == '__main__':
@@ -88,11 +88,11 @@ if __name__ == '__main__':
     n = len(char_vec)
     v = char_vec(txt[0:100])
 
-    n_iterations = 100000
+    n_iterations = 25000
     n_hidden = 100
 
     m = 25
-    alpha = 0.1
+    alpha = 1.0
     rnn = RNN(n, n_hidden)
     x = tf.placeholder(tf.float32, [m, n], name='x')
     y = tf.placeholder(tf.float32, [m, n], name='y')
@@ -104,9 +104,7 @@ if __name__ == '__main__':
     h_ = h
     for i in range(m):
         y_, h_ = rnn(x[i:i+1], h)
-        cost = cost - tf.reduce_sum(y[i:i+1] * safe_log(y_) + (1 - y[i:i+1]) * safe_log(1 - y_)) / m
-        error += tf.reduce_sum(tf.square(y[i:i+1] - y_)) / m
-    error = tf.sqrt(error)
+        cost += -tf.reduce_sum(y[i:i+1] * safe_log(y_)) / m
 
     hnext = rnn(rnn.x, rnn.h)[1]
     dtheta = tf.gradients(cost, theta)
@@ -121,10 +119,13 @@ if __name__ == '__main__':
         j_train = n * 0.5
         progress = tqdm(range(n_iterations))
         p = 0
-        state = np.zeros((1, n_hidden))
         for i in progress:
+            if p + m >= len(txt):
+                p = 0
+            if p == 0:
+                state = np.zeros((1, n_hidden))
             train = {x: char_vec(txt[p:p+m]), h:state, y:char_vec(txt[p+1:p+1+m])}
-            j_train = 0.999 * j_train + 0.001 * session.run(error, feed_dict=train)
+            j_train = 0.999 * j_train + 0.001 * session.run(cost, feed_dict=train)
             if i % 10 == 0:
                 progress.set_description('%8.6f' % j_train)
             session.run(step, feed_dict=train)

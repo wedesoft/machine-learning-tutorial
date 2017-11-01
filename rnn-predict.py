@@ -24,24 +24,24 @@ class CharVec:
 def shakespeare():
     # http://www.gutenberg.org/ebooks/100.txt.utf-8
     with open('shakespeare.txt', 'r') as f:
-        return f.read()[7429:]
+        return f.read()
 
 
 if __name__ == '__main__':
     txt = shakespeare()
     char_vec = CharVec(txt)
-    count = 500
+    count = 5000
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph('rnn.meta')
         saver.restore(sess, 'rnn')
         prob = tf.get_collection('prob')[0]
         hnext = tf.get_collection('hnext')[0]
         state = np.full(hnext.shape, 0.0, dtype=np.float32)
-        output = 'H'
+        output = txt[0]
         for i in range(count):
             sys.stdout.write(output)
             context = feed_dict={'x:0': char_vec(output), 'h:0': state}
-            prediction = sess.run(prob, feed_dict=context) ** 2
+            prediction = sess.run(prob, feed_dict=context)
             idx = np.argwhere(np.cumsum(prediction) >= np.sum(prediction) * np.random.rand())[0]
             output = char_vec.index([idx])
             state = sess.run(hnext, feed_dict=context)
