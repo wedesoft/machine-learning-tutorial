@@ -88,25 +88,23 @@ if __name__ == '__main__':
     n = len(char_vec)
     v = char_vec(txt[0:100])
 
-    n_iterations = 25000
+    n_iterations = 1000
     n_hidden = 100
 
     m = 25
-    alpha = 1.0
+    alpha = 0.1
     rnn = RNN(n, n_hidden)
     x = tf.placeholder(tf.float32, [m, n], name='x')
     y = tf.placeholder(tf.float32, [m, n], name='y')
-    h = rnn.h
     theta = rnn.theta()
 
     cost = 0
     error = 0
-    h_ = h
+    h_ = rnn.h
     for i in range(m):
-        y_, h_ = rnn(x[i:i+1], h)
+        y_, h_ = rnn(x[i:i+1], h_)
         cost += -tf.reduce_sum(y[i:i+1] * safe_log(y_)) / m
 
-    hnext = rnn(rnn.x, rnn.h)[1]
     dtheta = tf.gradients(cost, theta)
     step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue)))
             for value, dvalue in zip(theta, dtheta)]
@@ -124,7 +122,7 @@ if __name__ == '__main__':
                 p = 0
             if p == 0:
                 state = np.zeros((1, n_hidden))
-            train = {x: char_vec(txt[p:p+m]), h:state, y:char_vec(txt[p+1:p+1+m])}
+            train = {x: char_vec(txt[p:p+m]), rnn.h:state, y:char_vec(txt[p+1:p+1+m])}
             j_train = 0.999 * j_train + 0.001 * session.run(cost, feed_dict=train)
             if i % 10 == 0:
                 progress.set_description('%8.6f' % j_train)
@@ -132,5 +130,5 @@ if __name__ == '__main__':
             state = session.run(h_, feed_dict=train)
             p += m
         tf.add_to_collection('prob', rnn(rnn.x, rnn.h)[0])
-        tf.add_to_collection('hnext', hnext)
+        tf.add_to_collection('hnext', rnn(rnn.x, rnn.h)[1])
         saver.save(session, 'rnn')
