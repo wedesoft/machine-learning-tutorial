@@ -38,7 +38,7 @@ machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsu
 	dream0.png dream1.png dream2.png dream3.png dream4.png dream5.png twodenoised.png twonoise.png \
 	convolution.py least_squares.py gradient_descent.py learning_rate.py classifier.py polynomial.py overfitting.py \
 	backprop.py mnist-backprop.py mnist-run.py mnist-convolutional.py mnist-rbm.py mnist-dream.py \
-	autoencoder.py autoencoder-run.py rnn.py rnn-predict.py
+	autoencoder.py autoencoder-run.py rnn.py rnn-predict.py lstm.py lstm-predict.py
 
 clean:
 	rm -Rf __pycache__ *.pdf *.log *.aux *.bbl *.bcf *.blg *.run.xml *.out *.pyg mnist.ckpt* checkpoint

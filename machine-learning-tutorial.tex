@@ -1878,13 +1878,14 @@ Andrey Karphathy uses softmax for the output activation function and adaptive gr
 
 \subsubsection{Long Short-Term Memory}
 \acp{LSTM} use an architecture preserving the gradients for connections over many time steps.
-The \ac{LSTM} is defined as follows\citep{wiki:lstm}:
+The \ac{LSTM} is defined as follows\citep{wiki:lstm,karpathy2016cs231n}:
 \begin{align*}
   \begin{split}
     f_t &= \sigma(W_{f} x_t + U_{f} h_{t-1} + b_f) \\
     i_t &= \sigma(W_{i} x_t + U_{i} h_{t-1} + b_i) \\
     o_t &= \sigma(W_{o} x_t + U_{o} h_{t-1} + b_o) \\
-    c_t &= f_t \circ c_{t-1} + i_t \circ \operatorname{tanh}(W_{c} x_t + U_{c} h_{t-1} + b_c) \\
+    g_t &= \operatorname{tanh}(W_{c} x_t + U_{c} h_{t-1} + b_c) \\
+    c_t &= f_t \circ c_{t-1} + i_t \circ g_t \\
     h_t &= o_t \circ \operatorname{tanh}(c_t)
   \end{split}
 \end{align*}
@@ -1892,8 +1893,8 @@ with ``$\circ$'' denoting the elementwise product (Hadamard product).
 \ac{LSTM} are related to Markov Models.
 \begin{itemize}
   \item $f_t$, $i_t$, and $o_t$ are the forget, input, and output gate (\emph{e.g.} $f_t=0$ forgets)
-  \item $c_t$ is the hidden state at time $t$
-  \item $h_t$ is the output at time $t$
+  \item $c_t$ is the cell state at time $t$
+  \item $h_t$ is the (hidden or output) layer at time $t$
   \item $W_f$, $W_i$, $W_o$, and $W_c$ are input weights
   \item $U_f$, $U_i$, $U_o$, and $U_c$ are weights for the previous output
 \end{itemize}
@@ -1905,6 +1906,7 @@ The derivative is the sum of the derivatives for each time step
 \begin{equation*}
   \frac{\delta J(W)}{\delta W}=\sum_t\frac{\delta J_t(W)}{\delta W}
 \end{equation*}
+See Appendix \ref{app:lstm} for an implementation.
 
 \subsubsection{Gated Recurrent Unit}
 \acp{GRU} have fewer parameters than \acp{LSTM} since they do not have an output gate\citep{wiki:gru}:
@@ -2073,6 +2075,16 @@ Training the \ac{RNN} using some of William Shakespeare's work\citep{shakespeare
 
 \paragraph{Predicting}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{rnn-predict.py}
+
+\subsubsection{Recurrent Neural Network}\label{app:lstm}
+The following example is a Tensorflow implementation of a \ac{LSTM} with a fully connected output layer for predicting the next character in a text.
+The implementation is inspired by Hannah Vivian Shaw's work\footnote{\url{https://github.com/vivshaw/shakespeare-LSTM/}}.
+
+\paragraph{Training}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{lstm.py}
+
+\paragraph{Predicting}
+\inputminted[frame=lines,linenos,fontsize=\small]{python}{lstm-predict.py}
 
 \section{References and Glossary}
 \subsection{References}

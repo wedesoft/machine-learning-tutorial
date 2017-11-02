@@ -53,7 +53,6 @@ class TestCharVec:
 class RNN:
     def __init__(self, n, n_hidden):
         self.x = tf.placeholder(tf.float32, [1, n], name='x')
-        self.y = tf.placeholder(tf.float32, [1, n], name='y')
         self.h = tf.placeholder(tf.float32, [1, n_hidden], name='h')
         self.wh = tf.Variable(tf.random_normal([n, n_hidden], stddev=1.0/n))
         self.uh = tf.Variable(tf.random_normal([n_hidden, n_hidden], stddev=1.0/n_hidden))
@@ -62,7 +61,8 @@ class RNN:
         self.by = tf.Variable(tf.constant(0.0, shape=[n]))
 
     def theta(self):
-        return [self.wh, self.uh, self.bh, self.wy, self.by]
+        return [self.wh, self.uh, self.bh,
+                self.wy, self.by]
 
     def __call__(self, x, h):
         z1 = tf.matmul(x, self.wh) + tf.matmul(h, self.uh) + self.bh
@@ -102,7 +102,6 @@ if __name__ == '__main__':
     theta = rnn.theta()
 
     cost = 0
-    error = 0
     h_ = rnn.h
     for i in range(m):
         y_, h_ = rnn(x[i:i+1], h_)
