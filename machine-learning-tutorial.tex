@@ -2056,6 +2056,24 @@ The ``denoising'' example shows how the resulting network is able to suppress sp
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{autoencoder-run.py}
 
 \subsubsection{Recurrent Neural Network}\label{app:rnn}
+The following example is a Tensorflow implementation of a \ac{RNN} for predicting the next character in a text.
+The implementation is inspired by Andrej Karpathy's implementation\footnote{\url{https://gist.github.com/karpathy/d4dee566867f8291f086}}.
+Training the \ac{RNN} using some of William Shakespeare's work\citep{shakespeare}, the predictor generates random similar to the following:
+\begin{verbatim}
+                                          84
+  In thee.
+    Lot my pars
+  My doot haws thee thee in theers my heart,
+  The sull the parting all they grown,
+  Therest then give, she,
+  Then parted as loms to thee,
+  That hadsured thee, bory teess,
+  Yet exe thee is lemanting be.
+    Oring ever buch all that hor shouth on me shmerong mink,
+
+  All or harnes oftarn the partedss thee in grow strows oweet theergref'st one of thee.
+\end{verbatim}
+
 \paragraph{Training}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{rnn.py}
 

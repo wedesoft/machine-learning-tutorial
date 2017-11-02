@@ -78,19 +78,22 @@ def safe_log(v):
 
 def source_code():
     with open('shakespeare.txt', 'r') as f:
-        return f.read()
+        return f.read()[10462:113402]
 
 
 if __name__ == '__main__':
     txt = source_code()
+    print(txt[:200])
+    print('...')
+    print(txt[-200:])
     char_vec = CharVec(txt)
     n = len(char_vec)
     v = char_vec(txt[0:100])
 
-    n_iterations = 20000
-    n_hidden = 200
+    n_iterations = 100000
+    n_hidden = 100
 
-    m = 25
+    m = 50
     alpha = 0.1
     rnn = RNN(n, n_hidden)
     x = tf.placeholder(tf.float32, [m, n], name='x')

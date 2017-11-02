@@ -23,14 +23,14 @@ class CharVec:
 
 def source_code():
     with open('shakespeare.txt', 'r') as f:
-        return f.read()
+        return f.read()[10462:113402]
 
 
 if __name__ == '__main__':
     txt = source_code()
     char_vec = CharVec(txt)
     count = 10000
-    conservative = 1.9
+    conservative = 1.3
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph('rnn.meta')
         saver.restore(sess, 'rnn')
