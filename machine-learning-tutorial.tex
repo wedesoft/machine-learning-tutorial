@@ -215,6 +215,7 @@ If $J(\theta)$ is increasing, $\alpha$ might be too large.
   \caption{Plotting the cost function over the iterations can help choosing an appropriate value for the learning rate $\alpha$\label{fig:alphas}}
   \end{center}
 \end{figure}
+See Appendix \ref{app:alphas} for the implementation.
 
 \subsection{Features and Polynomial Regression}\label{cha:polyregression}
 Similar as in support vector machines one can perform linear regression on non-linear functions of features.
@@ -1938,40 +1939,99 @@ The output is the prediction for the next character in a sequence\footnote{\url{
 
 \subsection{Implementations}
 \subsubsection{Least Squares Estimator}\label{app:lse}
+This example program creates noisy random samples of a linear function and then uses a \ac{LSE} to recover the parameters of the linear function (see Figure \ref{fig:lse}).
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{least_squares.py}
 
 \subsubsection{Linear Regression}\label{app:gradientdescent}
+This example program creates noisy random samples of a linear function and then uses linear regression to recover the parameters of the linear function (see Figure \ref{fig:gradient_descent}).
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{gradient_descent.py}
 
 \subsubsection{Learning Rate}\label{app:alphas}
+This example plots learning curves for gradient descent with different learning rates $\alpha$. See Figure \ref{fig:alphas} for result.
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{learning_rate.py}
 
 \subsubsection{Logistic Regression}\label{app:classifier}
+This example generates data with two features and a noisy binary label indicating on which side of the separation line the sample is.
+Logistic regression then is used to train a linear classifier.
+See Figure \ref{fig:classifier} for result.
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{classifier.py}
 
 \subsubsection{Polynomial Features}\label{app:polynomial}
+This example generates data with two features and a noisy binary label indicating whether the samples is inside an ellipsoid or not.
+Logistic regression using polynomial features then is used to train a non-linear classifier.
+See Figure \ref{fig:polynomial} for result.
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{polynomial.py}
 
 \subsubsection{Overfitting Example}\label{app:overfitting}
+This example demonstrates overfitting a non-linear model with many parameters.
+Noisy random data with two outliers is generated to demonstrate the reduced robustness of the model.
+See Figure \ref{fig:overfitting} for result.
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{overfitting.py}
 
 \subsubsection{Backpropagation using Tensorflow}\label{app:backprop}
-Backpropagation example from \url{https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow}
+Modified backpropagation example from Stackoverflow\footnote{\url{https://stackoverflow.com/questions/44210561/how-do-backpropagation-works-in-tensorflow}}.
+The algorithm is used to train an XOR gate.
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{backprop.py}
+The program generates the following output.
+\begin{verbatim}
+m1
+[[ 4.20723152  6.26377773]
+ [ 4.20526314  6.25164938]]
+
+ b1
+[-6.42879629 -2.68204665]
+
+ m2
+[[-9.38365746]
+ [ 8.74873352]]
+
+ b2
+[-3.97597837]
+
+ y_out
+[[ 0.03134589]
+ [ 0.97383195]
+ [ 0.97386205]
+ [ 0.02998391]]
+
+ loss
+0.00324956
+\end{verbatim}
 
 \subsubsection{Backpropagation applied to the MNIST Dataset}\label{app:mnistbackprop}
+This example shows a handwritten digit classifier trained using the MNIST data set.
 \paragraph{Training}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-backprop.py}
 \paragraph{Testing}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-run.py}
 
 \subsubsection{Convolution using Tensorflow}\label{app:convolution}
+This is a small example showing convolution using the Tensorflow library.
+The grayscale images are captured and displayed using the OpenCV library.
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{convolution.py}
 
 \subsubsection{Backpropagation using a Convolutional Neural Network applied to the MNIST Dataset}\label{app:mnistcnn}
+This example shows a convolutional network for handwritten digit classification.
+\acp{CNN} use stacks of \ac{LSI} filters.
+\acp{CNN} perform better than fully connected networks when performing image processing tasks.
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-convolutional.py}
 
 \subsubsection{Restricted Boltzmann Machine}\label{app:rbm}
+This example shows dimensionality reduction of MNIST data using a single-layer \ac{RBM}.
+The ``dreaming'' example takes a handwritten digit and tries to reconstruct it.
+The process is then repeated using the reconstructed image as input (see Figure \ref{fig:dream}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.15\textwidth]{dream0}
+    \includegraphics[width=.15\textwidth]{dream1}
+    \includegraphics[width=.15\textwidth]{dream2}
+    \includegraphics[width=.15\textwidth]{dream3}
+    \includegraphics[width=.15\textwidth]{dream4}
+    \includegraphics[width=.15\textwidth]{dream5}
+    \caption{Single-layer Restricted Boltzmann Machine modifying a handwritten digit\label{fig:dream}}
+  \end{center}
+\end{figure}
+
 \paragraph{Training}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-rbm.py}
 
@@ -1979,6 +2039,16 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{mnist-dream.py}
 
 \subsubsection{Autoencoder for the MNIST dataset}\label{app:auto}
+This example shows dimensionality reduction using an autoencoder trained with backpropagation.
+The ``denoising'' example shows how the resulting network is able to suppress speckle noise (see Figure \ref{fig:denoise}).
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=.3\textwidth]{twonoise}
+    \includegraphics[width=.3\textwidth]{twodenoised}
+    \caption{Two-layer autoencoder used for image denoising\label{fig:denoise}}
+  \end{center}
+\end{figure}
+
 \paragraph{Training}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{autoencoder.py}
 
@@ -2006,6 +2076,8 @@ Backpropagation example from \url{https://stackoverflow.com/questions/44210561/h
   \acro{GPU}{Graphics Processing Unit}
   \acro{GRU}{Gated Recurrent Unit}
   \acro{L-BFGS}{Limited-memory BFGS}
+  \acro{LSE}{Least Squares Estimator}
+  \acro{LSI}{Local Shift Invariant}
   \acro{LSTM}{Long short-term memory}
   \acro{OCR}{Optical Character Recognition}
   \acro{PCA}{Principal Component Analysis}

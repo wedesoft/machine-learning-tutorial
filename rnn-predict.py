@@ -21,16 +21,16 @@ class CharVec:
         return len(self.chars)
 
 
-def shakespeare():
-    # http://www.gutenberg.org/ebooks/100.txt.utf-8
+def source_code():
     with open('shakespeare.txt', 'r') as f:
         return f.read()
 
 
 if __name__ == '__main__':
-    txt = shakespeare()
+    txt = source_code()
     char_vec = CharVec(txt)
-    count = 5000
+    count = 4000
+    conservative = 1.5
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph('rnn.meta')
         saver.restore(sess, 'rnn')
@@ -41,7 +41,7 @@ if __name__ == '__main__':
         for i in range(count):
             sys.stdout.write(output)
             context = feed_dict={'x:0': char_vec(output), 'h:0': state}
-            prediction = sess.run(prob, feed_dict=context)
+            prediction = sess.run(prob, feed_dict=context) ** conservative
             idx = np.argwhere(np.cumsum(prediction) >= np.sum(prediction) * np.random.rand())[0]
             output = char_vec.index([idx])
             state = sess.run(hnext, feed_dict=context)

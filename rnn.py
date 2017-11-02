@@ -66,9 +66,9 @@ class RNN:
 
     def __call__(self, x, h):
         z1 = tf.matmul(x, self.wh) + tf.matmul(h, self.uh) + self.bh
-        h_ = tf.tanh(z1)
+        h_ = tf.sigmoid(z1)
         z2 = tf.matmul(h_, self.wy) + self.by
-        y_ = tf.nn.softmax(z2)
+        y_ = tf.sigmoid(z2)
         return y_, h_
 
 
@@ -76,20 +76,19 @@ def safe_log(v):
     return tf.log(tf.clip_by_value(v, 1e-10, 1.0))
 
 
-def shakespeare():
-    # http://www.gutenberg.org/ebooks/100.txt.utf-8
+def source_code():
     with open('shakespeare.txt', 'r') as f:
         return f.read()
 
 
 if __name__ == '__main__':
-    txt = shakespeare()
+    txt = source_code()
     char_vec = CharVec(txt)
     n = len(char_vec)
     v = char_vec(txt[0:100])
 
-    n_iterations = 1000
-    n_hidden = 100
+    n_iterations = 20000
+    n_hidden = 200
 
     m = 25
     alpha = 0.1
@@ -103,7 +102,7 @@ if __name__ == '__main__':
     h_ = rnn.h
     for i in range(m):
         y_, h_ = rnn(x[i:i+1], h_)
-        cost += -tf.reduce_sum(y[i:i+1] * safe_log(y_)) / m
+        cost += -tf.reduce_sum(y[i:i+1] * safe_log(y_) + (1 - y[i:i+1]) * safe_log(1 - y_)) / m
 
     dtheta = tf.gradients(cost, theta)
     step = [tf.assign(value, tf.subtract(value, tf.multiply(alpha, dvalue)))
@@ -114,7 +113,7 @@ if __name__ == '__main__':
     saver = tf.train.Saver()
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
-        j_train = n * 0.5
+        j_train = 0.0
         progress = tqdm(range(n_iterations))
         p = 0
         for i in progress:
