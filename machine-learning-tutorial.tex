@@ -1935,8 +1935,6 @@ The output is the prediction for the next character in a sequence\footnote{\url{
   \end{center}
 \end{table}
 
-% https://www.youtube.com/watch?v=yCC09vCHzF8&index=10&list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC 27m
-
 \subsection{Implementations}
 \subsubsection{Least Squares Estimator}\label{app:lse}
 This example program creates noisy random samples of a linear function and then uses a \ac{LSE} to recover the parameters of the linear function (see Figure \ref{fig:lse}).
@@ -2059,20 +2057,16 @@ The ``denoising'' example shows how the resulting network is able to suppress sp
 The following example is a Tensorflow implementation of a \ac{RNN} for predicting the next character in a text.
 The implementation is inspired by Andrej Karpathy's implementation\footnote{\url{https://gist.github.com/karpathy/d4dee566867f8291f086}}.
 Training the \ac{RNN} using some of William Shakespeare's work\citep{shakespeare}, the predictor generates random similar to the following:
+\begin{footnotesize}
 \begin{verbatim}
-                                          84
-  In thee.
-    Lot my pars
-  My doot haws thee thee in theers my heart,
-  The sull the parting all they grown,
-  Therest then give, she,
-  Then parted as loms to thee,
-  That hadsured thee, bory teess,
-  Yet exe thee is lemanting be.
-    Oring ever buch all that hor shouth on me shmerong mink,
-
-  All or harnes oftarn the partedss thee in grow strows oweet theergref'st one of thee.
+                     88
+  If then growt my grown,
+  Which perfect should checcious arting they song more some shalons sure mads, your near thou moul they seen,
+  But in the fair, nate,
+  Or my see eyes we tomb,
+  The be as the largant a prays in dead me.
 \end{verbatim}
+\end{footnotesize}
 
 \paragraph{Training}
 \inputminted[frame=lines,linenos,fontsize=\small]{python}{rnn.py}

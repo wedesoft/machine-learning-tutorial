@@ -30,7 +30,7 @@ def source_code():
 if __name__ == '__main__':
     txt = source_code()
     char_vec = CharVec(txt)
-    count = 10000
+    count = 50000
     conservative = 1.3
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph('rnn.meta')
