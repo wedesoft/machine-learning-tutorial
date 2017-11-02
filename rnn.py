@@ -77,6 +77,7 @@ def safe_log(v):
 
 
 def source_code():
+	# http://www.gutenberg.org/cache/epub/100/pg100.txt
     with open('shakespeare.txt', 'r') as f:
         return f.read()[10462:113402]
 
