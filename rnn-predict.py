@@ -29,8 +29,8 @@ def source_code():
 if __name__ == '__main__':
     txt = source_code()
     char_vec = CharVec(txt)
-    count = 4000
-    conservative = 1.5
+    count = 10000
+    conservative = 1.9
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph('rnn.meta')
         saver.restore(sess, 'rnn')
