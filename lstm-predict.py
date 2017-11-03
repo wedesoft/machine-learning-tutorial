@@ -31,7 +31,7 @@ if __name__ == '__main__':
     txt = source_code()
     char_vec = CharVec(txt)
     count = 50000
-    conservative = 1.3
+    conservative = 1.7
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph('lstm.meta')
         saver.restore(sess, 'lstm')
