@@ -77,7 +77,7 @@ if __name__ == '__main__':
     n = len(char_vec)
     v = char_vec(txt[0:100])
 
-    n_iterations = 100000
+    n_iterations = 500000
 
     m = 50
     n_hidden = 100
