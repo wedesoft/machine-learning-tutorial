@@ -76,4 +76,4 @@ if __name__ == '__main__':
         session.run(step, feed_dict=mini_batch)
     tf.add_to_collection('vs', vs)
     tf.add_to_collection('vp', vp)
-    saver.save(session, 'rbm')
+    saver.save(session, './rbm')

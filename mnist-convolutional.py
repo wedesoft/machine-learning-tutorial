@@ -98,4 +98,4 @@ if __name__ == '__main__':
     print('predictions      :', output)
     print('validation error rate:', np.average(output != validation[1]))
     tf.add_to_collection('prediction', prediction)
-    saver.save(session, 'model')
+    saver.save(session, './model')

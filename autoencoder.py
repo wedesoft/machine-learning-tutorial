@@ -79,4 +79,4 @@ if __name__ == '__main__':
                 show('reconstruction', session.run(h, feed_dict={x: selection[0:1]}), 10)
             session.run(step, feed_dict=mini_batch)
         tf.add_to_collection('prediction', h)
-        saver.save(session, 'auto')
+        saver.save(session, './auto')

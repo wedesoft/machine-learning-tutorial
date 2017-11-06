@@ -133,4 +133,4 @@ if __name__ == '__main__':
             p += m
         tf.add_to_collection('prob', rnn(rnn.x, rnn.h)[0])
         tf.add_to_collection('hnext', rnn(rnn.x, rnn.h)[1])
-        saver.save(session, 'rnn')
+        saver.save(session, './rnn')

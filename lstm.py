@@ -127,4 +127,4 @@ if __name__ == '__main__':
         tf.add_to_collection('hnext', lstm(lstm.x, lstm.h, lstm.c)[0])
         tf.add_to_collection('cnext', lstm(lstm.x, lstm.h, lstm.c)[1])
         tf.add_to_collection('prob', out(lstm(lstm.x, lstm.h, lstm.c)[0]))
-        saver.save(session, 'lstm')
+        saver.save(session, './lstm')
