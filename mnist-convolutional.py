@@ -56,9 +56,9 @@ if __name__ == '__main__':
 
     a0 = tf.reshape(x, [-1, 28, 28, 1])
     z1 = tf.nn.conv2d(a0, c1, strides=[1, 1, 1, 1], padding='VALID')
-    a1 = tf.nn.relu(tf.nn.max_pool(z1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID'))
+    a1 = tf.nn.softplus(tf.nn.max_pool(z1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID'))
     z2 = tf.nn.conv2d(a1, c2, strides=[1, 1, 1, 1], padding='VALID')
-    a2 = tf.nn.relu(tf.nn.max_pool(z2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID'))
+    a2 = tf.nn.softplus(tf.nn.max_pool(z2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID'))
     a2_flat = tf.sigmoid(tf.reshape(a2, [-1, 400]))
     z3 = tf.add(tf.matmul(a2_flat, m3), b3)
     a3 = tf.sigmoid(z3)
