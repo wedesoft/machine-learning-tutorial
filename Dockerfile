@@ -37,7 +37,7 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
           -D BUILD_TESTS=OFF \
           -D BUILD_PERF_TESTS=OFF \
           .
-RUN make
+RUN make -j `nproc`
 RUN make install
 RUN ldconfig
 
