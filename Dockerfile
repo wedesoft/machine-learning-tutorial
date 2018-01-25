@@ -2,8 +2,8 @@
 #
 # configure /etc/default/docker
 # DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4 --ip-masq=true"
-FROM ubuntu:artful
-RUN sed -i 's/archive.ubuntu.com/unix-updates.comm.ad.roke.co.uk/g' /etc/apt/sources.list
+FROM ubuntu:zesty
+RUN sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -q -y build-essential
 RUN apt-get install -q -y texlive-bibtex-extra
