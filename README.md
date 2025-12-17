@@ -6,9 +6,11 @@ See `Dockerfile` for installation instructions.
 You can use a virtual environment for installing the Python packages which are not part of the GNU/Linux distribution.
 
 ```
-sudo apt-get install python-virtualenv
-virtualenv -p python3 venv
+sudo apt-get install python2.7 libpython2.7-dev
+virtualenv -p python2 venv
 source ./venv/bin/activate
+pip install -r requirements.txt
+make
 ```
 
 ## External Links

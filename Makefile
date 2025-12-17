@@ -13,7 +13,7 @@ check:
 	py.test-3 -x
 
 mnist.pkl.gz:
-	curl -o $@ http://deeplearning.net/data/mnist/mnist.pkl.gz
+	curl -o $@ https://github.com/mnielsen/neural-networks-and-deep-learning/raw/refs/heads/master/data/mnist.pkl.gz
 
 shakespeare.txt:
 	curl -o $@ http://www.gutenberg.org/cache/epub/100/pg100.txt
@@ -25,10 +25,10 @@ shakespeare.txt:
 	pdflatex -shell-escape $<
 
 .svg.pdf:
-	inkscape $< -A $@
+	rsvg-convert -f pdf -o $@ $<
 
 .py.pdf:
-	python3 $<
+	python2 $<
 
 machine-learning-tutorial.pdf: machine-learning-tutorial.tex supervised.pdf unsupervised.pdf bibliography.bib \
 	least_squares.pdf gradient_descent.pdf learning_rate.pdf sigmoid.pdf classifier.pdf polynomial.pdf \
