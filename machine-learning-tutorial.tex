@@ -574,7 +574,7 @@ The definition is made more compact using vectorized expressions
   \item $z^{(2)}=\theta^{(1)}\,x\in\mathbb{R}^{s_2}$
   \item $a^{(2)}=g(z^{(2)})$ with $a^{(2)}_0=1$ ($a^{(2)}\in\mathbb{R}^{s_2+1}$)
 \end{itemize}
-where the definition of the digmoid function $g$ is extended to work element-wise on vectors and prepend $1$ as the first element.
+where the definition of the sigmoid function $g$ is extended to work element-wise on vectors and prepend $1$ as the first element.
 The output is determined as follows
 \begin{equation*}
   h_\theta(x)=a^{(3)}=g(z^{(3)})
@@ -687,7 +687,7 @@ The desired training result is $h_\theta(\sxi)\approx\syi$ with $\syi\in\mathbb{
   \item $L$ is the total number of layers of the network
   \item $s_l$ is the number of units in layer $l\in\{1,2,\ldots,L\}$
   \item $K=s_L$ is the number of output units
-  \item $\big(h_\theta(x)\big)_i$ is the $i$th component of the vector $h_theta(x)$
+  \item $\big(h_\theta(x)\big)_i$ is the $i$th component of the vector $h_\theta(x)$
 \end{itemize}
 
 In Section \ref{cha:regreg} the cost function was
@@ -800,7 +800,7 @@ The next step is to \textbf{train the neural network}
 \begin{enumerate}
   \item Randomly initialize weights
   \item Implement forward propagation to get $h_\theta(\sxi)$ for any $\sxi$
-  \item Implement code to cimpute cost function $J(\theta)$
+  \item Implement code to compute cost function $J(\theta)$
   \item Implement backprop to compute partial derivatives $\frac{\delta}{\delta\theta^{(l)}_{jk}}J(\theta)$.
     \emph{I.e.} for $i\in\{1,2,\ldots,m\}$
     \begin{itemize}
@@ -882,7 +882,7 @@ Example: Spam email classifier with feature vector ``word $i$ occurs in email or
 
 How to spend your time to make it have low error?
 \begin{itemize}
-  \item collect lots of data (\emph{e.g.} ``honetpot'' project)
+  \item collect lots of data (\emph{e.g.} ``honeypot'' project)
   \item develop sophisticated features based on email routing information (from email header)
   \item develop sophisticated features for message body (\emph{e.g.} should ``discount'' and ``discounts'' be treated as the same word)?
   \item detect deliberate misspellings (\emph{e.g.} m0rtgage, med1cine, w4tches)
@@ -961,7 +961,7 @@ For $y=1$ the cost term is (also see Figure \ref{fig:logcost})
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=.4\textwidth]{logcost}
-    \caption{Cost terms for $y=1$ and $y=1$ with $\theta=1$\label{fig:logcost}}
+    \caption{Cost terms for $y=0$ and $y=1$ with $\theta=1$\label{fig:logcost}}
   \end{center}
 \end{figure}
 
@@ -1344,7 +1344,7 @@ Possible evaluation metrics are
   \item $F_1$-score
 \end{itemize}
 Cross-validation can also be used to choose $\epsilon$.
-Note that the data is highly skewed (y=1 is rate), it is necessary to use a good evaluation metric (see Section\ref{cha:f1}).
+Note that the data is highly skewed (y=1 is rare), it is necessary to use a good evaluation metric (see Section\ref{cha:f1}).
 
 \subsection{Anomaly Detection vs. Supervised Learning}
 \begin{minipage}[t]{.45\textwidth}
@@ -1407,7 +1407,7 @@ Note that the features need to be non-redundant otherwise the features might be 
 \subsection{Content Based Recommendations}
 Recommender systems are a popular application of machine learning (\emph{e.g.} Amazon product recommendation).
 
-For example one can attempt to predict movie ratings for new movies not rated by a user jet.
+For example one can attempt to predict movie ratings for new movies not rated by a user yet.
 The problem is formulated similar to the linear regression problem.
 \begin{itemize}
   \item $r(i,j)=1$ if user $j$ has rated movie $i$ ($0$ otherwise)
@@ -1646,7 +1646,7 @@ One can use a 1D sliding window classifier to segment characters (see Figure \re
     \caption{1D sliding window for character segmentation\citep{andrewng}\label{fig:charseg}}
   \end{center}
 \end{figure}
-\emph{I.e.} a classifier is training to detect character boundaries.
+\emph{I.e.} a classifier is trained to detect character boundaries.
 
 \subsection{Getting Lots of Data and Artificial Data}
 For the photo \ac{OCR} problem one can generate artificial data by downloading many fonts and create a synthetic training set using different backgrounds.
@@ -1676,6 +1676,7 @@ Getting more training data can be a great way to increase the performance of a m
 \begin{footnotesize}
   \emph{The video in the playlist is broken. Watch \url{https://www.youtube.com/watch?v=YO073I5cqpQ} instead.}
 \end{footnotesize}
+
 Your time as a developer is the most valuable resource when implementing machine learning systems.
 It is important to always know what part of the pipeline to spend most development effort on.
 
